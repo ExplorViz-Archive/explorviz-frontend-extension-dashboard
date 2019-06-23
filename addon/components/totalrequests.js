@@ -75,7 +75,7 @@ export default Component.extend({
     containerChartAll = document.querySelector("#totalRequestsChartAll");
     chartAll = createChart(containerChartAll, optionsAll);
 
-    //containerChartAll.style.display = "none";
+    containerChartAll.style.display = "none";
 
     const myStore = this.get('store');
 
@@ -178,7 +178,7 @@ var optionsRecent = {
       }
     },
     toolbar: {
-      show: true
+      show: false
     },
     zoom: {
       enabled: false
@@ -190,20 +190,24 @@ var optionsRecent = {
 
   series: [{
     name: "Total Requests",
-    data: data
+    data: recentData
   }],
 
+  /*
   tooltip: {
     intersect: true,
     shared: false
   },
+  */
+  /*
   events: {
     dataPointSelection: function(event, chartContext, config) {
       console.log(config);
     }
   },
+  */
   markers: {
-    size: 1,
+    size: 0,
     colors: '#ea5454',
   },
   xaxis: {

@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import layout from '../templates/components/activeclassinstances';
 import { task, timeout } from 'ember-concurrency';
+
 //import 'chartjs-plugin-labels';
 
 var chart;
