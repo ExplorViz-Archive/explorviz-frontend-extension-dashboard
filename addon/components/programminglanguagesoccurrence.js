@@ -6,6 +6,8 @@ import {
 } from 'ember-concurrency';
 
 var data = [];
+var labels = [];
+
 var chart;
 
 export default Component.extend({
@@ -20,20 +22,19 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    createChart();
     queryData(this.get('store'));
-    createChart(getOccursAsArray(data));
+  },
+
+  didRender() {
+    this._super(...arguments);
+    queryData(this.get('store'));
   },
 
   pollServerForChanges: task(function*() {
     while (true) {
       yield timeout(10000);
-
       queryData(this.get('store'));
-
-      chart.updateSeries(getOccursAsArray(data));
-
-
-
     }
   }).on('activate').cancelOn('deactivate').restartable(),
 
@@ -41,72 +42,74 @@ export default Component.extend({
 });
 
 function queryData(myStore) {
+
+  //Promise wird asychnone aufgeführt !
   myStore.query('programminglanguagesoccurrence', {}).then(function(backendData) {
 
     data = [];
+    labels = [];
 
     backendData.forEach(function(element) {
 
-      var timestamp = element.get('timestamp');
+      //var timestamp = element.get('timestamp');
       var programminglanguage = element.get('programminglanguage');
       var occurs = element.get('occurs');
 
 
-      data.push({
-        timestamp,
-        programminglanguage,
-        occurs
-      });
+      data.push(occurs);
+      labels.push(programminglanguage);
+    });
 
+    //console.log(chart);
+    if (chart == null) {
+      createChart();
+    }
 
+    chart.updateSeries(data);
+    chart.updateOptions({
+      labels: labels,
     });
 
   });
 }
 
-function getOccursAsArray(temp) {
 
-  var newData = [];
-
-
-  for (var i = 0; i < temp.length; i++) {
-
-    var occurs = temp[i].occurs;
-
-    newData.push({
-      occurs
-    });
-  }
-
-  return newData;
-}
-
-
-
-function createChart(currentData) {
+function createChart() {
   var options = {
     chart: {
       type: 'donut',
+      height: 275,
     },
     dataLabels: {
-      enabled: false
+      enabled: true
     },
-    series: currentData,
+    //series: [4,1,12,7,5],
+    //labels: ['Java', 'Unknown', 'Phyton', 'PHP', 'Rubi'],
+    series: data,
+    labels: labels,
     responsive: [{
       breakpoint: 480,
+
       options: {
-        chart: {
-          width: 200
-        },
         legend: {
-          show: false
+          show: true,
+          position: 'bottom'
         }
       }
+
     }],
     legend: {
-      position: 'right',
+      position: 'bottom',
       offsetY: 0,
-      height: 230,
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          labels: {
+            show: true,
+          }
+        }
+      }
     }
   }
 

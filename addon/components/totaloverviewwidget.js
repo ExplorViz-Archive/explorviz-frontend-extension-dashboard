@@ -24,7 +24,7 @@ export default Component.extend({
 
     myStore.queryRecord('totaloverviewwidget', {}).then(function(totaloverviewwidget) {
       let name = totaloverviewwidget.get('name');
-      console.log(`Name: ${name}`);
+      //console.log(`Name: ${name}`);
 
       createChart( totaloverviewwidget.get('numberOfSystems'), totaloverviewwidget.get('numberOfNodes'), totaloverviewwidget.get('numberOfApplications'));
 

@@ -102,7 +102,7 @@ export default Component.extend({
       }]);
 
     });
-    console.log("Done with getting the data!");
+    //console.log("Done with getting the data!");
 
   }).on('activate').cancelOn('deactivate').restartable(),
 
