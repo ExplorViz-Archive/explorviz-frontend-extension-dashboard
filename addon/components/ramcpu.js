@@ -34,6 +34,7 @@ export default Component.extend({
     this._super(...arguments);
 
     createPieChartCPU();
+    createPieChartRAM();
     queryData(this.get('store'), this);
   },
 
@@ -62,6 +63,8 @@ function queryData(myStore, obj) {
 
     data = [];
     var cpuUtilization;
+    var usedRam;
+    var totalRam;
 
     backendData.forEach(function(element) {
 
@@ -73,15 +76,19 @@ function queryData(myStore, obj) {
 
       cpuUtilization = element.get('cpuUtilization');
       var freeRam = element.get('freeRam');
-      var usedRam = element.get('usedRam');
+      usedRam = element.get('usedRam');
+
+      totalRam = freeRam + usedRam;
 
       data.push({
         timestamp,
         nodeName,
         cpuUtilization,
-        freeRam,
-        usedRam
+        usedRam,
+        totalRam
       });
+
+
 
     });
 
@@ -100,9 +107,29 @@ function queryData(myStore, obj) {
       createPieChartCPU();
     }
 
+    if (pieChartRAM == null) {
+      createPieChartRAM();
+    }
+
 
     pieChartCPU.updateSeries([cpuUtilization * 100]);
-    //pieChartCPU.updateSeries([100]);
+
+    pieChartRAM.updateSeries([usedRam / totalRam * 100]);
+
+
+    var displayTotalRam = totalRam / 1000000000;
+    var displayUsedRam = usedRam / 1000000000;
+
+
+    pieChartRAM.updateOptions({
+      labels: ['Ram: ' + displayUsedRam.toFixed(1) + 'GB /' + displayTotalRam.toFixed(1) + 'GB'],
+      fill: {
+        gradient: {
+          stops: [0, 100]
+        }
+      },
+    });
+
 
   });
 }
@@ -113,7 +140,6 @@ function createPieChartCPU() {
 
   var options = {
     chart: {
-      height: 350,
       type: 'radialBar',
       toolbar: {
         show: false
@@ -162,7 +188,7 @@ function createPieChartCPU() {
           },
           value: {
             formatter: function(val) {
-              return parseInt(val);
+              return parseInt(val) + '%';
             },
             color: '#111',
             fontSize: '36px',
@@ -189,7 +215,27 @@ function createPieChartCPU() {
     stroke: {
       lineCap: 'round'
     },
-    labels: ['Percent'],
+    labels: ['Cpu Utilization'],
+    /*
+    legend: {
+     show: true,
+
+     floating: false,
+     position: 'bottom', // whether to position legends in 1 of 4
+     // direction - top, bottom, left, right
+     horizontalAlign: 'center', // when position top/bottom, you can
+     // specify whether to align legends
+     // left, right or center
+     verticalAlign: 'middle',
+     fontSize: '12px',
+     fontFamily: undefined,
+     textAnchor: 'start',
+     labels: {
+       colors: undefined,
+       useSeriesColors: false
+     },
+   }
+   */
 
   }
 
@@ -199,6 +245,101 @@ function createPieChartCPU() {
   );
 
   pieChartCPU.render();
+
+
+
+}
+
+function createPieChartRAM() {
+
+  var options = {
+    chart: {
+      //height: 150,
+      type: 'radialBar',
+      toolbar: {
+        show: false
+      }
+    },
+    plotOptions: {
+      radialBar: {
+        startAngle: 0,
+        endAngle: 360,
+        hollow: {
+          margin: 0,
+          size: '70%',
+          background: '#fff',
+          image: undefined,
+          imageOffsetX: 0,
+          imageOffsetY: 0,
+          position: 'front',
+          dropShadow: {
+            enabled: true,
+            top: 3,
+            left: 0,
+            blur: 4,
+            opacity: 0.24
+          }
+        },
+        track: {
+          background: '#fff',
+          strokeWidth: '67%',
+          margin: 0, // margin is in pixels
+          dropShadow: {
+            enabled: true,
+            top: -3,
+            left: 0,
+            blur: 4,
+            opacity: 0.35
+          }
+        },
+
+        dataLabels: {
+          showOn: 'always',
+          name: {
+            offsetY: -10,
+            show: true,
+            color: '#888',
+            fontSize: '17px'
+          },
+          value: {
+            formatter: function(val) {
+              return parseInt(val) + '%';
+            },
+            color: '#111',
+            fontSize: '36px',
+            show: true,
+          }
+        }
+      }
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'dark',
+        type: 'horizontal',
+        shadeIntensity: 0.5,
+        //gradientToColors: ['#ABE5A1'],
+        gradientToColors: ['#2ACB76'],
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 100]
+      }
+    },
+    series: [75],
+    stroke: {
+      lineCap: 'round'
+    },
+    labels: ['Ram'],
+
+  }
+
+  pieChartRAM = new ApexCharts(
+    document.querySelector("#ramChart"),
+    options
+  );
+
+  pieChartRAM.render();
 
 
 
