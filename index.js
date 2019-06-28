@@ -20,6 +20,9 @@ module.exports = {
 
     this.import('node_modules/chartjs-plugin-labels/build/chartjs-plugin-labels.min.js');
 
+    this.import('node_modules/bootstrap/dist/css/bootstrap.css');
+
+
     //Bei zukünfiten imports auf // und \\ achten ! verwirrend
   }
 };

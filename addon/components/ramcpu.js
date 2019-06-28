@@ -8,7 +8,7 @@ import {
   set
 } from '@ember/object';
 
-var data = [];
+//var data = [];
 var pieChartCPU;
 var pieChartRAM;
 
@@ -16,14 +16,18 @@ var selectedNode; //string
 
 export default Component.extend({
   store: Ember.inject.service(),
-  displayName: 'placeholder',
+  router: Ember.inject.service(),
 
+  displayName: 'no landscape found',
+
+  //starts the task for getting the data from the backend every 10s.
   init() {
     this._super(...arguments);
     let task = this.get('pollServerForChanges');
     let taskInstance = task.perform();
   },
 
+  //getting new data on every render operation
   didRender() {
     this._super(...arguments);
 
@@ -36,6 +40,9 @@ export default Component.extend({
     createPieChartCPU();
     createPieChartRAM();
     queryData(this.get('store'), this);
+
+    //Ember.getOwner(this).lookup('router:main').transitionTo('widgetsettings');
+    //this.get('router').transitionTo('widgetsettings');
   },
 
 
@@ -61,75 +68,91 @@ function queryData(myStore, obj) {
   //Promise wird asychnone aufgeführt !
   myStore.query('ramcpu', {}).then(function(backendData) {
 
-    data = [];
-    var cpuUtilization;
-    var usedRam;
-    var totalRam;
+    if (backendData.length != 0) {
+      //data = [];
+      var cpuUtilization;
+      var usedRam;
+      var totalRam;
+      var freeRam;
 
-    backendData.forEach(function(element) {
-
-      var timestamp = element.get('timestamp');
-      var nodeName = element.get('nodeName');
+      backendData.forEach(function(element) {
 
 
-      set(obj, "displayName", nodeName);
 
-      cpuUtilization = element.get('cpuUtilization');
-      var freeRam = element.get('freeRam');
-      usedRam = element.get('usedRam');
+        //getting the data for each element
+        var timestamp = element.get('timestamp');
+        var nodeName = element.get('nodeName');
 
-      totalRam = freeRam + usedRam;
 
-      data.push({
-        timestamp,
-        nodeName,
-        cpuUtilization,
-        usedRam,
-        totalRam
+        console.log(selectedNode);
+
+        if (selectedNode == null) {
+          console.log("was null !");
+          selectedNode = nodeName;
+        }
+
+        //looking for the right node to set the data
+        if (selectedNode == nodeName) {
+          console.log(selectedNode);
+          set(obj, "displayName", nodeName);
+
+          cpuUtilization = element.get('cpuUtilization');
+          usedRam = element.get('usedRam');
+          freeRam = element.get('freeRam');
+
+          totalRam = freeRam + usedRam;
+        }
+
+
+
+
+
+        /*
+        data.push({
+          timestamp,
+          nodeName,
+          cpuUtilization,
+          usedRam,
+          totalRam
+        });
+        */
+
+
+
       });
 
 
 
-    });
+      /*
+          var result = data.map(function(a) {
+            return a.nodeName;
+          })[0];
+          console.log(result);
+          */
 
 
+      if (pieChartCPU == null) {
+        //console.log("pieChartCPU was null");
+        createPieChartCPU();
+      }
 
-    /*
-        var result = data.map(function(a) {
-          return a.nodeName;
-        })[0];
-        console.log(result);
-        */
+      if (pieChartRAM == null) {
+        createPieChartRAM();
+      }
 
 
-    if (pieChartCPU == null) {
-      //console.log("pieChartCPU was null");
-      createPieChartCPU();
+      pieChartCPU.updateSeries([cpuUtilization * 100]);
+      pieChartRAM.updateSeries([usedRam / totalRam * 100]);
+
+
+      var displayTotalRam = totalRam / 1000000000;
+      var displayUsedRam = usedRam / 1000000000;
+
+
+      pieChartRAM.updateOptions({
+        labels: ['Ram: ' + displayUsedRam.toFixed(1) + 'GB /' + displayTotalRam.toFixed(1) + 'GB'],
+      });
     }
-
-    if (pieChartRAM == null) {
-      createPieChartRAM();
-    }
-
-
-    pieChartCPU.updateSeries([cpuUtilization * 100]);
-
-    pieChartRAM.updateSeries([usedRam / totalRam * 100]);
-
-
-    var displayTotalRam = totalRam / 1000000000;
-    var displayUsedRam = usedRam / 1000000000;
-
-
-    pieChartRAM.updateOptions({
-      labels: ['Ram: ' + displayUsedRam.toFixed(1) + 'GB /' + displayTotalRam.toFixed(1) + 'GB'],
-      fill: {
-        gradient: {
-          stops: [0, 100]
-        }
-      },
-    });
-
 
   });
 }
@@ -211,7 +234,7 @@ function createPieChartCPU() {
         stops: [0, 100]
       }
     },
-    series: [75],
+    series: [0],
     stroke: {
       lineCap: 'round'
     },
@@ -326,7 +349,7 @@ function createPieChartRAM() {
         stops: [0, 100]
       }
     },
-    series: [75],
+    series: [0],
     stroke: {
       lineCap: 'round'
     },

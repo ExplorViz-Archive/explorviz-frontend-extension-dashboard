@@ -10,6 +10,8 @@ export function initialize(appInstance) {
 
   Router.map(function() {
     this.route("dashboard");
+    this.route("widgetsettings")
+    this.route("dashboardsettings")
   });
 }
 

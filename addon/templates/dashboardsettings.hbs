@@ -1,0 +1,46 @@
+<div id="content-wrapper" class="d-flex flex-column" style="height:100%; overflow-y:scroll;">
+
+  <!-- Main Content -->
+  <div id="content">
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard Settings</h1>
+      </div>
+
+      <div id="availableWidgetList" style="width: 40%; float: left">
+        <ul class="list-group">
+          {{#each this.model as |widgetList|}}
+            <li class="list-group-item" onclick={{action "listClick"}}>{{widgetList.widget}}</li>
+          {{/each}}
+        </ul>
+      </div>
+
+      <button type="button" class="btn btn-dark" style="width: 5%; float: left;">&lt;</button>
+      <button type="button" class="btn btn-dark" style="width: 5%; float: left;  margin-top: 50px;">&gt;</button>
+
+      <div id="activeWidgetList" style="width: 40%; float: right; position: relative;">
+        <ul class="list-group">
+          <li class="list-group-item">First item</li>
+          <li class="list-group-item">Second item</li>
+          <li class="list-group-item">Third item</li>
+          <li class="list-group-item">Fourth item</li>
+        </ul>
+      </div>
+
+
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+
+
+</div>

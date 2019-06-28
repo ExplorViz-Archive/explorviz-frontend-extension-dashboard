@@ -45,31 +45,32 @@ function queryData(myStore) {
 
   //Promise wird asychnone aufgeführt !
   myStore.query('programminglanguagesoccurrence', {}).then(function(backendData) {
+    if (backendData.length != 0) {
 
-    data = [];
-    labels = [];
+      data = [];
+      labels = [];
 
-    backendData.forEach(function(element) {
+      backendData.forEach(function(element) {
 
-      //var timestamp = element.get('timestamp');
-      var programminglanguage = element.get('programminglanguage');
-      var occurs = element.get('occurs');
+        //var timestamp = element.get('timestamp');
+        var programminglanguage = element.get('programminglanguage');
+        var occurs = element.get('occurs');
 
 
-      data.push(occurs);
-      labels.push(programminglanguage);
-    });
+        data.push(occurs);
+        labels.push(programminglanguage);
+      });
 
-    //console.log(chart);
-    if (chart == null) {
-      createChart();
+      //console.log(chart);
+      if (chart == null) {
+        createChart();
+      }
+
+      chart.updateSeries(data);
+      chart.updateOptions({
+        labels: labels,
+      });
     }
-
-    chart.updateSeries(data);
-    chart.updateOptions({
-      labels: labels,
-    });
-
   });
 }
 
@@ -83,10 +84,10 @@ function createChart() {
     dataLabels: {
       enabled: true
     },
-    //series: [4,1,12,7,5],
-    //labels: ['Java', 'Unknown', 'Phyton', 'PHP', 'Rubi'],
-    series: data,
-    labels: labels,
+    series: [0],
+    labels: ['no landscape found'],
+    //series: data,
+    //labels: labels,
     responsive: [{
       breakpoint: 480,
 
