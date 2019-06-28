@@ -1,29 +1,41 @@
 import Route from '@ember/routing/route';
 
 
-var widgetNameList = [{widget: 'activeclassinstances'}, {widget:'programminglanguagesoccurrence'}, {widget:'ramcpu'}, {widget:'totaloverviewwidget'}, {widget:'totalrequests'}];
+var widgetNameList = [{
+  widget: 'activeclassinstances'
+}, {
+  widget: 'programminglanguagesoccurrence'
+}, {
+  widget: 'ramcpu'
+}, {
+  widget: 'totaloverviewwidget'
+}, {
+  widget: 'totalrequests'
+}];
 
 export default Route.extend({
 
 
-  model()
-  {
+  model() {
     return widgetNameList;
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+
+    //works too if i want :) access with this.get('activeWidgetList')
+    controller.set('activeWidgetList', [{widget: 'empty'}]);
+
+    controller.set('model', model);
+
   },
 
   actions: {
     resetRoute() {
       const routeName = this.get('dashboardsettings');
 
-    },
-
-    //hier weitermachen not found error
-  listClick(event){
-      // Only when assigning the action to an inline handler, the event object
-    // is passed to the action as the first parameter.
-    console.log("hallo welt");
-    console.log(event.target);
-  }
+    }
 
   },
 });

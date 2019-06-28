@@ -19,16 +19,14 @@
           {{/each}}
         </ul>
       </div>
-
-      <button type="button" class="btn btn-dark" style="width: 5%; float: left;">&lt;</button>
-      <button type="button" class="btn btn-dark" style="width: 5%; float: left;  margin-top: 50px;">&gt;</button>
+      <button type="button" class="btn btn-dark" style="width: 5%; float: left; margin-top: 50px;" onclick={{action "removeWidget"}}>&lt;</button>
+      <button type="button" class="btn btn-dark" style="width: 5%; float: right;  margin-top: 50px;" onclick={{action "activateWidget"}}>&gt;</button>
 
       <div id="activeWidgetList" style="width: 40%; float: right; position: relative;">
         <ul class="list-group">
-          <li class="list-group-item">First item</li>
-          <li class="list-group-item">Second item</li>
-          <li class="list-group-item">Third item</li>
-          <li class="list-group-item">Fourth item</li>
+          {{#each this.activeWidgetList as |widgetList|}}
+            <li class="list-group-item">{{widgetList.widget}}</li>
+          {{/each}}
         </ul>
       </div>
 
