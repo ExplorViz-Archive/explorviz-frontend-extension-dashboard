@@ -1,3 +1,21 @@
+
+<!--
+What is the meaning of life? Answer: {{result}}
+
+<button class={{if askQuestion.isIdle 'button-primary'}}
+  onclick={{perform askQuestion}}>
+      {{#if askQuestion.isIdle}}
+        Ask
+      {{else}}
+        Thinking...
+        {{loading-spinner}}
+      {{/if}}
+</button>
+
+-->
+
+
+
 <div id="content-wrapper" class="d-flex flex-column" style="height:100%; overflow-y:scroll;">
 
   <!-- Main Content -->
@@ -15,7 +33,7 @@
       <div id="availableWidgetList" style="width: 40%; float: left">
         <ul class="list-group">
           {{#each this.model as |widgetList|}}
-            <li class="list-group-item" onclick={{action "listClick"}}>{{widgetList.widget}}</li>
+            <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}}>{{widgetList.widget}}</li>
           {{/each}}
         </ul>
       </div>
@@ -25,7 +43,7 @@
       <div id="activeWidgetList" style="width: 40%; float: right; position: relative;">
         <ul class="list-group">
           {{#each this.activeWidgetList as |widgetList|}}
-            <li class="list-group-item">{{widgetList.widget}}</li>
+            <li id="{{widgetList.widget}} {{widgetList.id}}" class="list-group-item" onclick={{action "listClickRight"}}>{{widgetList.widget}} (id: {{widgetList.id}})</li>
           {{/each}}
         </ul>
       </div>

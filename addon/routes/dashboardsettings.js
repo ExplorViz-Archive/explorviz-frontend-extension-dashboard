@@ -25,7 +25,7 @@ export default Route.extend({
 
 
     //works too if i want :) access with this.get('activeWidgetList')
-    controller.set('activeWidgetList', [{widget: 'empty'}]);
+    controller.set('instantiatedWidgets', [{id: 0, widget: 'empty'}]);
 
     controller.set('model', model);
 

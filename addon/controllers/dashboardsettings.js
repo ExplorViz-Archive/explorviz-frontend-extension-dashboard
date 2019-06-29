@@ -7,43 +7,81 @@ import {
   timeout
 } from 'ember-concurrency';
 
-var clickedWidget;
+var clickedWidgetsLeft = [];
+var clickedWidgetsRight = [];
+var idGenerator = 1;
 
 export default Controller.extend({
 
+  //activeWidgetList property is set in the route. setupController().
+
   /*
-    activeWidgetList: [{
-      widget: 'empty'
-    }],
-    */
-  /*
-  test: task(function*() {
-    console.log(this.get('activeWidgetList'));
-    var list = this.get('activeWidgetList');
-    list.push([{
+  askQuestion: task(function*() {
+    yield timeout(1000);
+    this.set('result', Math.random());
+
+    this.get('instantiatedWidgets').pushObject({
       widget: 'test'
-    }]);
+    });
 
-    this.set('activeWidgetList', list);
+  }).drop(),
 
-    console.log(this.get('activeWidgetList'));
-  },this).on('activate').cancelOn('deactivate').restartable(),
+  result: null,
   */
 
 
-  init() {
-    console.log("init ausgeführt controller");
-    //let task = this.get('test');
-    //let taskInstance = task.perform();
 
-    //set(this.model, "test", "Hallo welt");
-  },
+
   actions: {
-    listClick(event) {
+    listClickLeft(event) {
       if ($(event.target).hasClass('active')) {
         $(event.target).removeClass("active");
+
+        var id = event.target.id;
+
+        clickedWidgetsLeft.pop({
+          id
+        });
+
+
       } else {
         $(event.target).addClass("active");
+
+        var id = event.target.id;
+        clickedWidgetsLeft.push({
+          widget: id
+        });
+
+      }
+
+
+    },
+
+    listClickRight(event) {
+      console.log("right");
+      if ($(event.target).hasClass('active')) {
+        $(event.target).removeClass("active");
+
+        var nameAndID = event.target.id;
+        var array = nameAndID.split(" ");
+
+        clickedWidgetsRight.pop({
+          id: array[1],
+          widget: array[0]
+        });
+
+
+      } else {
+        $(event.target).addClass("active");
+
+        var nameAndID = event.target.id;
+        var array = nameAndID.split(" ");
+
+        clickedWidgetsRight.push({
+          id: array[1],
+          widget: array[0]
+        });
+
       }
 
 
@@ -51,35 +89,50 @@ export default Controller.extend({
 
     removeWidget() {
       console.log("removed");
+
+      var list = this.get('instantiatedWidgets');
+
+      if(clickedWidgetsRight.length == list.length)
+      {
+
+      }
+
+      clickedWidgetsRight.forEach(function(element) {
+        var widget = element.widget;
+
+
+        list.popObject({
+          id: idGenerator,
+          widget: widget
+        });
+        idGenerator++;
+      });
+
     },
 
     activateWidget() {
       console.log("activated");
 
-      var list = this.get('activeWidgetList');
+      var list = this.get('instantiatedWidgets');
 
-      list.forEach(function(element) {
-        console.log(element);
+      var first = list.get('firstObject').widget;
 
+      if (first === "empty") {
+        list.popObject({
+          widget: 'empty'
+        });
+      }
+
+      clickedWidgetsLeft.forEach(function(element) {
         var widget = element.widget;
+        list.pushObject({
+          id: idGenerator,
+          widget: widget
+        });
+        idGenerator++;
+      });
 
-        if (widget == 'empty') {
-          list.pop();
-        }
 
-
-
-      }, this);
-
-      list.push([{
-        widget: 'test'
-      }]);
-
-      this.set('activeWidgetList', list);
-      //list.set('activeWidgetList', list);
-      //set(this.get('model'), 'activeWidgetList', list)      //this ist nicht verfügbar, da es eine eigene function ist !!!!!!!!
-
-      console.log(this.get('activeWidgetList'));
 
     }
   }
