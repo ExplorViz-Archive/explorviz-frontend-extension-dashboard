@@ -23,18 +23,17 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
-
     //works too if i want :) access with this.get('activeWidgetList')
-    controller.set('instantiatedWidgets', [{id: 0, widget: 'empty'}]);
-
+    controller.set('instantiatedWidgets', [{
+      id: 0,
+      widget: 'empty'
+    }]);
     controller.set('model', model);
-
   },
 
   actions: {
     resetRoute() {
       const routeName = this.get('dashboardsettings');
-
     }
 
   },

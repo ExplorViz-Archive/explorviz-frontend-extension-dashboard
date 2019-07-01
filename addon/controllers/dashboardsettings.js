@@ -8,8 +8,13 @@ import {
 } from 'ember-concurrency';
 
 var clickedWidgetsLeft = [];
+
 var clickedWidgetsRight = [];
+var clickedWidgetsRightIDs = [];
+
 var idGenerator = 1;
+
+var userID = 1991; // temp
 
 export default Controller.extend({
 
@@ -34,42 +39,39 @@ export default Controller.extend({
 
   actions: {
     listClickLeft(event) {
+
+      var widgetName = event.target.id;
+
       if ($(event.target).hasClass('active')) {
+
         $(event.target).removeClass("active");
 
-        var id = event.target.id;
+        var index = clickedWidgetsLeft.indexOf(widgetName);
 
-        clickedWidgetsLeft.pop({
-          id
-        });
-
+        if (index > -1) {
+          clickedWidgetsLeft.splice(index, 1);
+        }
 
       } else {
         $(event.target).addClass("active");
-
-        var id = event.target.id;
-        clickedWidgetsLeft.push({
-          widget: id
-        });
-
+        clickedWidgetsLeft.push(widgetName);
       }
-
 
     },
 
     listClickRight(event) {
-      console.log("right");
       if ($(event.target).hasClass('active')) {
         $(event.target).removeClass("active");
 
         var nameAndID = event.target.id;
         var array = nameAndID.split(" ");
 
-        clickedWidgetsRight.pop({
-          id: array[1],
-          widget: array[0]
-        });
+        var index = clickedWidgetsRightIDs.indexOf(array[1]);
 
+        if (index > -1) {
+          clickedWidgetsRight.splice(index, 1);
+          clickedWidgetsRightIDs.splice(index, 1);
+        }
 
       } else {
         $(event.target).addClass("active");
@@ -77,63 +79,68 @@ export default Controller.extend({
         var nameAndID = event.target.id;
         var array = nameAndID.split(" ");
 
-        clickedWidgetsRight.push({
-          id: array[1],
-          widget: array[0]
-        });
+        clickedWidgetsRightIDs.push(array[1]);
+        clickedWidgetsRight.push(array[0]);
 
       }
-
 
     },
 
     removeWidget() {
-      console.log("removed");
-
       var list = this.get('instantiatedWidgets');
-
-      if(clickedWidgetsRight.length == list.length)
-      {
-
-      }
-
-      clickedWidgetsRight.forEach(function(element) {
-        var widget = element.widget;
+      var length = list.length;
 
 
-        list.popObject({
-          id: idGenerator,
-          widget: widget
-        });
-        idGenerator++;
+      var newList = [];
+
+      list.forEach(function(element) {
+        if (!clickedWidgetsRightIDs.includes("" + element.id)) {
+          newList.push({
+            id: element.id,
+            widget: element.widget
+          });
+        }
       });
 
+      if (newList.length == 0) {
+        newList = [{
+          id: 0,
+          widget: 'empty'
+        }];
+      }
+
+      clickedWidgetsRight = [];
+      clickedWidgetsRightIDs = [];
+
+      console.log(newList);
+      this.set('instantiatedWidgets', newList);
+
     },
-
+    //metricgraphics.js
     activateWidget() {
-      console.log("activated");
-
       var list = this.get('instantiatedWidgets');
-
       var first = list.get('firstObject').widget;
 
-      if (first === "empty") {
+      if (first === "empty" && clickedWidgetsLeft.length != 0) {
         list.popObject({
           widget: 'empty'
         });
       }
 
       clickedWidgetsLeft.forEach(function(element) {
-        var widget = element.widget;
         list.pushObject({
           id: idGenerator,
-          widget: widget
+          widget: element
         });
         idGenerator++;
       });
 
+    },
 
+    saveData()
+    {
 
     }
+
   }
 });
