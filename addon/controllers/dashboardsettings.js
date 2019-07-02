@@ -33,7 +33,7 @@ export default Controller.extend({
 
   result: null,
   */
-
+  store: Ember.inject.service(),
 
 
 
@@ -137,10 +137,50 @@ export default Controller.extend({
 
     },
 
-    saveData()
-    {
+    saveData() {
+      const myStore = this.get('store');
+      var list = this.get('instantiatedWidgets');
+
+      var test = [];
+
+      var date = new Date();
+      var timestamp = date.getTime();
+
+      list.forEach(function(element) {
+        let post = myStore.createRecord('instantiatedwidget', {
+          userID: userID,
+          timestamp: timestamp,
+          widgetName: element.widget,
+          instanceID: element.id
+        });
+
+        //post.save().then(transitionToPost).catch(failure);
+        post.save();
+
+
+        test.push({
+          userID: userID,
+          timestamp: timestamp,
+          widgetName: element.widget,
+          instanceID: element.id
+        });
+
+
+      });
+
+      console.log(test);
+
 
     }
 
   }
 });
+
+function transitionToPost(self, post) {
+  console.log("success " + post);
+  self.transitionTo('dashboard');
+}
+
+function failure(reason) {
+  console.log("error " + reason);
+}
