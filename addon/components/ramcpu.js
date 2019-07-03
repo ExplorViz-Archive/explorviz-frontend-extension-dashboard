@@ -8,9 +8,7 @@ import {
   set
 } from '@ember/object';
 
-//var data = [];
-var pieChartCPU;
-var pieChartRAM;
+
 
 var selectedNode; //string
 
@@ -23,6 +21,7 @@ export default Component.extend({
   //starts the task for getting the data from the backend every 10s.
   init() {
     this._super(...arguments);
+
     let task = this.get('pollServerForChanges');
     let taskInstance = task.perform();
   },
@@ -37,9 +36,11 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    createPieChartCPU();
-    createPieChartRAM();
+    createPieChartCPU(this);
+    createPieChartRAM(this);
     queryData(this.get('store'), this);
+
+    //console.log(this.elementId);
 
     //Ember.getOwner(this).lookup('router:main').transitionTo('widgetsettings');
     //this.get('router').transitionTo('widgetsettings');
@@ -49,6 +50,7 @@ export default Component.extend({
   pollServerForChanges: task(function*() {
     while (true) {
       yield timeout(10000);
+      //console.log("pollServerForChanges: ID: " + this.elementId);
 
       queryData(this.get('store'), this);
 
@@ -63,7 +65,7 @@ export default Component.extend({
 
 
 
-function queryData(myStore, obj) {
+function queryData(myStore, self) {
 
   //Promise wird asychnone aufgeführt !
   myStore.query('ramcpu', {}).then(function(backendData) {
@@ -84,7 +86,7 @@ function queryData(myStore, obj) {
         var nodeName = element.get('nodeName');
 
 
-        console.log(selectedNode);
+        //console.log(selectedNode);
 
         if (selectedNode == null) {
           console.log("was null !");
@@ -93,8 +95,8 @@ function queryData(myStore, obj) {
 
         //looking for the right node to set the data
         if (selectedNode == nodeName) {
-          console.log(selectedNode);
-          set(obj, "displayName", nodeName);
+          //console.log(selectedNode);
+          set(self, "displayName", nodeName);
 
           cpuUtilization = element.get('cpuUtilization');
           usedRam = element.get('usedRam');
@@ -131,25 +133,25 @@ function queryData(myStore, obj) {
           */
 
 
-      if (pieChartCPU == null) {
+      if (self.get('pieChartCPU') == null) {
         //console.log("pieChartCPU was null");
-        createPieChartCPU();
+        createPieChartCPU(self);
       }
 
-      if (pieChartRAM == null) {
-        createPieChartRAM();
+      if (self.get('pieChartRAM') == null) {
+        createPieChartRAM(self);
       }
 
 
-      pieChartCPU.updateSeries([cpuUtilization * 100]);
-      pieChartRAM.updateSeries([usedRam / totalRam * 100]);
+      self.get('pieChartCPU').updateSeries([cpuUtilization * 100]);
+      self.get('pieChartRAM').updateSeries([usedRam / totalRam * 100]);
 
 
       var displayTotalRam = totalRam / 1000000000;
       var displayUsedRam = usedRam / 1000000000;
 
 
-      pieChartRAM.updateOptions({
+      self.get('pieChartRAM').updateOptions({
         labels: ['Ram: ' + displayUsedRam.toFixed(1) + 'GB /' + displayTotalRam.toFixed(1) + 'GB'],
       });
     }
@@ -159,7 +161,7 @@ function queryData(myStore, obj) {
 
 
 
-function createPieChartCPU() {
+function createPieChartCPU(self) {
 
   var options = {
     chart: {
@@ -262,18 +264,18 @@ function createPieChartCPU() {
 
   }
 
-  pieChartCPU = new ApexCharts(
-    document.querySelector("#cpuChart"),
+  var pieChartCPU = new ApexCharts(
+    document.querySelector("#cpuChart" + self.elementId),
     options
   );
 
   pieChartCPU.render();
 
-
+  self.set('pieChartCPU', pieChartCPU);
 
 }
 
-function createPieChartRAM() {
+function createPieChartRAM(self) {
 
   var options = {
     chart: {
@@ -357,13 +359,14 @@ function createPieChartRAM() {
 
   }
 
-  pieChartRAM = new ApexCharts(
-    document.querySelector("#ramChart"),
+
+  var pieChartRAM = new ApexCharts(
+    document.querySelector("#ramChart" + self.elementId),
     options
   );
 
   pieChartRAM.render();
 
-
+  self.set('pieChartRAM', pieChartRAM)
 
 }

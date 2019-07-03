@@ -147,11 +147,32 @@ export default Controller.extend({
         });
 
 
-        post.save();
+
+
+        if (index == list.length - 1) {
+
+          post.save().then(() => {
+
+
+            console.log('Do this');
+            this.transitionToRoute('dashboard');
+          });
+          /*
+          post.save().then(function(post) {
+            console.log(post);
+              this.transitionToRoute('dashboard');
+          }, this);
+          */
+
+
+        } else {
+          post.save();
+        }
+
       }, this);
 
       //redirect to the dashboard
-      this.transitionToRoute('dashboard');
+      //this.transitionToRoute('dashboard');
 
     },
 
