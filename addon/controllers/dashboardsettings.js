@@ -12,32 +12,13 @@ var clickedWidgetsLeft = [];
 var clickedWidgetsRight = [];
 var clickedWidgetsRightIDs = [];
 
-var idGenerator = 1;
-
-var userID = 1991; // temp
 
 export default Controller.extend({
 
-  //activeWidgetList property is set in the route. setupController().
-
-  /*
-  askQuestion: task(function*() {
-    yield timeout(1000);
-    this.set('result', Math.random());
-
-    this.get('instantiatedWidgets').pushObject({
-      widget: 'test'
-    });
-
-  }).drop(),
-
-  result: null,
-  */
   store: Ember.inject.service(),
 
-
-
   actions: {
+    //action for the left list if its getting clicked.
     listClickLeft(event) {
 
       var widgetName = event.target.id;
@@ -59,6 +40,7 @@ export default Controller.extend({
 
     },
 
+    //action for the right list if its getting clicked.
     listClickRight(event) {
       if ($(event.target).hasClass('active')) {
         $(event.target).removeClass("active");
@@ -81,11 +63,11 @@ export default Controller.extend({
 
         clickedWidgetsRightIDs.push(array[1]);
         clickedWidgetsRight.push(array[0]);
-
       }
 
     },
 
+    //action for the remove button
     removeWidget() {
       var list = this.get('instantiatedWidgets');
       var length = list.length;
@@ -116,7 +98,10 @@ export default Controller.extend({
       this.set('instantiatedWidgets', newList);
 
     },
+
     //metricgraphics.js
+
+    //action for the add button (activate a widget).
     activateWidget() {
       var list = this.get('instantiatedWidgets');
       var first = list.get('firstObject').widget;
@@ -128,59 +113,52 @@ export default Controller.extend({
       }
 
       clickedWidgetsLeft.forEach(function(element) {
+        var id = this.get('idGenerator');
+
         list.pushObject({
-          id: idGenerator,
+          id: id,
           widget: element
         });
-        idGenerator++;
-      });
+
+        id++;
+        this.set('idGenerator', id);
+      }, this);
 
     },
 
+    //action for the save Button. save the active widget list in the backend
     saveData() {
       const myStore = this.get('store');
       var list = this.get('instantiatedWidgets');
 
-      var test = [];
 
       var date = new Date();
       var timestamp = date.getTime();
 
-      list.forEach(function(element) {
+      list.forEach(function(element, index) {
+
+        //sending each widget with a post request to the backend
         let post = myStore.createRecord('instantiatedwidget', {
-          userID: userID,
+          userID: this.get('userID'),
           timestamp: timestamp,
           widgetName: element.widget,
-          instanceID: element.id
+          instanceID: element.id,
+          orderID: index
         });
 
-        //post.save().then(transitionToPost).catch(failure);
+
         post.save();
+      }, this);
 
+      //redirect to the dashboard
+      this.transitionToRoute('dashboard');
 
-        test.push({
-          userID: userID,
-          timestamp: timestamp,
-          widgetName: element.widget,
-          instanceID: element.id
-        });
+    },
 
-
-      });
-
-      console.log(test);
-
-
+    cancel() {
+      //redirect to the dashboard
+      this.transitionToRoute('dashboard');
     }
 
   }
 });
-
-function transitionToPost(self, post) {
-  console.log("success " + post);
-  self.transitionTo('dashboard');
-}
-
-function failure(reason) {
-  console.log("error " + reason);
-}

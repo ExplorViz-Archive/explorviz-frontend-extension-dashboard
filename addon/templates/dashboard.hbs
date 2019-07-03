@@ -48,6 +48,17 @@
 
         <!--	.col-xl-# means # columns (total is 12) -->
 
+        {{#each this.widgets as |widgetList|}}
+          <!--      {{asdasd class="col-xl-4 col-lg-5"}}
+
+
+          <li id="{{widgetList.widget}} {{widgetList.id}}" class="list-group-item" onclick={{action "listClickRight"}}>{{widgetList.widget}} (id: {{widgetList.id}})</li>
+-->
+          {{#if-equal param1="activeclassinstancess" param2="activeclassinstances"}}
+            test
+          {{/if-equal}}
+        {{/each}}
+
 
         {{totaloverviewwidget class="col-xl-4 col-lg-5"}}
         {{activeclassinstances class="col-xl-4 col-lg-5"}}

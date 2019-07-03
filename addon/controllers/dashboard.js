@@ -6,7 +6,6 @@ export default Controller.extend({
   isExpanded: false,
 
 
-
   totaloverviewwidget: Ember.computed(function(){
   const store = this.get('store');
   return store.queryRecord('totaloverviewwidget', {});
@@ -21,7 +20,7 @@ export default Controller.extend({
       var myPieChart = document.getElementById('myPieChart');
       //console.log(myPieChart);
 
-    
+
 
 
     }
