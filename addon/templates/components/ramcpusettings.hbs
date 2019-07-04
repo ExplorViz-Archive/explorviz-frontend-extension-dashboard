@@ -1,1 +1,27 @@
-yo whats up !
+<div id="titleContainer" style="width: 100%; height:auto; overflow:hidden; ">
+  <div id="firstTitle" style="width: 40%; float: left">
+    <p class="h2 mb-0 text-gray-800">Available Nodes:</p>
+  </div>
+
+</div>
+
+<div id="listContainer" style="width: 100%; height:auto; overflow:auto; margin-top: 10px;">
+
+  <div id="availableNodeList" style="width: 40%; float: left">
+    <ul class="list-group">
+      <li id="test" class="list-group-item" onclick={{action "listClick"}}>test</li>
+      {{#each this.nodeNameList as |nodeNameList|}}
+        <li id="{{nodeNameList.nodeName}}" class="list-group-item" onclick={{action "listClick"}}>{{nodeNameList.nodeName}}</li>
+      {{/each}}
+
+    </ul>
+
+
+    <button type="button" class="btn btn-dark" style="width: 40%; float: left; margin-left: 30px; margin-top: 15px;" onclick={{action "cancelBtn"}}>Cancel</button>
+    <button type="button" class="btn btn-dark" style="width: 40%; float: left; margin-left: 30px; margin-top: 15px;" onclick={{action "saveBtn"}}>Save</button>
+
+
+  </div>
+
+
+</div>

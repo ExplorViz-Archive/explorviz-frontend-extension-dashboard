@@ -9,8 +9,10 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
         <div class="dropdown-header">Konfiguration:</div>
+        <!--
         <a class="dropdown-item" href="#">Widget Settings</a>
-        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="ramcpu")}}Widget Settings{{/link-to}}</a>
+        -->
+        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="ramcpu" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
 
         <a class="dropdown-item" href="#">Remove</a>
 

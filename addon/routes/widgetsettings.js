@@ -7,32 +7,30 @@ import {
 
 export default Route.extend({
 
-  showRamCpuSettings: false,
+
+
   queryParams: {
-    widget: ''
+    widget: '',
+    instanceID: ''
   },
+
+
+
   model(params) {
-
-    //widgetName = params.widget;
-    if (params.widget == 'ramcpu') {
-      set(this, "showRamCpuSettings", true);
-      console.log("showRamCpuSettings: " + this.showRamCpuSettings); //output: showRamCpuSettings: true
-    }
-    return this.showRamCpuSettings;
-
+    this.set('widgetName', params.widget);
+    this.set('instanceID', params.instanceID);
   },
-  /*
-  init()
-  {
-      this._super(...arguments);
 
-      console.log(widgetName);
-      if (widgetName == 'ramcpu') {
-        set(this, "showRamCpuSettings", true);
-        console.log("showRamCpuSettings: " + this.showRamCpuSettings);
-      }
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    controller.set('widgetName', this.get('widgetName'));
+    controller.set('instanceID', this.get('instanceID'));
+
+    console.log("Widget: " + this.get('widgetName') + "   instanceID: " + this.get('instanceID'));
+    controller.set('model', model);
   },
-  */
 
 
   actions: {

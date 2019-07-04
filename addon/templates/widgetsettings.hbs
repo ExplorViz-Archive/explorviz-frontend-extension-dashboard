@@ -1,7 +1,32 @@
-hello world
+<div id="content-wrapper" class="d-flex flex-column" style="height:100%; overflow-y:scroll;">
 
-{{#if this.model}}
-test
-{{else}}
-lol
-{{/if}}
+  <!-- Main Content -->
+  <div id="content">
+
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Widget Settings</h1>
+      </div>
+
+
+      {{#if-equal param1=this.widgetName param2="ramcpu"}}
+        {{ramcpusettings id=this.instanceID}}
+      {{/if-equal}}
+
+
+
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+  </div>
+  <!-- End of Main Content -->
+
+
+
+</div>
