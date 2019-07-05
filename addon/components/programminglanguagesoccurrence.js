@@ -5,119 +5,116 @@ import {
   timeout
 } from 'ember-concurrency';
 
-var data = [];
-var labels = [];
-
-var chart;
-
 export default Component.extend({
 
   store: Ember.inject.service(),
 
-  init() {
-    this._super(...arguments);
-    let task = this.get('pollServerForChanges');
-    let taskInstance = task.perform();
-  },
+
 
   didInsertElement() {
     this._super(...arguments);
-    createChart();
-    queryData(this.get('store'));
+    this.get('initWidget').perform();
   },
+
+
 
   didRender() {
     this._super(...arguments);
-    queryData(this.get('store'));
+    this.get('queryData').perform();
   },
+
+  initWidget: task(function*() {
+    yield this.get('createChart').perform();
+    yield this.get('queryData').perform();
+    this.get('pollServerForChanges').perform();
+  }).on('activate').cancelOn('deactivate').drop(),
 
   pollServerForChanges: task(function*() {
     while (true) {
       yield timeout(10000);
-      queryData(this.get('store'));
+      this.get('queryData').perform();
     }
-  }).on('activate').cancelOn('deactivate').restartable(),
+  }).on('activate').cancelOn('deactivate').drop(),
 
-  layout
-});
+  queryData: task(function*() {
+    var myStore = this.get('store');
+    myStore.query('programminglanguagesoccurrence', {}).then(backendData => {
+      if (backendData.length != 0) {
 
-function queryData(myStore) {
-
-  //Promise wird asychnone aufgeführt !
-  myStore.query('programminglanguagesoccurrence', {}).then(function(backendData) {
-    if (backendData.length != 0) {
-
-      data = [];
-      labels = [];
-
-      backendData.forEach(function(element) {
-
-        //var timestamp = element.get('timestamp');
-        var programminglanguage = element.get('programminglanguage');
-        var occurs = element.get('occurs');
+        this.set('data', []);
+        this.set('labels', []);
 
 
-        data.push(occurs);
-        labels.push(programminglanguage);
-      });
+        backendData.forEach(element => {
 
-      //console.log(chart);
-      if (chart == null) {
-        createChart();
-      }
-
-      chart.updateSeries(data);
-      chart.updateOptions({
-        labels: labels,
-      });
-    }
-  });
-}
+          //var timestamp = element.get('timestamp');
+          var programminglanguage = element.get('programminglanguage');
+          var occurs = element.get('occurs');
 
 
-function createChart() {
-  var options = {
-    chart: {
-      type: 'donut',
-      height: 275,
-    },
-    dataLabels: {
-      enabled: true
-    },
-    series: [0],
-    labels: ['no landscape found'],
-    //series: data,
-    //labels: labels,
-    responsive: [{
-      breakpoint: 480,
+          this.get('data').push(occurs);
+          this.get('labels').push(programminglanguage);
+        });
 
-      options: {
-        legend: {
-          show: true,
-          position: 'bottom'
+        //console.log(chart);
+        if (this.get('chart') == null) {
+          this.get('createChart').perform();
         }
-      }
 
-    }],
-    legend: {
-      position: 'bottom',
-      offsetY: 0,
-    },
-    plotOptions: {
-      pie: {
-        donut: {
-          labels: {
+        this.get('chart').updateSeries(this.get('data'));
+        this.get('chart').updateOptions({
+          labels: this.get('labels'),
+        });
+      }
+    });
+
+  }).on('activate').cancelOn('deactivate').drop(),
+
+  createChart: task(function*() {
+    var options = {
+      chart: {
+        type: 'donut',
+        height: 275,
+      },
+      dataLabels: {
+        enabled: true
+      },
+      series: [0],
+      labels: ['no landscape found'],
+      responsive: [{
+        breakpoint: 480,
+
+        options: {
+          legend: {
             show: true,
+            position: 'bottom'
+          }
+        }
+
+      }],
+      legend: {
+        position: 'bottom',
+        offsetY: 0,
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+            }
           }
         }
       }
     }
-  }
 
-  chart = new ApexCharts(
-    document.querySelector("#programminglanguagesoccurrenceChart"),
-    options
-  );
+    var chart = new ApexCharts(
+      document.querySelector("#programminglanguagesoccurrenceChart" + this.elementId),
+      options
+    );
 
-  chart.render();
-}
+    chart.render();
+    this.set('chart', chart)
+  }).on('activate').cancelOn('deactivate').drop(),
+
+  layout
+});
