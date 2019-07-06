@@ -15,12 +15,28 @@ module.exports = {
     this.import('node_modules/apexcharts/dist/apexcharts.js');
 
 
+    this.import('node_modules/moment/moment.js');
     this.import('node_modules/chart.js/dist/Chart.js');
     this.import('node_modules/chart.js/dist/Chart.css');
 
     this.import('node_modules/chartjs-plugin-labels/build/chartjs-plugin-labels.min.js');
 
     this.import('node_modules/bootstrap/dist/css/bootstrap.css');
+
+    //for chart js line charts: zoom on x axis and realtime data reload
+
+    this.import('node_modules/chartjs-plugin-streaming/dist/chartjs-plugin-streaming.js');
+
+
+    this.import('node_modules/hammerjs/hammer.js');
+    this.import('node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.js');
+
+
+
+
+
+
+
 
 
     //Bei zukünfiten imports auf // und \\ achten ! verwirrend

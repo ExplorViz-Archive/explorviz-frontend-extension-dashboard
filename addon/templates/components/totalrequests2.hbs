@@ -1,0 +1,62 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+	<!-- Card Header - Dropdown -->
+	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+		<h6 class="m-0 font-weight-bold text-primary">Total Requests <button id="recent" class="btn btn-primary">RECENT</button> <button id="all" class="btn btn-outline-primary">ALL</button></h6>
+		<div class="dropdown no-arrow">
+			<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+			</a>
+			<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+				<div class="dropdown-header">Konfiguration:</div>
+				<a class="dropdown-item" href="#">Widget Settings</a>
+				<a class="dropdown-item" href="#" onclick={{action "removeBtn"}}>Remove</a>
+				<!--<div class="dropdown-divider"></div>-->
+
+			</div>
+		</div>
+	</div>
+	<!-- Card Body -->
+	<div class="card-body">
+
+		<div>
+			<canvas id="totalrequests2Chart{{this.elementId}}"></canvas>
+		</div>
+
+		{{#if this.debug}}
+			<div>
+				<span class="label">duration:</span>
+				<span id="durationValue" class="value">20000</span>
+				<span><input type="range" min="1000" max="60000" step="100" value="20000" id="duration" class="control"></span>
+			</div>
+			<div>
+				<span class="label">ttl:</span>
+				<span id="ttlValue" class="value">60000</span>
+				<span><input type="range" min="1000" max="60000" step="100" value="60000" id="ttl" class="control"></span>
+			</div>
+			<div>
+				<span class="label">refresh:</span>
+				<span id="refreshValue" class="value">1000</span>
+				<span><input type="range" min="50" max="3000" step="50" value="1000" id="refresh" class="control"></span>
+			</div>
+			<div>
+				<span class="label">delay:</span>
+				<span id="delayValue" class="value">2000</span>
+				<span><input type="range" min="0" max="5000" step="100" value="2000" id="delay" class="control"></span>
+			</div>
+			<div>
+				<span class="label">frameRate:</span>
+				<span id="frameRateValue" class="value">30</span>
+				<span><input type="range" min="1" max="60" step="1" value="30" id="frameRate" class="control"></span>
+			</div>
+			<div>
+				<span class="label">pause:</span>
+				<span id="pauseValue" class="value">false</span>
+				<span><input type="checkbox" id="pause" class="control"></span>
+			</div>
+
+		{{/if}}
+
+
+	</div>
+</div>

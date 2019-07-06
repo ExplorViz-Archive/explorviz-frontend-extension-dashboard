@@ -11,6 +11,8 @@ var widgetNameList = [{
   widget: 'totaloverviewwidget'
 }, {
   widget: 'totalrequests'
+}, {
+  widget: 'totalrequests2'
 }];
 
 export default Route.extend({

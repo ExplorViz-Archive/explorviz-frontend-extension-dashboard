@@ -54,23 +54,29 @@ export default Component.extend({
 
       var chart = this.get('chart');
 
+      console.log(chart);
+
       if (chart != null) {
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = data;
+        if (labels != [] && data != []) {
+          chart.data.labels = labels;
+          chart.data.datasets[0].data = data;
+          chart.data.datasets[0].backgroundColor = randomColorArray(data.get('length'));
+
+          var displayLegend = true;
+          if (data.length >= 5) {
+            displayLegend = false;
+          }
+
+          chart.options.legend.display = displayLegend;
+        } else {
+          chart.data.labels = ['no landscape available'];
+          chart.data.datasets[0].data = [1];
+          chart.data.datasets[0].backgroundColor = randomColorArray(1);
+          chart.options.legend.display = true;
+        }
+
         chart.update();
       }
-
-      var displayLegend = true;
-      if (data.length >= 5) {
-        displayLegend = false;
-      }
-
-      //hier update statt createChart
-      //
-      //
-      //
-      //hier weitermachen !!
-      createChart(labels, data, displayLegend);
 
     });
   }).on('activate').cancelOn('deactivate').drop(),
@@ -79,7 +85,7 @@ export default Component.extend({
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     //Chart.defaults.global.defaultFontColor = '#858796';
 
-    var myPieChart = document.getElementById('activeclassinstancesCanvas');
+    var myPieChart = document.getElementById('activeclassinstancesCanvas' + this.elementId);
 
     //console.log(myPieChart);
 
@@ -90,7 +96,7 @@ export default Component.extend({
         datasets: [{
           data: [1],
           //backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          backgroundColor: randomColorArray(myData.get('length')),
+          backgroundColor: randomColorArray(1),
           hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
           hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
