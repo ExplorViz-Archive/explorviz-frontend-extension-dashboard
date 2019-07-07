@@ -32,6 +32,10 @@ module.exports = {
     this.import('node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.js');
 
 
+    this.import('node_modules/chartjs-plugin-colorschemes/dist/chartjs-plugin-colorschemes.js');
+
+
+
 
 
 

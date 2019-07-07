@@ -60,7 +60,7 @@ export default Component.extend({
         if (labels != [] && data != []) {
           chart.data.labels = labels;
           chart.data.datasets[0].data = data;
-          chart.data.datasets[0].backgroundColor = randomColorArray(data.get('length'));
+          //chart.data.datasets[0].backgroundColor = randomColorArray(data.get('length'));
 
           var displayLegend = true;
           if (data.length >= 5) {
@@ -71,7 +71,7 @@ export default Component.extend({
         } else {
           chart.data.labels = ['no landscape available'];
           chart.data.datasets[0].data = [1];
-          chart.data.datasets[0].backgroundColor = randomColorArray(1);
+          //chart.data.datasets[0].backgroundColor = randomColorArray(1);
           chart.options.legend.display = true;
         }
 
@@ -96,13 +96,14 @@ export default Component.extend({
         datasets: [{
           data: [1],
           //backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          backgroundColor: randomColorArray(1),
-          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          hoverBorderColor: "rgba(234, 236, 244, 1)",
+          //backgroundColor: randomColorArray(1),
+          //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+          //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
       },
       options: {
         maintainAspectRatio: false,
+        aspectRatio: 1,
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
           bodyFontColor: "#858796",
@@ -192,7 +193,10 @@ export default Component.extend({
               fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
             }
 
-          ]
+          ],
+          colorschemes: {
+                scheme: 'office.Berlin6'
+            }
         }
 
       },
