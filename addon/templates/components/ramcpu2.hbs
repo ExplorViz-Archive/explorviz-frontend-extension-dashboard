@@ -1,0 +1,40 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">CPU RAM: {{displayName}}</h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Konfiguration:</div>
+        <!--
+        <a class="dropdown-item" href="#">Widget Settings</a>
+        -->
+        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="ramcpu" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
+
+        <a class="dropdown-item" href="#">Remove</a>
+
+
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+
+
+
+    <div style="float: left; width: 50%">
+      <canvas id="cpuChart{{this.elementId}}"></canvas>
+    </div>
+    <div style="float: right; width: 50%">
+      <canvas id="ramChart{{this.elementId}}"></canvas>
+    </div>
+
+
+
+
+
+  </div>
+</div>

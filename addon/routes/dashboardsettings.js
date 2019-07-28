@@ -13,6 +13,8 @@ var widgetNameList = [{
   widget: 'totalrequests'
 }, {
   widget: 'totalrequests2'
+}, {
+  widget: 'ramcpu2'
 }];
 
 export default Route.extend({
