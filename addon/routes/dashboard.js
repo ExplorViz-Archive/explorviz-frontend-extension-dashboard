@@ -7,7 +7,7 @@ import {
   inject as service
 } from "@ember/service";
 
-var userID = 1991;
+var userID = 0;
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
@@ -19,7 +19,27 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     // Call _super for default behavior
 
 
+
     const myStore = this.get('store');
+
+
+
+
+    let users = myStore.peekAll('user');
+
+    users.forEach((item) => {
+
+      if(item)
+      {
+        userID = item.get('id');
+      }
+    });
+
+
+    console.log(userID);
+
+
+
 
     //Doing a get request to the backend here to get a list of all instantiatedwidgets.
     myStore.query('instantiatedwidget', {

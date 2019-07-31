@@ -1,0 +1,112 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Event Log</h6>
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Konfiguration:</div>
+        <!--
+        <a class="dropdown-item" href="#">Widget Settings</a>
+        -->
+        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
+
+        <a class="dropdown-item" href="#">Remove</a>
+
+
+      </div>
+    </div>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body" style="overflow: auto; height: 600px;">
+
+    <!--
+    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
+-->
+    <ul class="list-group">
+      <li class="list-group-item" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Landscape: 24/08/1995 13:50 Events: 5</li>
+      <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="card card-body">
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">timestampLandscape</th>
+                <th scope="col">timestampEvent</th>
+                <th scope="col">eventType</th>
+                <th scope="col">eventMessage</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {{#each this.test as |item index|}}
+                <tr>
+                  <th scope="row">{{index}}</th>
+                  <td>{{date item.timestampLandscape}}</td>
+                  <!--
+                  <td>{{date item.timestampLandscape}}</td>
+                  <td>{{date item.timestampEvent}}</td>
+
+
+                  <td>{{item.eventType}}</td>
+                  <td>{{item.eventMessage}}</td>
+                -->
+                </tr>
+              {{/each}}
+
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <li class="list-group-item">Landscape: 24/08/1995 13:55 Events: 0</li>
+      <li class="list-group-item">Landscape: 24/08/1995 13:60 Events: 500</li>
+      <li class="list-group-item">Landscape: 24/08/1995 13:70 Events: 9</li>
+      <li class="list-group-item">Landscape: 24/08/1995 13:80 Events: 2</li>
+    </ul>
+
+
+
+
+    <!--
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+      <div class="card card-body">
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">timestampLandscape</th>
+              <th scope="col">timestampEvent</th>
+              <th scope="col">eventType</th>
+              <th scope="col">eventMessage</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {{#each this.test as |item index|}}
+              <tr>
+                <th scope="row">{{index}}</th>
+
+                <td>{{date item.timestampLandscape}}</td>
+                <td>{{date item.timestampEvent}}</td>
+
+
+                <td>{{item.eventType}}</td>
+                <td>{{item.eventMessage}}</td>
+              </tr>
+            {{/each}}
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+-->
+  </div>
+</div>

@@ -15,6 +15,8 @@ var widgetNameList = [{
   widget: 'totalrequests2'
 }, {
   widget: 'ramcpu2'
+}, {
+  widget: 'eventlog'
 }];
 
 export default Route.extend({
@@ -33,13 +35,21 @@ export default Route.extend({
     this._super(controller, model);
 
     //temporär !!!
-    var userID = 1991;
-    controller.set('userID', userID);
-
-
+    var userID = 0;
 
     const myStore = this.get('store');
 
+    let users = myStore.peekAll('user');
+
+    users.forEach((item) => {
+
+      if(item)
+      {
+        userID = item.get('id');
+      }
+    });
+
+    controller.set('userID', userID);
     //Doing a get request to the backend here to get a list of all instantiatedwidgets.
     myStore.query('instantiatedwidget', {
       userID: userID

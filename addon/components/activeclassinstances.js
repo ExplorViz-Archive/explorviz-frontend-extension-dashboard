@@ -39,6 +39,8 @@ export default Component.extend({
   queryData: task(function*() {
     const myStore = this.get('store');
 
+  
+
     myStore.query('activeclassinstances', {
       amount: numberDisplayed
     }).then(activeclassinstances => {

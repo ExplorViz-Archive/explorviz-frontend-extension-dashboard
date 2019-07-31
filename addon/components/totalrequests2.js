@@ -85,7 +85,8 @@ export default Component.extend({
   initWidget: task(function*() {
     this.set('lastTimestamp', -99);
     yield this.get('createChart').perform();
-    yield this.get('queryData').perform();
+    yield this.get('queryAll').perform();
+    //  yield this.get('queryData').perform();
     this.get('queryDataLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
@@ -125,7 +126,8 @@ export default Component.extend({
             type: 'realtime',
             realtime: {
               duration: 29100, //20000 default
-              ttl: 1800000, //hold data for 30 min
+              //ttl: 1800000, //hold data for 30 min
+              ttl: 86400000, //hold data for 1 day
               refresh: 10000,
               delay: 15000
             }
@@ -179,6 +181,62 @@ export default Component.extend({
     this.set('chart', chart);
     console.log("chart set to chart (end of chartcreate)");
 
+
+  }).on('activate').cancelOn('deactivate').drop(),
+
+  queryAll: task(function*() {
+    console.log("query data method");
+
+    var chart = this.get('chart');
+
+    if (chart == null) {
+      yield this.get('createChart').perform();
+    }
+
+    if (chart != null) {
+
+      const myStore = this.get('store');
+      //geht ALLE datasets durch und setzt sie random
+
+      var tempArray = [];
+
+      myStore.query('totalrequests', {
+        action: 'all'
+      }).then(backendData => {
+
+        backendData.forEach(item => {
+
+          var last = this.get('lastTimestamp')
+          var x = item.get('timestamp');
+          var y = item.get('totalRequests');
+
+          if (last != x) {
+
+            tempArray.push({
+              x: new Date(x),
+              y: y
+            });
+
+            this.set('lastTimestamp', x);
+            //item.deleteRecord();
+
+          }
+
+
+        });
+      });
+
+
+
+
+
+      chart.data.datasets[0].data = tempArray;
+      chart.update();
+      this.get('deleteAll').perform("totalrequests");
+
+    } else {
+      console.log("chart was null... (totalrequest2)");
+    }
 
   }).on('activate').cancelOn('deactivate').drop(),
 
@@ -236,8 +294,19 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  deleteAll: task(function*(deleteName) {
+    this.get('store').findAll(deleteName).then(function(record) {
+      record.content.forEach(function(rec) {
+        Ember.run.once(this, function() {
+          rec.deleteRecord();
+          rec.save();
+        });
+      }, this);
+    });
+  }).on('activate').cancelOn('deactivate').drop(),
+
   actions: {
-    removeBtn(event){
+    removeBtn(event) {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
     },
