@@ -38,24 +38,10 @@ export default Component.extend({
     const myStore = this.get('store');
     //geht ALLE datasets durch und setzt sie random
 
-    myStore.queryRecord('eventlogwrapper', {
+    myStore.query('eventloginfo', {
       //action: 'current'
     }).then(backendData => {
-
-      this.set('test',backendData );
-
-      var timestampLandscape = backendData.get('timestampLandscape')
-      var test = backendData.get('eventlogs')
-      console.log(timestampLandscape);
-      console.log(test);
-      /*
-      backendData.forEach(item => {
-
-
-
-      });
-      */
-
+      this.set('eventloginfo',backendData );
     });
 
 

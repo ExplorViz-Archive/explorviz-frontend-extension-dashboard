@@ -22,91 +22,20 @@
   </div>
   <!-- Card Body -->
   <div class="card-body" style="overflow: auto; height: 600px;">
-
-    <!--
-    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
--->
     <ul class="list-group">
-      <li class="list-group-item" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Landscape: 24/08/1995 13:50 Events: 5</li>
-      <div class="collapse multi-collapse" id="multiCollapseExample1">
-        <div class="card card-body">
 
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">timestampLandscape</th>
-                <th scope="col">timestampEvent</th>
-                <th scope="col">eventType</th>
-                <th scope="col">eventMessage</th>
-              </tr>
-            </thead>
-            <tbody>
-
-              {{#each this.test as |item index|}}
-                <tr>
-                  <th scope="row">{{index}}</th>
-                  <td>{{date item.timestampLandscape}}</td>
-                  <!--
-                  <td>{{date item.timestampLandscape}}</td>
-                  <td>{{date item.timestampEvent}}</td>
+      <li class="list-group-item" data-toggle="collapse" href="#test20" role="button" aria-expanded="false" aria-controls="test20">Landscape: test Events: test</li>
+      {{eventlogtabel class="collapse multi-collapse" id="test20"}}
 
 
-                  <td>{{item.eventType}}</td>
-                  <td>{{item.eventMessage}}</td>
-                -->
-                </tr>
-              {{/each}}
 
-            </tbody>
-          </table>
+      {{#each this.eventloginfo as |info index|}}
 
-        </div>
-      </div>
-      <li class="list-group-item">Landscape: 24/08/1995 13:55 Events: 0</li>
-      <li class="list-group-item">Landscape: 24/08/1995 13:60 Events: 500</li>
-      <li class="list-group-item">Landscape: 24/08/1995 13:70 Events: 9</li>
-      <li class="list-group-item">Landscape: 24/08/1995 13:80 Events: 2</li>
+        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex{{index}}" aria-expanded="false" aria-controls="eventlogtableindex{{index}}">Landscape: {{date info.timestampLandscape}} Events: {{info.amountEvents}}</li>
+        {{eventlogtabel class="collapse multi-collapse" id=(concat 'eventlogtableindex' index)}}
+      {{/each}}
+
+
     </ul>
-
-
-
-
-    <!--
-    <div class="collapse multi-collapse" id="multiCollapseExample1">
-      <div class="card card-body">
-
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">timestampLandscape</th>
-              <th scope="col">timestampEvent</th>
-              <th scope="col">eventType</th>
-              <th scope="col">eventMessage</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {{#each this.test as |item index|}}
-              <tr>
-                <th scope="row">{{index}}</th>
-
-                <td>{{date item.timestampLandscape}}</td>
-                <td>{{date item.timestampEvent}}</td>
-
-
-                <td>{{item.eventType}}</td>
-                <td>{{item.eventMessage}}</td>
-              </tr>
-            {{/each}}
-
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-
--->
   </div>
 </div>
