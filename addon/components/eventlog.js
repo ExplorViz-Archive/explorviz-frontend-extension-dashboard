@@ -38,12 +38,14 @@ export default Component.extend({
     const myStore = this.get('store');
     //geht ALLE datasets durch und setzt sie random
 
-    myStore.query('eventloginfo', {
+    var backendData = yield myStore.query('eventloginfo', {
       //action: 'current'
-    }).then(backendData => {
+    });
+    /* .then(backendData => {
       this.set('eventloginfo',backendData );
     });
-
+    */
+    this.set('eventloginfo', backendData);
 
   }).on('activate').cancelOn('deactivate').drop(),
 

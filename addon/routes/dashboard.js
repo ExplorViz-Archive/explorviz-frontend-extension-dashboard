@@ -80,6 +80,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   actions: {
     resetRoute() {
+      //quick fix - some addons dont load cuz ember framework
+      location.reload();
       const routeName = this.get('dashboard');
     },
 

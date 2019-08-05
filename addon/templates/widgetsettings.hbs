@@ -18,7 +18,9 @@
       {{/if-equal}}
 
 
-
+      {{#if-equal param1=this.widgetName param2="eventlog"}}
+        {{eventlogsettings id=this.instanceID}}
+      {{/if-equal}}
 
 
     </div>

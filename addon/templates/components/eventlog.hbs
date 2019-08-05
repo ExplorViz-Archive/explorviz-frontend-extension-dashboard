@@ -3,6 +3,7 @@
   <!-- Card Header - Dropdown -->
   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">Event Log</h6>
+
     <div class="dropdown no-arrow">
       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -12,7 +13,7 @@
         <!--
         <a class="dropdown-item" href="#">Widget Settings</a>
         -->
-        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
+        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="eventlog" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
 
         <a class="dropdown-item" href="#">Remove</a>
 
@@ -23,16 +24,17 @@
   <!-- Card Body -->
   <div class="card-body" style="overflow: auto; height: 600px;">
     <ul class="list-group">
-
+      <!--
       <li class="list-group-item" data-toggle="collapse" href="#test20" role="button" aria-expanded="false" aria-controls="test20">Landscape: test Events: test</li>
       {{eventlogtabel class="collapse multi-collapse" id="test20"}}
-
+    -->
 
 
       {{#each this.eventloginfo as |info index|}}
 
-        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex{{index}}" aria-expanded="false" aria-controls="eventlogtableindex{{index}}">Landscape: {{date info.timestampLandscape}} Events: {{info.amountEvents}}</li>
-        {{eventlogtabel class="collapse multi-collapse" id=(concat 'eventlogtableindex' index)}}
+        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false" aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}">Landscape:
+          {{date info.timestampLandscape}} Events: {{info.amountEvents}}</li>
+        {{eventlogtabel class="collapse multi-collapse" id=(concat (concat (concat 'eventlogtableindex_' index) '_') info.timestampLandscape)}}
       {{/each}}
 
 
