@@ -92,7 +92,6 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   createChart: task(function*() {
-    console.log("createchart method");
     var config = {
       type: 'line',
       data: {
@@ -179,13 +178,13 @@ export default Component.extend({
     var chart = new Chart(ctx, config);
 
     this.set('chart', chart);
-    console.log("chart set to chart (end of chartcreate)");
+
 
 
   }).on('activate').cancelOn('deactivate').drop(),
 
   queryAll: task(function*() {
-    console.log("query data method");
+
 
     var chart = this.get('chart');
 
@@ -235,13 +234,13 @@ export default Component.extend({
       this.get('deleteAll').perform("totalrequests");
 
     } else {
-      console.log("chart was null... (totalrequest2)");
+
     }
 
   }).on('activate').cancelOn('deactivate').drop(),
 
   queryData: task(function*() {
-    console.log("query data method");
+
 
     var chart = this.get('chart');
     if (chart != null) {
@@ -281,7 +280,7 @@ export default Component.extend({
 
 
     } else {
-      console.log("chart was null... (totalrequest2)");
+
     }
 
   }).on('activate').cancelOn('deactivate').drop(),
@@ -306,9 +305,30 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    removeBtn(event) {
+    remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
+
+      const myStore = this.get('store');
+
+      //getting the user id
+      var userID = 0;
+      let users = myStore.peekAll('user');
+      users.forEach((item) => {
+        if (item) {
+          userID = item.get('id');
+        }
+      });
+
+      //send post request with timestamp -1 => if timestamp is -1 the entry will be deleted
+      let post = myStore.createRecord('instantiatedwidget', {
+        userID: userID,
+        timestamp: -1,
+        widgetName: "",
+        instanceID: this.elementId,
+        orderID: 0
+      });
+      post.save();
     },
   },
 

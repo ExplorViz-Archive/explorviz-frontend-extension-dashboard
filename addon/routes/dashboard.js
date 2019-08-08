@@ -36,7 +36,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     });
 
 
-    console.log(userID);
+
 
 
 
@@ -68,7 +68,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
       controller.set('widgets', tempData);
 
-      console.log(tempData);
+    
 
 
     });

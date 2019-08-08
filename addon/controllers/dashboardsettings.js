@@ -79,7 +79,8 @@ export default Controller.extend({
         if (!clickedWidgetsRightIDs.includes("" + element.id)) {
           newList.push({
             id: element.id,
-            widget: element.widget
+            widget: element.widget,
+            displayName: element.displayName
           });
         }
       });
@@ -87,14 +88,15 @@ export default Controller.extend({
       if (newList.length == 0) {
         newList = [{
           id: 0,
-          widget: 'empty'
+          widget: 'empty',
+          displayName: "Empty"
         }];
       }
 
       clickedWidgetsRight = [];
       clickedWidgetsRightIDs = [];
 
-      console.log(newList);
+
       this.set('instantiatedWidgets', newList);
 
     },
@@ -108,16 +110,24 @@ export default Controller.extend({
 
       if (first === "empty" && clickedWidgetsLeft.length != 0) {
         list.popObject({
-          widget: 'empty'
+          widget: 'empty',
+          //displayName: "Empty"
         });
       }
 
       clickedWidgetsLeft.forEach(function(element) {
         var id = this.get('idGenerator');
 
+        var model = this.get('model');
+        var elementWidget = model.find(item => item.widget === element);
+
+        var displayName = elementWidget.displayName;
+
+
         list.pushObject({
           id: id,
-          widget: element
+          widget: element,
+          displayName: displayName
         });
 
         id++;
@@ -154,12 +164,12 @@ export default Controller.extend({
           post.save().then(() => {
 
 
-            console.log('Do this');
+
             this.transitionToRoute('dashboard');
           });
           /*
           post.save().then(function(post) {
-            console.log(post);
+
               this.transitionToRoute('dashboard');
           }, this);
           */

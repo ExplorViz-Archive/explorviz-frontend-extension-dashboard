@@ -15,18 +15,15 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    console.log("ramcpusettings init: " + this.elementId);
   },
 
 
   didRender() {
     this._super(...arguments);
-    console.log("ramcpusettings didRender: " + this.elementId);
   },
 
   didInsertElement() {
     this._super(...arguments);
-    console.log("ramcpusettings didInsertElement: " + this.elementId);
     this.get('initTasks').perform();
 
   },
@@ -41,23 +38,21 @@ export default Component.extend({
   updateActiveDivInList: task(function*() {
     var divs = document.getElementsByClassName('list-group-item');
 
-    console.log(divs);
-    console.log("length: " + divs.length);
     for (var i = 0; i < divs.length; i++) {
 
       divs[i].classList.remove("active");
-      console.log(divs[i].id + "  x  " + this.get('nodeName'));
+
 
       //if we dont have nodeName, then we need to get the data from backend
       //dont work :/
       if (this.get('nodeName') == null) {
-        console.log("nodename was null");
+
 
         this.get('queryRamCpuSetting').perform();
       }
 
       if (divs[i].id === this.get('nodeName')) {
-        console.log("true");
+
         divs[i].classList.add("active");
       }
 
@@ -86,7 +81,7 @@ export default Component.extend({
       }
 
       this.set('nodeNameList', nodeNameList)
-      console.log(nodeNameList);
+
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
@@ -98,7 +93,7 @@ export default Component.extend({
 
       if (backendData != null) {
         var nodeName = backendData.get('nodeName');
-        console.log(nodeName);
+
         this.set('nodeName', nodeName);
       }
 
@@ -115,7 +110,7 @@ export default Component.extend({
     });
 
     post.save().then(() => {
-      console.log('postRequestRamCpuSetting');
+
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
@@ -130,14 +125,14 @@ export default Component.extend({
     },
 
     saveBtn() {
-      console.log("save");
+
       //postRequestRamCpuSetting(this.get('store'), this, this.get('nodeName'));
       this.get('postRequestRamCpuSetting').perform(this.get('nodeName'));
       this.get('router').transitionTo('dashboard');
     },
 
     cancelBtn() {
-      console.log("cancel");
+    
       this.get('router').transitionTo('dashboard');
     }
   },

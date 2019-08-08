@@ -42,13 +42,11 @@ export default Component.extend({
     while (true) {
       yield timeout(10000);
       yield this.get('queryData').perform();
-      console.log("ramcpu - pollServerForChanges: " + this.elementId);
     }
   }).on('activate').cancelOn('deactivate').drop(),
 
 
   queryData: task(function*() {
-    console.log("task queryData ausgeführt");
     var myStore = this.get('store');
 
     myStore.query('ramcpu', {}).then(backendData => {
@@ -67,21 +65,17 @@ export default Component.extend({
           var timestamp = element.get('timestamp');
           var nodeName = element.get('nodeName');
 
-          //console.log(selectedNode);
+
 
           var selectedNode = this.get('selectedNode');
 
           if (selectedNode == null) {
-            console.log("selectedNode was null !");
             this.get('queryRamCpuSetting').perform();
             selectedNode = this.get('selectedNode');
-            console.log(selectedNode);
           }
 
           //looking for the right node to set the data
           if (selectedNode == nodeName) {
-            //console.log(selectedNode);
-            console.log(nodeName);
             this.set('displayName', nodeName);
 
             cpuUtilization = element.get('cpuUtilization');
@@ -109,12 +103,12 @@ export default Component.extend({
         this.get('pieChartCPU').chart.data.datasets[0].backgroundColor[0] = chartColors.GREEN;
         this.get('pieChartCPU').chart.data.datasets[0].borderColor[0] = chartColors.GREEN;
 
-        if (cpuUtilization * 100 > 0.5 && cpuUtilization * 100 <= 0.75) {
+        if (cpuUtilization  > 0.75 && cpuUtilization  <= 0.85) {
           this.get('pieChartCPU').chart.data.datasets[0].backgroundColor[0] = chartColors.YELLOW;
           this.get('pieChartCPU').chart.data.datasets[0].borderColor[0] = chartColors.YELLOW;
         }
 
-        if (cpuUtilization * 100 > 0.75 && cpuUtilization * 100 <= 1) {
+        if (cpuUtilization  > 0.85 && cpuUtilization  <= 1) {
           this.get('pieChartCPU').chart.data.datasets[0].backgroundColor[0] = chartColors.RED;
           this.get('pieChartCPU').chart.data.datasets[0].borderColor[0] = chartColors.RED;
         }
@@ -129,8 +123,6 @@ export default Component.extend({
         var displayTotalRam = totalRam / 1000000000;
         var displayUsedRam = usedRam / 1000000000;
 
-        console.log(usedRam);
-        console.log(totalRam);
         this.get('pieChartRAM').chart.data.datasets[0].data = [usedRam, totalRam - usedRam];
 
 
@@ -163,7 +155,6 @@ export default Component.extend({
 
 
   createPieChartCPU: task(function*() {
-    console.log("create chart cpu");
 
     var ctx = document.getElementById("cpuChart" + this.elementId);
 
@@ -230,7 +221,6 @@ export default Component.extend({
 
 
   createPieChartRAM: task(function*() {
-    console.log("createchartram");
 
     var ctx = document.getElementById("ramChart" + this.elementId);
 
@@ -267,8 +257,9 @@ export default Component.extend({
           callbacks: {
             label: function(tooltipItem, data) {
               var indice = tooltipItem.index;
-              var used = data.datasets[0].data[0] / 1000000000;
-              var total = data.datasets[0].data[1] / 1000000000 + used;
+              var used = data.datasets[0].data[0] / (1024*1024*1024);  // 4* 1024
+              var total = data.datasets[0].data[1] /  (1024*1024*1024) + used;
+
               return data.labels[indice] + ': ' + used.toFixed(1) + ' GB / ' + total.toFixed(1) + ' GB';
             }
           }
@@ -312,6 +303,34 @@ export default Component.extend({
 
     });
   }).on('activate').cancelOn('deactivate').drop(),
+
+  actions: {
+    remove() {
+      var ctx = document.getElementById(this.elementId);
+      ctx.style.display = "none";
+
+      const myStore = this.get('store');
+
+      //getting the user id
+      var userID = 0;
+      let users = myStore.peekAll('user');
+      users.forEach((item) => {
+        if (item) {
+          userID = item.get('id');
+        }
+      });
+
+      //send post request with timestamp -1 => if timestamp is -1 the entry will be deleted
+      let post = myStore.createRecord('instantiatedwidget', {
+        userID: userID,
+        timestamp: -1,
+        widgetName: "",
+        instanceID: this.elementId,
+        orderID: 0
+      });
+      post.save();
+    },
+  },
 
   layout
 });

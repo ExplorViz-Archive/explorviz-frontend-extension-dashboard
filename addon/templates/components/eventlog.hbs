@@ -2,7 +2,7 @@
 <div class="card shadow mb-4">
   <!-- Card Header - Dropdown -->
   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    <h6 class="m-0 font-weight-bold text-primary">Event Log</h6>
+    <h6 class="m-0 font-weight-bold text-primary">Event Log <button onclick={{action "refresh"}} class="btn btn-primary">REFRESH</button></h6>
 
     <div class="dropdown no-arrow">
       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -10,12 +10,8 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
         <div class="dropdown-header">Konfiguration:</div>
-        <!--
-        <a class="dropdown-item" href="#">Widget Settings</a>
-        -->
         <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="eventlog" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
-
-        <a class="dropdown-item" href="#">Remove</a>
+        <a class="dropdown-item" href="#" onclick={{action "remove"}}>Remove</a>
 
 
       </div>
@@ -24,16 +20,11 @@
   <!-- Card Body -->
   <div class="card-body" style="overflow: auto; height: 600px;">
     <ul class="list-group">
-      <!--
-      <li class="list-group-item" data-toggle="collapse" href="#test20" role="button" aria-expanded="false" aria-controls="test20">Landscape: test Events: test</li>
-      {{eventlogtabel class="collapse multi-collapse" id="test20"}}
-    -->
-
 
       {{#each this.eventloginfo as |info index|}}
 
-        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false" aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}">Landscape:
-          {{date info.timestampLandscape}} Events: {{info.amountEvents}}</li>
+        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false" aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}"><b>Landscape:</b>
+          {{date info.timestampLandscape}} <b>Events:</b> {{info.amountEvents}}</li>
         {{eventlogtabel class="collapse multi-collapse" id=(concat (concat (concat 'eventlogtableindex_' index) '_') info.timestampLandscape)}}
       {{/each}}
 

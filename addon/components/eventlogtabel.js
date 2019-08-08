@@ -17,7 +17,7 @@ export default Component.extend({
     var timestampLandscape = ctxID.split('_')[2];
     this.set('timestampLandscape', timestampLandscape);
 
-    //trigger if show class is added
+    //trigger if show class is added - then start query for data
     var $div = $("#" + this.elementId);
     var observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
@@ -36,24 +36,11 @@ export default Component.extend({
     observer.observe($div[0], {
       attributes: true
     });
-
-    this.get('initWidget').perform();
   },
 
-  initWidget: task(function*() {
-
-    //yield this.get('queryCurrent').perform();
-
-
-  }).on('activate').cancelOn('deactivate').drop(),
-
   queryCurrent: task(function*() {
-    console.log("queryCurrent");
     if (this.get('timestampLandscape')) {
-
       const myStore = this.get('store');
-
-      console.log("query for landscape: " + this.get('timestampLandscape'));
       myStore.query('eventlog', {
         timestampLandscape: this.get('timestampLandscape')
       }).then(backendData => {

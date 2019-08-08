@@ -2,22 +2,38 @@ import Route from '@ember/routing/route';
 
 //a list of all available widgets that are currently in the dashboard expension
 var widgetNameList = [{
-  widget: 'activeclassinstances'
-}, {
-  widget: 'programminglanguagesoccurrence'
-}, {
-  widget: 'ramcpu'
-}, {
-  widget: 'totaloverviewwidget'
-}, {
-  widget: 'totalrequests'
-}, {
-  widget: 'totalrequests2'
-}, {
-  widget: 'ramcpu2'
-}, {
-  widget: 'eventlog'
-}];
+    widget: 'activeclassinstances',
+    displayName: 'Active class instances'
+  }, {
+    widget: 'programminglanguagesoccurrence',
+    displayName: 'Programming languages occurrence'
+  },
+  /*{
+  widget: 'ramcpu',
+  displayName: 'RAM CPU'
+},*/
+  {
+    widget: 'totaloverviewwidget',
+    displayName: 'Total overview'
+  },
+  /* {
+    widget: 'totalrequests',
+    displayName: 'Total requests'
+  }, */
+  {
+    widget: 'totalrequests2',
+    displayName: 'Total requests'
+  }, {
+    widget: 'ramcpu2',
+    displayName: 'CPU RAM'
+  }, {
+    widget: 'eventlog',
+    displayName: 'Eventlog'
+  }, {
+    widget: 'operationresponsetime',
+    displayName: 'Operation response time'
+  }
+];
 
 export default Route.extend({
 
@@ -43,8 +59,7 @@ export default Route.extend({
 
     users.forEach((item) => {
 
-      if(item)
-      {
+      if (item) {
         userID = item.get('id');
       }
     });
@@ -59,15 +74,27 @@ export default Route.extend({
 
       var highestID = 0;
 
+
       backendData.forEach(function(element) {
 
         var instanceID = element.get('instanceID');
         var widgetName = element.get('widgetName');
         var orderID = element.get('orderID')
 
+        var element = widgetNameList.find(item => item.widget === widgetName);
+
+        //if the list is empty set displayName zo empty
+        if (element != null) {
+          var displayName = element.displayName;
+        } else {
+          displayName = "Empty"
+        }
+
+
         var insert = {
           id: instanceID,
-          widget: widgetName
+          widget: widgetName,
+          displayName: displayName
         };
 
         tempData.splice(orderID, 1, insert);
@@ -79,10 +106,13 @@ export default Route.extend({
 
       });
 
-      //console.log(tempData);
+      //filter the list for empty elements (if someone deleted some)
+      var filtered = tempData.filter(function(el) {
+        return el != null;
+      });
 
 
-      controller.set('instantiatedWidgets', tempData);
+      controller.set('instantiatedWidgets', filtered);
       controller.set('idGenerator', highestID + 1);
 
     });

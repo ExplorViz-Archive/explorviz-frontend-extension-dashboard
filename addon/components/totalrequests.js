@@ -102,7 +102,7 @@ export default Component.extend({
       }]);
 
     });
-    //console.log("Done with getting the data!");
+
 
   }).on('activate').cancelOn('deactivate').restartable(),
 
@@ -202,7 +202,7 @@ var optionsRecent = {
   /*
   events: {
     dataPointSelection: function(event, chartContext, config) {
-      console.log(config);
+
     }
   },
   */

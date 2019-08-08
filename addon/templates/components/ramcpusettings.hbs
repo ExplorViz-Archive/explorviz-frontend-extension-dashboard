@@ -9,7 +9,6 @@
 
   <div id="availableNodeList" style="width: 40%; float: left">
     <ul class="list-group">
-      <li id="test" class="list-group-item" onclick={{action "listClick"}}>test</li>
       {{#each this.nodeNameList as |nodeNameList|}}
         <li id="{{nodeNameList.nodeName}}" class="list-group-item" onclick={{action "listClick"}}>{{nodeNameList.nodeName}}</li>
       {{/each}}

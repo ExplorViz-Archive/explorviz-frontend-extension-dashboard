@@ -18,7 +18,7 @@ export default Controller.extend({
       this.toggleProperty('isExpanded');
       //var ctx = document.getElementById('myChartt');
       var myPieChart = document.getElementById('myPieChart');
-      //console.log(myPieChart);
+
 
 
 

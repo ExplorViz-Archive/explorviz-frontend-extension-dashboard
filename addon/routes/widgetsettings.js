@@ -28,7 +28,6 @@ export default Route.extend({
     controller.set('widgetName', this.get('widgetName'));
     controller.set('instanceID', this.get('instanceID'));
 
-    console.log("Widget: " + this.get('widgetName') + "   instanceID: " + this.get('instanceID'));
     controller.set('model', model);
   },
 

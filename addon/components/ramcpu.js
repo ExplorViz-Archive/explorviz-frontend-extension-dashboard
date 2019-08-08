@@ -38,13 +38,11 @@ export default Component.extend({
     while (true) {
       yield timeout(10000);
       yield this.get('queryData').perform();
-      console.log("ramcpu - pollServerForChanges: " +this.elementId);
     }
   }).on('activate').cancelOn('deactivate').drop(),
 
 
   queryData: task(function*() {
-    console.log("task queryData ausgeführt");
     var myStore = this.get('store');
 
     /*
@@ -54,8 +52,7 @@ export default Component.extend({
     {
       for(var i = 0; i < result.length; i++)
       {
-        console.log(result.length);
-        console.log(result[i]);
+
       }
     }
     */
@@ -76,21 +73,20 @@ export default Component.extend({
           var timestamp = element.get('timestamp');
           var nodeName = element.get('nodeName');
 
-          //console.log(selectedNode);
+
 
           var selectedNode = this.get('selectedNode');
 
           if (selectedNode == null) {
-            console.log("selectedNode was null !");
+
             this.get('queryRamCpuSetting').perform();
             selectedNode = this.get('selectedNode');
-            console.log(selectedNode);
+
           }
 
           //looking for the right node to set the data
           if (selectedNode == nodeName) {
-            //console.log(selectedNode);
-            console.log(nodeName);
+
             this.set('displayName', nodeName);
 
             cpuUtilization = element.get('cpuUtilization');
@@ -133,7 +129,7 @@ export default Component.extend({
 
 
   createPieChartCPU: task(function*() {
-    console.log("create chart cpu");
+
     var options = {
       chart: {
         type: 'radialBar',
@@ -249,7 +245,7 @@ export default Component.extend({
 
 
   createPieChartRAM: task(function*() {
-    console.log("createchartram");
+
     var options = {
       chart: {
         //height: 150,

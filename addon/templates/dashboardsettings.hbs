@@ -31,10 +31,10 @@ What is the meaning of life? Answer: {{result}}
 
       <div id="titleContainer" style="width: 100%; height:auto; overflow:hidden; ">
         <div id="firstTitle" style="width: 40%; float: left">
-          <p class="h2 mb-0 text-gray-800">available Widgets:</p>
+          <p class="h2 mb-0 text-gray-800">Available widgets:</p>
         </div>
         <div id="secondTitle" style="width: 40%; float: right">
-          <p class="h2 mb-0 text-gray-800">instantiated Widgets:</p>
+          <p class="h2 mb-0 text-gray-800">Instantiated widgets:</p>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ What is the meaning of life? Answer: {{result}}
         <div id="availableWidgetList" style="width: 40%; float: left">
           <ul class="list-group">
             {{#each this.model as |widgetList|}}
-              <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}}>{{widgetList.widget}}</li>
+              <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}}>{{widgetList.displayName}}</li>
             {{/each}}
           </ul>
         </div>
@@ -56,7 +56,7 @@ What is the meaning of life? Answer: {{result}}
         <div id="activeWidgetList" style="width: 40%; float: right; position: relative;">
           <ul class="list-group">
             {{#each this.instantiatedWidgets as |widgetList|}}
-              <li id="{{widgetList.widget}} {{widgetList.id}}" class="list-group-item" onclick={{action "listClickRight"}}>{{widgetList.widget}} (id: {{widgetList.id}})</li>
+              <li id="{{widgetList.widget}} {{widgetList.id}}" class="list-group-item" onclick={{action "listClickRight"}}>{{widgetList.displayName}} (id: {{widgetList.id}})</li>
             {{/each}}
           </ul>
         </div>
