@@ -44,13 +44,12 @@ export default Component.extend({
         this.set('data', []);
         this.set('labels', []);
 
-
         backendData.forEach(element => {
 
           //var timestamp = element.get('timestamp');
           var programminglanguage = element.get('programminglanguage');
           var occurs = element.get('occurs');
-
+          this.set('timestamp', element.get('timestamp'));
 
           this.get('data').push(occurs);
           this.get('labels').push(programminglanguage);
@@ -65,6 +64,8 @@ export default Component.extend({
         this.get('chart').updateOptions({
           labels: this.get('labels'),
         });
+      } else {
+        this.set('timestamp', -1);
       }
     });
 
@@ -74,7 +75,8 @@ export default Component.extend({
     var options = {
       chart: {
         type: 'donut',
-        height: 275,
+        height: 300,
+        fontFamily: 'Arial',
       },
       dataLabels: {
         enabled: true
@@ -93,7 +95,7 @@ export default Component.extend({
 
       }],
       legend: {
-        position: 'bottom',
+        position: 'top',
         offsetY: 0,
       },
       plotOptions: {

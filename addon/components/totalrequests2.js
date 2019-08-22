@@ -136,7 +136,7 @@ export default Component.extend({
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'value'
+              labelString: 'Total Requests'
             }
           }]
         },

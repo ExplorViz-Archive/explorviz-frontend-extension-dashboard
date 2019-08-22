@@ -30,6 +30,7 @@ export default Component.extend({
 
   initWidget: task(function*() {
     //setting the nodeName of this widget
+
     yield this.get('queryRamCpuSetting').perform();
     yield this.get('createPieChartCPU').perform();
     yield this.get('createPieChartRAM').perform();
@@ -51,7 +52,7 @@ export default Component.extend({
 
     myStore.query('ramcpu', {}).then(backendData => {
 
-      if (backendData != null && backendData.length != 0) {
+      if (backendData.length != 0) {
         //data = [];
         var cpuUtilization;
         var usedRam;
@@ -65,7 +66,7 @@ export default Component.extend({
           var timestamp = element.get('timestamp');
           var nodeName = element.get('nodeName');
 
-
+          this.set('timestampLandscape', timestamp);
 
           var selectedNode = this.get('selectedNode');
 
@@ -147,6 +148,8 @@ export default Component.extend({
           labels: ['Ram: ' + displayUsedRam.toFixed(1) + 'GB /' + displayTotalRam.toFixed(1) + 'GB'],
         });
         */
+      }else{
+        this.set('timestampLandscape', -1);
       }
 
     });
@@ -188,6 +191,15 @@ export default Component.extend({
         },
 
         tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#000000",
+          //bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          caretPadding: 10,
           callbacks: {
             label: function(tooltipItem, data) {
               var indice = tooltipItem.index;
@@ -204,8 +216,10 @@ export default Component.extend({
             fontStyle: 'Arial', // Default is Arial
             sidePadding: 20 // Defualt is 20 (as a percentage)
           }
+        },
+        plugins: {
+          labels: [plugins_labels_value_cpu],
         }
-
 
       },
 
@@ -254,6 +268,15 @@ export default Component.extend({
         },
 
         tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#000000",
+          //bodyFontColor: "#858796",
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          caretPadding: 10,
           callbacks: {
             label: function(tooltipItem, data) {
               var indice = tooltipItem.index;
@@ -273,6 +296,10 @@ export default Component.extend({
             fontStyle: 'Arial', // Default is Arial
             sidePadding: 20 // Defualt is 20 (as a percentage)
           }
+        },
+
+        plugins: {
+          labels: [plugins_labels_value_ram],
         }
 
 
@@ -292,7 +319,7 @@ export default Component.extend({
     var store = this.get('store');
 
 
-    store.queryRecord('ramcpusetting', {
+    yield store.queryRecord('ramcpusetting', {
       instanceID: this.elementId
     }).then(backendData => {
 
@@ -335,6 +362,35 @@ export default Component.extend({
   layout
 });
 
+const plugins_labels_value_cpu = {
+  render: 'percentage',
+  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+  fontColor: '#000000',
+  overlap: true,
+  // font style, default is defaultFontStyle
+  fontStyle: 'normal',
+  position: 'border',
+  // font family, default is defaultFontFamily
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+};
+
+const plugins_labels_value_ram = {
+  render: 'value',
+  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+  fontColor: '#000000',
+  overlap: true,
+  // font style, default is defaultFontStyle
+  fontStyle: 'normal',
+  position: 'border',
+  // font family, default is defaultFontFamily
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+  render: function (args) {
+    var result = args.value / (1024*1024*1024)
+    return result.toFixed(1) + ' GB';
+  }
+};
 
 Chart.pluginService.register({
   beforeDraw: function(chart) {

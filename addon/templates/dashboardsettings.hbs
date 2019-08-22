@@ -43,7 +43,7 @@ What is the meaning of life? Answer: {{result}}
         <div id="availableWidgetList" style="width: 40%; float: left">
           <ul class="list-group">
             {{#each this.model as |widgetList|}}
-              <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}}>{{widgetList.displayName}}</li>
+              <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}} data-container="body" data-toggle="popover" data-placement="right" data-content={{widgetList.description}}>{{widgetList.displayName}}</li>
             {{/each}}
           </ul>
         </div>

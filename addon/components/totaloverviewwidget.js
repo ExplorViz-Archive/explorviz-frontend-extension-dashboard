@@ -36,16 +36,24 @@ export default Component.extend({
 
     myStore.queryRecord('totaloverviewwidget', {}).then(data => {
 
-      if (data != null) {
+      if (data.length != 0) {
+
         let name = data.get('name');
-
-
         var chart = this.get('chart');
 
-        chart.data.labels = ["Systems", "Nodes", "Applications"];
-        chart.data.datasets[0].data = [data.get('numberOfSystems'), data.get('numberOfNodes'), data.get('numberOfApplications')];
+        if (data.get('numberOfSystems') == 0 && data.get('numberOfNodes') == 0 && data.get('numberOfApplications') == 0) {
+          this.set('timestampLandscape', -1);
+          chart.data.labels = ["nothing found for the latest landscape"];
+          chart.data.datasets[0].data = [1];
+        } else {
 
+          chart.data.labels = ["Systems", "Nodes", "Applications"];
+          chart.data.datasets[0].data = [data.get('numberOfSystems'), data.get('numberOfNodes'), data.get('numberOfApplications')];
+          this.set('timestampLandscape', data.get('timestamp'));
+        }
         chart.update();
+      } else {
+        this.set('timestampLandscape', -1);
       }
 
     });
@@ -86,7 +94,7 @@ export default Component.extend({
           display: true,
           fontColor: "#000000"
         },
-        cutoutPercentage: 80,
+        cutoutPercentage: 60,
 
         plugins: {
           labels: [{

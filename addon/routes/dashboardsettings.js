@@ -3,10 +3,12 @@ import Route from '@ember/routing/route';
 //a list of all available widgets that are currently in the dashboard expension
 var widgetNameList = [{
     widget: 'activeclassinstances',
-    displayName: 'Active class instances'
+    displayName: 'Active class instances',
+    description: 'This Widget visualizes the instantiated classes inside a software landscape. It shows how often a class is instantiated. The visualisation is in form of a pie chart and it starts with the highest instantiated class. This widget only shows the newest landscape thats comming inside our system.'
   }, {
     widget: 'programminglanguagesoccurrence',
-    displayName: 'Programming languages occurrence'
+    displayName: 'Programming languages occurrence',
+    description: 'This widget visualizes which programming languages are used inside the software landscape. The visualisation is in form of a doughnut chart. This widget only shows the newest landscape thats comming inside our system.'
   },
   /*{
   widget: 'ramcpu',
@@ -14,7 +16,8 @@ var widgetNameList = [{
 },*/
   {
     widget: 'totaloverviewwidget',
-    displayName: 'Total overview'
+    displayName: 'Total overview',
+    description: 'This widget visualizes the amount of the different components (systems, nodes and applications). The visualisation is in form of a doughnut chart. This widget is usefull to get an overview over huge software landscapes. This widget only shows the newest landscape thats comming inside our system.'
   },
   /* {
     widget: 'totalrequests',
@@ -22,16 +25,20 @@ var widgetNameList = [{
   }, */
   {
     widget: 'totalrequests2',
-    displayName: 'Total requests'
+    displayName: 'Total requests',
+    description: ''
   }, {
     widget: 'ramcpu2',
-    displayName: 'CPU RAM'
+    displayName: 'CPU RAM',
+    description: ''
   }, {
     widget: 'eventlog',
-    displayName: 'Eventlog'
+    displayName: 'Eventlog',
+    description: ''
   }, {
     widget: 'operationresponsetime',
-    displayName: 'Operation response time'
+    displayName: 'Operation response time',
+    description: ''
   }
 ];
 

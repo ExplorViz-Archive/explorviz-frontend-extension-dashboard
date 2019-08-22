@@ -48,9 +48,17 @@ export default Component.extend({
 
       var labels = [];
       var data = [];
+
+      //set timestampLandscape to -1, that way it will be displayed as a - on the dashboard
+      if (activeclassinstances.length == 0) {
+        this.set('timestampLandscape', -1);
+      }
+
       activeclassinstances.forEach(element => {
         labels.push(element.get('className'));
         data.push(element.get('instances'));
+        this.set('timestampLandscape', element.get('timestampLandscape'));
+
       });
 
 
@@ -60,6 +68,17 @@ export default Component.extend({
 
       if (chart != null) {
         if (labels != [] && data != []) {
+
+          if (labels.length == 0 && data.length == 0) {
+            labels = ['No instances of a class in the latest landscape'];
+            data = [1];
+
+            //disable the number on the chart
+            chart.options.plugins.labels = plugins_labels_label;
+          }else {
+            chart.options.plugins.labels = [plugins_labels_label, plugins_labels_value];
+          }
+
           chart.data.labels = labels;
           chart.data.datasets[0].data = data;
           //chart.data.datasets[0].backgroundColor = randomColorArray(data.get('length'));
@@ -108,7 +127,8 @@ export default Component.extend({
         aspectRatio: 1,
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
+          bodyFontColor: "#000000",
+          //bodyFontColor: "#858796",
           borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
@@ -122,83 +142,10 @@ export default Component.extend({
         cutoutPercentage: 0,
 
         plugins: {
-          labels: [{
-              // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
-              render: 'label',
-
-              // precision for percentage, default is 0
-              precision: 0,
-
-              // identifies whether or not labels of value 0 are displayed, default is false
-              showZero: true,
-
-              // font size, default is defaultFontSize
-              fontSize: 12,
-
-              // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
-              fontColor: '#3b4049',
-
-              // font style, default is defaultFontStyle
-              fontStyle: 'normal',
-
-              // font family, default is defaultFontFamily
-              fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-
-              // draw text shadows under labels, default is false
-              textShadow: false,
-
-              // text shadow intensity, default is 6
-              shadowBlur: 10,
-
-              // text shadow X offset, default is 3
-              shadowOffsetX: -5,
-
-              // text shadow Y offset, default is 3
-              shadowOffsetY: 5,
-
-              // text shadow color, default is 'rgba(0,0,0,0.3)'
-              shadowColor: 'rgba(255,0,0,0.75)',
-
-              // draw label in arc, default is false
-              // bar chart ignores this
-              arc: false,
-
-              // position to draw label, available value is 'default', 'border' and 'outside'
-              // bar chart ignores this
-              // default is 'default'
-              position: 'outside',
-
-              // draw label even it's overlap, default is true
-              // bar chart ignores this
-              overlap: true,
-
-              // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
-              showActualPercentages: true,
-
-              // add padding when position is `outside`
-              // default is 2
-              outsidePadding: 4,
-
-              // add margin of text when position is `outside` or `border`
-              // default is 2
-              textMargin: 4
-            },
-            {
-              render: 'value',
-              // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
-              fontColor: '#3b4049',
-
-              // font style, default is defaultFontStyle
-              fontStyle: 'normal',
-
-              // font family, default is defaultFontFamily
-              fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-            }
-
-          ],
+          labels: [plugins_labels_label, plugins_labels_value],
           colorschemes: {
-                scheme: 'office.Berlin6'
-            }
+            scheme: 'office.Berlin6'
+          }
         }
 
       },
@@ -239,7 +186,78 @@ export default Component.extend({
 });
 
 
+const plugins_labels_label = {
+  // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+  render: 'label',
 
+  // precision for percentage, default is 0
+  precision: 0,
+
+  // identifies whether or not labels of value 0 are displayed, default is false
+  showZero: true,
+
+  // font size, default is defaultFontSize
+  fontSize: 12,
+
+  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+  fontColor: '#000000',
+
+  // font style, default is defaultFontStyle
+  fontStyle: 'normal',
+
+  // font family, default is defaultFontFamily
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+  // draw text shadows under labels, default is false
+  textShadow: false,
+
+  // text shadow intensity, default is 6
+  shadowBlur: 10,
+
+  // text shadow X offset, default is 3
+  shadowOffsetX: -5,
+
+  // text shadow Y offset, default is 3
+  shadowOffsetY: 5,
+
+  // text shadow color, default is 'rgba(0,0,0,0.3)'
+  shadowColor: 'rgba(255,0,0,0.75)',
+
+  // draw label in arc, default is false
+  // bar chart ignores this
+  arc: false,
+
+  // position to draw label, available value is 'default', 'border' and 'outside'
+  // bar chart ignores this
+  // default is 'default'
+  position: 'default',
+
+  // draw label even it's overlap, default is true
+  // bar chart ignores this
+  overlap: false,
+
+  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+  showActualPercentages: true,
+
+  // add padding when position is `outside`
+  // default is 2
+  outsidePadding: 4,
+
+  // add margin of text when position is `outside` or `border`
+  // default is 2
+  textMargin: 4
+};
+const plugins_labels_value = {
+  render: 'value',
+  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+  fontColor: '#000000',
+  overlap: false,
+  // font style, default is defaultFontStyle
+  fontStyle: 'normal',
+  position: 'border',
+  // font family, default is defaultFontFamily
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+};
 
 var colorPalette = ['#8883FD', '#7AE6CC', '#DBFA8E', '#EBC791', '#FD83A7'];
 

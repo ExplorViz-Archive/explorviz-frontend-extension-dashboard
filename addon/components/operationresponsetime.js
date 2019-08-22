@@ -37,14 +37,32 @@ export default Component.extend({
 
       var labels = [];
       var data = [];
+
+      if (backendData.length == 0) {
+        this.set('timestampLandscape', -1);
+      }
+
       backendData.forEach(element => {
         labels.push(element.get('operationName'));
         data.push(element.get('averageResponseTime'));
+        this.set('timestampLandscape', element.get('timestampLandscape'));
       });
 
       var chart = this.get('chart');
 
       if (chart != null) {
+
+        if (labels.length == 0 && data.length == 0) {
+
+          labels = ['no operation in the latest landscape'];
+          data = [1];
+
+          //disable the number on the chart
+          chart.options.plugins.labels = plugins_labels_label;
+        }else {
+          chart.options.plugins.labels = [plugins_labels_label, plugins_labels_value];
+        }
+
         chart.data.labels = labels;
         chart.data.datasets[0].data = data;
         chart.update();
@@ -75,7 +93,7 @@ export default Component.extend({
         aspectRatio: 1,
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
+          bodyFontColor: "#000000",
           borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
@@ -84,61 +102,13 @@ export default Component.extend({
           caretPadding: 10,
         },
         legend: {
-          display: true
+          display: true,
+          fontColor: "#000000",
         },
         cutoutPercentage: 0,
 
         plugins: {
-          labels: [{
-              // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
-              render: 'label',
-
-              // identifies whether or not labels of value 0 are displayed, default is false
-              showZero: true,
-              fontSize: 12,
-              fontColor: '#3b4049',
-              fontStyle: 'normal',
-              fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-              shadowBlur: 10,
-              shadowOffsetX: -5,
-              shadowOffsetY: 5,
-              shadowColor: 'rgba(255,0,0,0.75)',
-
-
-
-              // position to draw label, available value is 'default', 'border' and 'outside'
-              // bar chart ignores this
-              // default is 'default'
-              position: 'outside',
-
-              // draw label even it's overlap, default is true
-              // bar chart ignores this
-              overlap: true,
-
-              // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
-              showActualPercentages: true,
-
-              // add padding when position is `outside`
-              // default is 2
-              outsidePadding: 4,
-
-              // add margin of text when position is `outside` or `border`
-              // default is 2
-              textMargin: 4
-            },
-            {
-              render: 'value',
-              // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
-              fontColor: '#3b4049',
-
-              // font style, default is defaultFontStyle
-              fontStyle: 'normal',
-
-              // font family, default is defaultFontFamily
-              fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-            }
-
-          ],
+          labels: [plugins_labels_label, plugins_labels_value],
           colorschemes: {
             scheme: 'tableau.ClassicCyclic13'
           }
@@ -180,3 +150,54 @@ export default Component.extend({
 
   layout
 });
+
+const plugins_labels_label = {
+  // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+  render: 'label',
+
+  // identifies whether or not labels of value 0 are displayed, default is false
+  showZero: true,
+  fontSize: 12,
+  fontColor: '#000000',
+  fontStyle: 'normal',
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+  shadowBlur: 10,
+  shadowOffsetX: -5,
+  shadowOffsetY: 5,
+  shadowColor: 'rgba(255,0,0,0.75)',
+
+
+
+  // position to draw label, available value is 'default', 'border' and 'outside'
+  // bar chart ignores this
+  // default is 'default'
+  position: 'default',
+
+  // draw label even it's overlap, default is true
+  // bar chart ignores this
+  overlap: false,
+
+  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+  showActualPercentages: true,
+
+  // add padding when position is `outside`
+  // default is 2
+  outsidePadding: 4,
+
+  // add margin of text when position is `outside` or `border`
+  // default is 2
+  textMargin: 4
+};
+
+const plugins_labels_value = {
+  render: 'value',
+  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
+  overlap: false,
+  fontColor: '#000000',
+  position: 'border',
+  // font style, default is defaultFontStyle
+  fontStyle: 'normal',
+
+  // font family, default is defaultFontFamily
+  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+};

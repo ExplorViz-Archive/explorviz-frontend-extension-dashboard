@@ -26,8 +26,11 @@
    <div class="card-body">
 
 
+     <div>
+        <canvas id="totaloverviewChart{{this.elementId}}" height="300"></canvas>
 
-
+     </div>
+     <!--
      <div class="chart-pie pt-4">
        <div class="chartjs-size-monitor">
          <div class="chartjs-size-monitor-expand">
@@ -35,8 +38,11 @@
            <div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
         <canvas id="totaloverviewChart{{this.elementId}}" width="275" height="253" class="chartjs-render-monitor" style="display: block; width: 275px; height: 253px;"></canvas>
       </div>
+      -->
 
-
+      <div>
+        <span class="badge badge-pill badge-success">Timestamp: {{date this.timestampLandscape}}</span>
+      </div>
 
 
    </div>

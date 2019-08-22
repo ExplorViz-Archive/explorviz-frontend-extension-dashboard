@@ -2,7 +2,7 @@ import DS from 'ember-data';
 const { Model } = DS;
 
 export default Model.extend({
-  landscapeID: DS.attr('string'),
+  timestampLandscape: DS.attr('number'),
 	className: DS.attr('string'),
 	instances: DS.attr('number')
 });
