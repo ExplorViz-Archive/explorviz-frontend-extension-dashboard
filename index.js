@@ -4,11 +4,12 @@ module.exports = {
   name: require('./package').name,
 
   isDevelopingAddon() {
-   return true;
- },
+    return true;
+  },
 
   included() {
     this._super.included.apply(this, arguments);
+
 
     this.import('node_modules/startbootstrap-sb-admin-2/css/sb-admin-2.css');
     this.import('node_modules/startbootstrap-sb-admin-2/js/sb-admin-2.js');
@@ -52,8 +53,8 @@ module.exports = {
     //new new labels piechart
     this.import('node_modules/chartjs-plugin-piechart-outlabels/dist/chartjs-plugin-piechart-outlabels.js');
 
-    
 
+        this.import('node_modules/randomcolor/randomColor.js');
 
 
     //Bei zukünfiten imports auf // und \\ achten ! verwirrend

@@ -14,6 +14,8 @@ export default Component.extend({
   },
 
   initWidget: task(function*() {
+
+
     yield this.get('createChart').perform();
     yield this.get('queryData').perform();
     this.get('queryDataLoop').perform();
@@ -65,6 +67,7 @@ export default Component.extend({
 
         chart.data.labels = labels;
         chart.data.datasets[0].data = data;
+        chart.data.datasets[0].backgroundColor = randomColor(data.length);
         chart.update();
       }
 
@@ -83,7 +86,7 @@ export default Component.extend({
         datasets: [{
           data: [1],
           //backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          //backgroundColor: randomColorArray(1),
+          backgroundColor: randomColor(1),
           //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
           //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
@@ -107,7 +110,7 @@ export default Component.extend({
               var indice = tooltipItem.index;
               var result = [];
               result.push('Operation: ' + data.labels[indice]);
-              result.push('Response time: ' + data.datasets[0].data[indice] + ' ns');
+              result.push('Response time: ' + displayNumber(data.datasets[0].data[indice]));
 
               return result;
             }
@@ -121,8 +124,8 @@ export default Component.extend({
         cutoutPercentage: 0,
 
         plugins: {
-
-          labels: [ /*plugins_labels_label, */ plugins_labels_value],
+          labels: false,
+          //labels: [ /*plugins_labels_label, */ plugins_labels_value],
           colorschemes: {
             scheme: 'tableau.ClassicCyclic13'
           },
@@ -141,12 +144,18 @@ export default Component.extend({
               return context.chart.data.labels[context.dataIndex];
             },
 
-          }
-          */
+          },*/
+
           outlabels: {
-            text: '%l %p',
-            color: 'white',
-            stretch: 45,
+            text: function(context) {
+              var index = context.dataIndex;
+              var value = context.dataset.data[index];
+              var label = context.labels[index];
+
+              return label + " " + displayNumber(value);
+            },
+            color: 'black',
+            stretch: 30,
             font: {
               resizable: true,
               minSize: 12,
@@ -233,6 +242,57 @@ const plugins_labels_label = {
   textMargin: 4
 };
 */
+function displayNumber(num) {
+  var len = num.toString().length;
+
+  //seconds
+  if (len >= 10) {
+    num = num / 1000000000;
+    return num.toFixed(2) + "s";
+  }
+
+  //milliseconds
+  if (len >= 7) {
+    num = num / 1000000;
+    return num.toFixed(2) + ' ms';
+  }
+
+  //microseconds
+  if (len >= 4) {
+    num = num / 1000;
+    return num.toFixed(2) + ' μs';
+  }
+
+  return num + ' ns';
+}
+
+function randomColor(count) {
+  var colors = //['#8DA0E3', '#4B2CB6', '#4682DA', '#FBB2C6', '#FE5BBA', '#D43BC9', '#E23839', '#4ADCB8', '#DA6500', '#E3F400', '	#F02F6F', '#E67B30', '#718BFF', '#F4B3D5', '#E27074', '#EF7BA7', '#DABB25',
+    //'#F0D195', '#A9FEE3', '#39C176', '#103BEC', '#F9CBF9', '#62DA39', '#0D428F', '#AA342A', '#FFC4EF', '	#62DA3C', '#FCDFB5', '#A60F0C', '#A3093C', '#A3B507', '#3034E5', '#93F688', '#99DF76',
+    ['#EBA1BA', '	#065488', '#CEAB35', '#69B2CB', '#AACE00', '#03E35F', '#D75CE1', '#98C3DE', '#0187BA', '#FFCDC2', '#6BFBD1', '#ACD7E8', '#E96EE3', '#F187AD', '#FAE28A', '#E9B084', '#0067D8'
+  ];
+  var result = [];
+
+  /*
+  for (var i = 0; i <= count; i++) {
+    var random = getRandomInt(colors.length);
+    result.push(colors[random]);
+  }
+  */
+
+  for (var i = 0; i <= count; i++) {
+    result.push(colors[(i + 10) % colors.length]);
+  }
+
+
+  return result;
+
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+/*
 const plugins_labels_value = {
   render: 'value',
   // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
@@ -271,3 +331,4 @@ const plugins_labels_value = {
     return args.value + ' ns';
   }
 };
+*/
