@@ -4,8 +4,9 @@ export function initialize(appInstance) {
 
   const service = appInstance.lookup("service:page-setup");
 
-  if(service){
+  if (service) {
     service.get("navbarRoutes").push("dashboard");
+    Chart.plugins.unregister(ChartDataLabels);
   }
 
   Router.map(function() {

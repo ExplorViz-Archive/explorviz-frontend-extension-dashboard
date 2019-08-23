@@ -126,7 +126,8 @@ export default Component.extend({
             realtime: {
               duration: 29100, //20000 default
               //ttl: 1800000, //hold data for 30 min
-              ttl: 86400000, //hold data for 1 day
+              //ttl: 86400000, //hold data for 1 day
+              ttl: 21600000, //hold data for 1/4 day 6 hours
               refresh: 10000,
               delay: 15000
             }
@@ -155,7 +156,7 @@ export default Component.extend({
             x: undefined
           },
           rangeMin: {
-            x: 0
+            x: undefined
           }
         },
         zoom: {
@@ -167,6 +168,10 @@ export default Component.extend({
           rangeMin: {
             x: 1000
           }
+        },
+
+        plugins: {
+          outlabels: false,
         }
 
       }

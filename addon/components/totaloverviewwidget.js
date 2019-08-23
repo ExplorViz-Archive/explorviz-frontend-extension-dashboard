@@ -97,6 +97,7 @@ export default Component.extend({
         cutoutPercentage: 60,
 
         plugins: {
+          outlabels: false,
           labels: [{
               render: 'value',
               // font color, can be color array for each data or function for dynamic color, default is defaultFontColor

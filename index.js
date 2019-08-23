@@ -25,6 +25,14 @@ module.exports = {
 
     this.import('node_modules/chartjs-plugin-labels/build/chartjs-plugin-labels.min.js');
 
+    //new plugins_labels_label
+    this.import('node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js');
+
+    //this.import('vendor/chartjs-plugin-piechart-outlabels.js');
+
+
+
+
     this.import('node_modules/bootstrap/dist/css/bootstrap.css');
 
     //for chart js line charts: zoom on x axis and realtime data reload
@@ -41,9 +49,10 @@ module.exports = {
 
 
 
+    //new new labels piechart
+    this.import('node_modules/chartjs-plugin-piechart-outlabels/dist/chartjs-plugin-piechart-outlabels.js');
 
-
-
+    
 
 
 

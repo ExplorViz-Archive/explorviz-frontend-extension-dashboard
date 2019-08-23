@@ -137,7 +137,8 @@ export default Controller.extend({
     },
 
     //action for the save Button. save the active widget list in the backend
-    saveData() {
+    saveData(event) {
+      event.target.disabled = true;
       const myStore = this.get('store');
       var list = this.get('instantiatedWidgets');
 
@@ -186,8 +187,9 @@ export default Controller.extend({
 
     },
 
-    cancel() {
+    cancel(event) {
       //redirect to the dashboard
+      event.target.disabled = true;
       this.transitionToRoute('dashboard');
     }
 

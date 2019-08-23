@@ -142,6 +142,7 @@ export default Component.extend({
         cutoutPercentage: 0,
 
         plugins: {
+          outlabels: false,
           labels: [plugins_labels_label, plugins_labels_value],
           colorschemes: {
             scheme: 'office.Berlin6'

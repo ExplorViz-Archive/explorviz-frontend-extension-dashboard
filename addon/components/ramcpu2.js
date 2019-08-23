@@ -219,6 +219,7 @@ export default Component.extend({
         },
         plugins: {
           labels: [plugins_labels_value_cpu],
+          outlabels: false,
         }
 
       },
@@ -300,6 +301,7 @@ export default Component.extend({
 
         plugins: {
           labels: [plugins_labels_value_ram],
+          outlabels: false,
         }
 
 

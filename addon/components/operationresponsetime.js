@@ -58,9 +58,9 @@ export default Component.extend({
           data = [1];
 
           //disable the number on the chart
-          chart.options.plugins.labels = plugins_labels_label;
-        }else {
-          chart.options.plugins.labels = [plugins_labels_label, plugins_labels_value];
+          //chart.options.plugins.labels = plugins_labels_label;
+        } else {
+          //chart.options.plugins.labels = [plugins_labels_label, plugins_labels_value];
         }
 
         chart.data.labels = labels;
@@ -77,7 +77,7 @@ export default Component.extend({
 
     var myPieChart = document.getElementById('operationresponsetimeCanvas_' + this.elementId);
     var chart = new Chart(myPieChart, {
-      type: 'pie',
+      type: 'outlabeledPie',
       data: {
         labels: ['no landscape available'],
         datasets: [{
@@ -88,6 +88,7 @@ export default Component.extend({
           //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
       },
+      plugins: [ChartDataLabels],
       options: {
         maintainAspectRatio: false,
         aspectRatio: 1,
@@ -100,6 +101,18 @@ export default Component.extend({
           yPadding: 15,
           displayColors: false,
           caretPadding: 10,
+
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var indice = tooltipItem.index;
+              var result = [];
+              result.push('Operation: ' + data.labels[indice]);
+              result.push('Response time: ' + data.datasets[0].data[indice] + ' ns');
+
+              return result;
+            }
+          }
+
         },
         legend: {
           display: true,
@@ -108,11 +121,40 @@ export default Component.extend({
         cutoutPercentage: 0,
 
         plugins: {
-          labels: [plugins_labels_label, plugins_labels_value],
+
+          labels: [ /*plugins_labels_label, */ plugins_labels_value],
           colorschemes: {
             scheme: 'tableau.ClassicCyclic13'
+          },
+          datalabels: false,
+          /*
+          datalabels: {
+            color: "#000000",
+            anchor: 'end',
+            align: 'end',
+            offset: 10,
+            display: 'auto',
+            font: {
+              family: 'Arial',
+            },
+            formatter: function(value, context) {
+              return context.chart.data.labels[context.dataIndex];
+            },
+
+          }
+          */
+          outlabels: {
+            text: '%l %p',
+            color: 'white',
+            stretch: 45,
+            font: {
+              resizable: true,
+              minSize: 12,
+              maxSize: 18
+            }
           }
         }
+
 
       },
     });
@@ -151,6 +193,7 @@ export default Component.extend({
   layout
 });
 
+/*
 const plugins_labels_label = {
   // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
   render: 'label',
@@ -171,11 +214,11 @@ const plugins_labels_label = {
   // position to draw label, available value is 'default', 'border' and 'outside'
   // bar chart ignores this
   // default is 'default'
-  position: 'default',
+  position: 'outside',
 
   // draw label even it's overlap, default is true
   // bar chart ignores this
-  overlap: false,
+  overlap: true,
 
   // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
   showActualPercentages: true,
@@ -186,9 +229,10 @@ const plugins_labels_label = {
 
   // add margin of text when position is `outside` or `border`
   // default is 2
+  //textMargin: 4
   textMargin: 4
 };
-
+*/
 const plugins_labels_value = {
   render: 'value',
   // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
@@ -200,4 +244,30 @@ const plugins_labels_value = {
 
   // font family, default is defaultFontFamily
   fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+  render: function(args) {
+    console.log(args.value);
+    var num = args.value;
+    var len = num.toString().length;
+
+    //seconds
+    if (len >= 10) {
+      num = num / 1000000000;
+      return num.toFixed(2) + "s";
+    }
+
+    //milliseconds
+    if (len >= 7) {
+      num = num / 1000000;
+      return num.toFixed(2) + ' ms';
+    }
+
+    //microseconds
+    if (len >= 4) {
+      num = num / 1000;
+      return num.toFixed(2) + ' μs';
+    }
+
+    return args.value + ' ns';
+  }
 };
