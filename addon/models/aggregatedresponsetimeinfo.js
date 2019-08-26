@@ -3,5 +3,5 @@ const { Model } = DS;
 
 export default Model.extend({
   timestampLandscape:  DS.attr('number'),
-  entrys: DS.attr('number')
+  entries: DS.attr('number')
 });

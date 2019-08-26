@@ -23,9 +23,9 @@
 
       {{#each this.eventloginfo as |info index|}}
 
-        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false" aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}"><b>Landscape:</b>
+        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}_{{this.elementId}}" aria-expanded="false" aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}_{{this.elementId}}"><b>Landscape:</b>
           {{date info.timestampLandscape}} <b>Events:</b> {{info.amountEvents}}</li>
-        {{eventlogtabel class="collapse multi-collapse" id=(concat (concat (concat 'eventlogtableindex_' index) '_') info.timestampLandscape)}}
+        {{eventlogtabel class="collapse multi-collapse" id=(concat (concat (concat (concat (concat 'eventlogtableindex_' index) '_') info.timestampLandscape) '_') this.elementId)}}
       {{/each}}
 
 

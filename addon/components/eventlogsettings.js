@@ -57,7 +57,7 @@ export default Component.extend({
 
     this.set('entries', text);
 
-    let post = store.createRecord('eventlogsetting', {
+    let post = yield store.createRecord('eventlogsetting', {
       instanceID: this.elementId,
       entries: this.get('entries'),
     });
@@ -66,10 +66,14 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  saveData: task(function*() {
+    yield this.get('postRequestEventLogSettings').perform();
+    this.get('router').transitionTo('dashboard');
+  }).on('activate').cancelOn('deactivate').drop(),
+
   actions: {
     saveData() {
-      this.get('postRequestEventLogSettings').perform();
-      this.get('router').transitionTo('dashboard');
+      this.get('saveData').perform();
     },
 
     cancel() {

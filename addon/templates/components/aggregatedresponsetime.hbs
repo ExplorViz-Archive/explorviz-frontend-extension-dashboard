@@ -5,12 +5,12 @@
     <h6 class="m-0 font-weight-bold text-primary">Aggregated response time</h6>
     {{paused}}
     {{#if paused}}
-      <div onclick={{action "refresh"}}>
-        <i class="fas fa-pause-circle" onclick={{action "refresh"}}></i>
+      <div onclick={{action "refresh"}} style="float:left; position: relative;">
+        <i class="fas fa-play-circle"></i>
       </div>
     {{else}}
-      <div onclick={{action "refresh"}}>
-        <i class="fas fa-play-circle"></i>
+      <div onclick={{action "refresh"}} style="float:left; position: relative;">
+        <i class="fas fa-pause-circle"></i>
       </div>
     {{/if}}
 
@@ -29,13 +29,13 @@
   </div>
   <!-- Card Body -->
   <div class="card-body" style="overflow: auto; height: 600px;">
-    <ul class="list-group">
+    <ul class="list-group" style="display: grid;">
 
       {{#each this.aggregatedresponsetimeinfo as |info index|}}
 
         <li class="list-group-item" data-toggle="collapse" data-target="#aggregatedresponsetimetableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false"
           aria-controls="aggregatedresponsetimetableindex_{{index}}_{{info.timestampLandscape}}"><b>Landscape:</b>
-          {{date info.timestampLandscape}} <b>Entrys:</b> {{info.entrys}}</li>
+          {{date info.timestampLandscape}} <b>Entries:</b> {{info.entries}}</li>
         {{aggregatedresponsetimetable class="collapse multi-collapse" id=(concat (concat (concat 'aggregatedresponsetimetableindex_' index) '_') info.timestampLandscape)}}
       {{/each}}
 

@@ -25,16 +25,14 @@ export default Component.extend({
 
 
   initWidget: task(function*() {
-    //yield this.get('queryEventLogSettings').perform();
-    yield this.get('queryCurrent').perform();
     this.get('queryLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
   queryLoop: task(function*() {
     while (!this.get('paused')) {
-      yield timeout(10000);
       yield this.get('queryCurrent').perform();
+      yield timeout(10000);
     }
 
   }).on('activate').cancelOn('deactivate').drop(),
@@ -52,6 +50,8 @@ export default Component.extend({
     refresh() {
       if(this.get('paused')){
         this.set('paused', false);
+        //starts the "thread" if its already closed
+        this.get('queryLoop').perform();
       }else{
         this.set('paused', true);
       }
