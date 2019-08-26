@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-
 //a list of all available widgets that are currently in the dashboard expension
 var widgetNameList = [{
     widget: 'activeclassinstances',
@@ -38,6 +37,10 @@ var widgetNameList = [{
   }, {
     widget: 'operationresponsetime',
     displayName: 'Operation response time',
+    description: ''
+  }, {
+    widget: 'aggregatedresponsetime',
+    displayName: 'Aggregated response time',
     description: ''
   }
 ];
@@ -94,7 +97,7 @@ export default Route.extend({
         if (element != null) {
           var displayName = element.displayName;
         } else {
-          displayName = "Empty"
+          displayName = "Select a available Widget"
         }
 
 

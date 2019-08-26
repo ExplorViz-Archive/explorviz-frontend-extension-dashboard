@@ -56,7 +56,7 @@ What is the meaning of life? Answer: {{result}}
         <div id="activeWidgetList" style="width: 40%; float: right; position: relative;">
           <ul class="list-group">
             {{#each this.instantiatedWidgets as |widgetList|}}
-              <li id="{{widgetList.widget}} {{widgetList.id}}" class="list-group-item" onclick={{action "listClickRight"}}>{{widgetList.displayName}} (id: {{widgetList.id}})</li>
+              <li id="{{widgetList.widget}} {{widgetList.id}}" class="list-group-item" onclick={{action "listClickRight"}}>{{widgetList.displayName}} (No. {{add widgetList.id 1}})</li>
             {{/each}}
           </ul>
         </div>

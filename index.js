@@ -54,7 +54,7 @@ module.exports = {
     this.import('node_modules/chartjs-plugin-piechart-outlabels/dist/chartjs-plugin-piechart-outlabels.js');
 
 
-        this.import('node_modules/randomcolor/randomColor.js');
+    //this.import('node_modules/randomcolor/randomColor.js');
 
 
     //Bei zukünfiten imports auf // und \\ achten ! verwirrend

@@ -1,0 +1,27 @@
+<div class="card card-body">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Total Requests</th>
+        <th scope="col">Average response time</th>
+        <th scope="col">Source Clazz</th>
+        <th scope="col">Target Clazz</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {{#each this.tableData as |item index|}}
+        <tr>
+          <th scope="row">{{index}}</th>
+          <td>{{item.totalRequests}}</td>
+          <td>{{item.averageResponseTime}}</td>
+          <td>{{item.sourceClazzFullName}}</td>
+          <td>{{item.targetClazzFullName}}</td>
+        </tr>
+      {{/each}}
+
+    </tbody>
+  </table>
+
+</div>

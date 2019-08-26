@@ -7,5 +7,16 @@ export default DS.JSONAPIAdapter.extend({
 
 	pathForType(type) {
     return underscore(type);
-  }
+  },
+
+	/*
+	buildURL (modelName, id, snapshot, requestType, query){
+		console.log(modelName);
+		console.log(id);
+		console.log(snapshot);
+		console.log(requestType);
+		console.log(query);
+		return this.get('host') + "/" +this.get('namespace') + "/" + modelName + "?";
+	}
+	*/
 });

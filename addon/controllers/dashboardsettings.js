@@ -7,6 +7,7 @@ import {
   timeout
 } from 'ember-concurrency';
 
+
 var clickedWidgetsLeft = [];
 
 var clickedWidgetsRight = [];
@@ -89,7 +90,7 @@ export default Controller.extend({
         newList = [{
           id: 0,
           widget: 'empty',
-          displayName: "Empty"
+          displayName: "Select a available Widget"
         }];
       }
 
@@ -133,6 +134,13 @@ export default Controller.extend({
         id++;
         this.set('idGenerator', id);
       }, this);
+
+
+      //removing the active class from the left list, so its not selected anymore
+      $(".active").removeClass("active");
+      clickedWidgetsLeft = [];
+
+
 
     },
 
@@ -196,9 +204,9 @@ export default Controller.extend({
   }
 });
 
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover({
-        placement : 'right',
-        trigger : 'hover'
-    });
+$(document).ready(function() {
+  $('[data-toggle="popover"]').popover({
+    placement: 'right',
+    trigger: 'hover'
+  });
 });

@@ -50,10 +50,14 @@
 
 
         {{#each this.widgets as |widgetList|}}
-        <!--
+          <!--
           {{component widgetList.widgetName id=widgetList.instanceID class="col-xl-4 col-lg-5 row-eq-height"}}
         -->
-        {{component widgetList.widgetName id=widgetList.instanceID class="col-xl-4 col-lg-5"}}
+          {{#if (isnotequal widgetList.widgetName "empty")}}
+            {{component widgetList.widgetName id=widgetList.instanceID class="col-xl-4 col-lg-5"}}
+          {{/if}}
+
+
 
         {{/each}}
 
