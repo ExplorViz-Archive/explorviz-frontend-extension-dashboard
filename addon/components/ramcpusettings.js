@@ -104,6 +104,7 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   postRequestRamCpuSetting: task(function*(nodeName) {
+    var store = this.get('store');
     let post = store.createRecord('ramcpusetting', {
       instanceID: this.elementId,
       nodeName: nodeName,
@@ -132,7 +133,7 @@ export default Component.extend({
     },
 
     cancelBtn() {
-    
+
       this.get('router').transitionTo('dashboard');
     }
   },
