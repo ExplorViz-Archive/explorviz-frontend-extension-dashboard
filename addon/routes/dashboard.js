@@ -7,6 +7,7 @@ import {
   inject as service
 } from "@ember/service";
 
+
 var userID = 0;
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
@@ -68,7 +69,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
       controller.set('widgets', tempData);
 
-    
+
 
 
     });
