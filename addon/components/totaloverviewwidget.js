@@ -72,9 +72,9 @@ export default Component.extend({
         labels: ["no landscape available"],
         datasets: [{
           data: [1],
-          backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          hoverBorderColor: "rgba(234, 236, 244, 1)",
+          backgroundColor: ['#FFC107', '#1E88E5', '#D81B60'],
+          //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+          //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
       },
       options: {

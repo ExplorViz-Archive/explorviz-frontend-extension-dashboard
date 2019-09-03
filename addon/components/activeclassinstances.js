@@ -4,6 +4,7 @@ import {
   task,
   timeout
 } from 'ember-concurrency';
+import color from '../utils/color';
 
 //import 'chartjs-plugin-labels';
 
@@ -81,6 +82,7 @@ export default Component.extend({
 
           chart.data.labels = labels;
           chart.data.datasets[0].data = data;
+          chart.data.datasets[0].backgroundColor = color(data.length);
           //chart.data.datasets[0].backgroundColor = randomColorArray(data.get('length'));
 
           var displayLegend = true;

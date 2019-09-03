@@ -4,6 +4,7 @@ import {
   task,
   timeout
 } from 'ember-concurrency';
+import color from '../utils/color';
 
 export default Component.extend({
   store: Ember.inject.service(),
@@ -67,7 +68,8 @@ export default Component.extend({
 
         chart.data.labels = labels;
         chart.data.datasets[0].data = data;
-        chart.data.datasets[0].backgroundColor = randomColor(data.length);
+        chart.data.datasets[0].backgroundColor = color(data.length);
+        //chart.data.datasets[0].backgroundColor = randomColor(data.length);
         chart.update();
       }
 
@@ -126,9 +128,11 @@ export default Component.extend({
         plugins: {
           labels: false,
           //labels: [ /*plugins_labels_label, */ plugins_labels_value],
+          /*
           colorschemes: {
             scheme: 'tableau.ClassicCyclic13'
           },
+          */
           datalabels: false,
           /*
           datalabels: {

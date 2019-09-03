@@ -8,11 +8,18 @@ import {
   set
 } from '@ember/object';
 
-
+/*
 const chartColors = {
   GREEN: 'rgba(66, 245, 123, 1)',
   YELLOW: 'rgba(239, 245, 66, 1)',
   RED: 'rgba(245, 66, 93, 1)',
+}*/
+
+const chartColors = {
+  GREEN: 'rgba(30, 136, 229, 1)',
+  YELLOW: 'rgba(255, 193, 7, 1)',
+  RED: 'rgba(216, 27, 96, 1)',
+
 }
 
 
