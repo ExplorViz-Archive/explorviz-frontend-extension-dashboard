@@ -91,6 +91,7 @@ export default Component.extend({
             freeRam = element.get('freeRam');
 
             totalRam = freeRam + usedRam;
+            console.log(cpuUtilization);
           }
 
         });
