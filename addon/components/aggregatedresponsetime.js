@@ -47,12 +47,17 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+
+    pause() {
+      this.set('paused', true);
+    },
+
     refresh() {
-      if(this.get('paused')){
+      if (this.get('paused')) {
         this.set('paused', false);
         //starts the "thread" if its already closed
         this.get('queryLoop').perform();
-      }else{
+      } else {
         this.set('paused', true);
       }
     },

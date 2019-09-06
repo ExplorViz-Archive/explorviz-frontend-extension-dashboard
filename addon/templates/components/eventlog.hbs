@@ -2,7 +2,16 @@
 <div class="card shadow mb-4">
   <!-- Card Header - Dropdown -->
   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-    <h6 class="m-0 font-weight-bold text-primary">Event Log <button onclick={{action "refresh"}} class="btn btn-primary">REFRESH</button></h6>
+    <h6 class="m-0 font-weight-bold text-primary">Event Log
+
+
+      {{#if paused}}
+        <button onclick={{action "resume"}} class="btn btn-primary">RESUME</button>
+      {{else}}
+        <button onclick={{action "pause"}} class="btn btn-primary">PAUSE</button>
+      {{/if}}
+
+    </h6>
 
     <div class="dropdown no-arrow">
       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -23,7 +32,8 @@
 
       {{#each this.eventloginfo as |info index|}}
 
-        <li class="list-group-item" data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}_{{this.elementId}}" aria-expanded="false" aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}_{{this.elementId}}"><b>Landscape:</b>
+        <li class="list-group-item" onclick={{action "eventItemClick"}} data-toggle="collapse" data-target="#eventlogtableindex_{{index}}_{{info.timestampLandscape}}_{{this.elementId}}" aria-expanded="false"
+          aria-controls="eventlogtableindex_{{index}}_{{info.timestampLandscape}}_{{this.elementId}}"><b>Landscape:</b>
           {{date info.timestampLandscape}} <b>Events:</b> {{info.amountEvents}}</li>
         {{eventlogtabel class="collapse multi-collapse" id=(concat (concat (concat (concat (concat 'eventlogtableindex_' index) '_') info.timestampLandscape) '_') this.elementId)}}
       {{/each}}

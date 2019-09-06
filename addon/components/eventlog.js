@@ -11,7 +11,7 @@ export default Component.extend({
 
   store: Ember.inject.service(),
 
-
+  paused: false,
 
   didInsertElement() {
     this._super(...arguments);
@@ -29,7 +29,15 @@ export default Component.extend({
 
   initWidget: task(function*() {
     yield this.get('queryEventLogSettings').perform();
-    yield this.get('queryCurrent').perform();
+    yield this.get('loop').perform();
+
+  }).on('activate').cancelOn('deactivate').drop(),
+
+  loop: task(function*() {
+    while (!this.get('paused')) {
+      yield this.get('queryCurrent').perform();
+      yield timeout(10000);
+    }
 
   }).on('activate').cancelOn('deactivate').drop(),
 
@@ -56,6 +64,19 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    eventItemClick() {
+      this.set('paused', true);
+    },
+
+    pause() {
+        this.set('paused', true);
+    },
+
+    resume() {
+        this.set('paused', false);
+        this.get('loop').perform();
+    },
+
     refresh() {
       this.get('queryCurrent').perform();
     },

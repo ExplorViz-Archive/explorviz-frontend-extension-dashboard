@@ -31,7 +31,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
         <div class="dropdown-header">Konfiguration:</div>
-        <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="aggregatedresponsetime" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
+        <!--<a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="aggregatedresponsetime" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>-->
         <a class="dropdown-item" href="#" onclick={{action "remove"}}>Remove</a>
 
 
@@ -44,7 +44,7 @@
 
       {{#each this.aggregatedresponsetimeinfo as |info index|}}
 
-        <li class="list-group-item" data-toggle="collapse" data-target="#aggregatedresponsetimetableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false"
+        <li class="list-group-item" onclick={{action "pause"}} data-toggle="collapse" data-target="#aggregatedresponsetimetableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false"
           aria-controls="aggregatedresponsetimetableindex_{{index}}_{{info.timestampLandscape}}"><b>Landscape:</b>
           {{date info.timestampLandscape}} <b>Entries:</b> {{info.entries}}</li>
         {{aggregatedresponsetimetable class="collapse multi-collapse" id=(concat (concat (concat 'aggregatedresponsetimetableindex_' index) '_') info.timestampLandscape)}}

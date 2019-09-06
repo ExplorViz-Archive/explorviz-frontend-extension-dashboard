@@ -25,23 +25,23 @@ var widgetNameList = [{
   {
     widget: 'totalrequests2',
     displayName: 'Total requests',
-    description: ''
+    description: 'This widget shows the total requests inside a software landscape. The visualisation is one with a linediagramm. It will load in automatically the newest landscape and shows the totale requests of older landscapes too. You can interact with the widget with scrolling and zooming.'
   }, {
     widget: 'ramcpu2',
     displayName: 'CPU RAM',
-    description: ''
+    description: 'This widget shows the CPU and RAM utilisation of a selected node. You can change the selected node inside the widget settings (top right corner).'
   }, {
     widget: 'eventlog',
     displayName: 'Eventlog',
-    description: ''
+    description: 'This widgets shows u a list of all landscapes that triggered events. If u select a a landscape it will show u a table, which is filled with the different events. You can change the maximal amount of events that is getting loaded inside, if you click the widget settings in the top right corner.'
   }, {
     widget: 'operationresponsetime',
     displayName: 'Operation response time',
-    description: ''
+    description: 'This widget shows u inside a pie chart the operations (functions) that needs the longest time to execute.'
   }, {
     widget: 'aggregatedresponsetime',
     displayName: 'Aggregated response time',
-    description: ''
+    description: 'This widget shows u inside a list all landscapes and the entries about the aggregated response time between classes. If classes call each others operation, it will count them together and show the time that is needed to execute these functions all together.'
   }
 ];
 
