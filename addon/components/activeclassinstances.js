@@ -14,7 +14,7 @@ var numberDisplayed = 5;
 export default Component.extend({
 
   store: Ember.inject.service(),
-
+  modalservice: Ember.inject.service('modal-content'),
 
 
   queryDataLoop: task(function*() {
@@ -158,6 +158,10 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      console.log("loadWidgetInfo");
+      this.get('modalservice').setWidget("activeclassinstances");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
