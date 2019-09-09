@@ -26,6 +26,7 @@ const chartColors = {
 export default Component.extend({
   store: Ember.inject.service(),
   router: Ember.inject.service(),
+  modalservice: Ember.inject.service('modal-content'),
 
   displayName: 'no landscape found',
 
@@ -342,6 +343,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("ramcpu2");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

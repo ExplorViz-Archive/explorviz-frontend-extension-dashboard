@@ -8,6 +8,7 @@ import color from '../utils/color';
 
 export default Component.extend({
   store: Ember.inject.service(),
+  modalservice: Ember.inject.service('modal-content'),
 
   didInsertElement() {
     this._super(...arguments);
@@ -88,7 +89,7 @@ export default Component.extend({
         datasets: [{
           data: [1],
           //backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          backgroundColor: randomColor(1),
+          backgroundColor: color(1),
           //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
           //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
@@ -176,6 +177,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("operationresponsetime-info");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

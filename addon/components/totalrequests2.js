@@ -9,6 +9,7 @@ import {
 export default Component.extend({
 
   store: Ember.inject.service(),
+  modalservice: Ember.inject.service('modal-content'),
 
   init() {
     this._super(...arguments);
@@ -310,6 +311,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("totalrequests2");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

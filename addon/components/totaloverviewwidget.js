@@ -8,7 +8,8 @@ import {
 export default Component.extend({
 
   store: Ember.inject.service(),
-
+  modalservice: Ember.inject.service('modal-content'),
+  
   didInsertElement() {
     this._super(...arguments);
     this.get('initWidget').perform();
@@ -120,6 +121,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("totaloverviewwidget");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

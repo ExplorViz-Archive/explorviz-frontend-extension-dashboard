@@ -1,16 +1,29 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Widget Information</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Widget Information - {{content.widgetName}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <img src="\assets\images\activeclassinstances_info.jpg" alt="MDN">
-        {{content}}
+
+        <b>Description:</b><br>
+        <p>
+          {{content.content}}
+        </p>
+
+        <b>Motivation:</b><br>
+        <p>
+          {{content.motivation}}
+        </p>
+        <br>
+
+        <img src={{content.picturesrc}} alt="no picture" style="width: 100%; height: auto; max-width: 100%;">
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

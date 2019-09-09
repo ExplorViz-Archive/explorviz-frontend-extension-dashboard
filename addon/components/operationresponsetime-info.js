@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import layout from '../templates/components/aggregatedresponsetime';
+import layout from '../templates/components/operationresponsetime-info';
 import {
   task,
   timeout
@@ -8,7 +8,6 @@ import {
 export default Component.extend({
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
-
   paused: false,
 
   didInsertElement() {
@@ -41,16 +40,13 @@ export default Component.extend({
   queryCurrent: task(function*() {
     const myStore = this.get('store');
 
-    var backendData = yield myStore.query('aggregatedresponsetimeinfo', {});
+    var backendData = yield myStore.query('operationresponsetimeinfo', {});
 
-    this.set('aggregatedresponsetimeinfo', backendData);
+    this.set('operationresponsetimeinfo', backendData);
 
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
-      this.get('modalservice').setWidget("aggregatedresponsetime");
-    },
 
     pause() {
       this.set('paused', true);

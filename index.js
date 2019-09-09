@@ -55,7 +55,15 @@ module.exports = {
 
 
     //this.import('node_modules/randomcolor/randomColor.js');
+    this.import('vendor/assets/images/activeclassinstances_info.jpg');
+    this.import('vendor/assets/images/aggregatedresponsetime_info.jpg');
+    this.import('vendor/assets/images/eventlog_info.jpg');
+    this.import('vendor/assets/images/operationresponsetime_info.jpg');
 
+    this.import('vendor/assets/images/programminglanguagesoccurrence_info.jpg');
+    this.import('vendor/assets/images/ramcpu_info.jpg');
+    this.import('vendor/assets/images/totaloverview_info.jpg');
+    this.import('vendor/assets/images/totalrequests_info.jpg');
 
     //Bei zukünfiten imports auf // und \\ achten ! verwirrend
   }

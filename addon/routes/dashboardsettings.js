@@ -35,13 +35,21 @@ var widgetNameList = [{
     displayName: 'Eventlog',
     description: 'This widgets shows u a list of all landscapes that triggered events. If u select a a landscape it will show u a table, which is filled with the different events. You can change the maximal amount of events that is getting loaded inside, if you click the widget settings in the top right corner.'
   }, {
+    widget: 'operationresponsetime-info',
+    displayName: 'Operation response time (table)',
+    description: 'This widget shows u all response times of all operations for each landscape. The data will be shown inside a list/table.'
+  },{
     widget: 'operationresponsetime',
-    displayName: 'Operation response time',
+    displayName: 'Operation response time (pie chart)',
     description: 'This widget shows u inside a pie chart the operations (functions) that needs the longest time to execute.'
   }, {
     widget: 'aggregatedresponsetime',
-    displayName: 'Aggregated response time',
+    displayName: 'Aggregated response time (table)',
     description: 'This widget shows u inside a list all landscapes and the entries about the aggregated response time between classes. If classes call each others operation, it will count them together and show the time that is needed to execute these functions all together.'
+  }, {
+    widget: 'aggregatedresponsetime-pie',
+    displayName: 'Aggregated response time (pie chart)',
+    description: 'This widget shows the aggregated response time between classes. It shows the five highest aggregated communications inside a pie chart.'
   }
 ];
 

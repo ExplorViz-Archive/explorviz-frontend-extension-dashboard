@@ -8,7 +8,7 @@ import {
 export default Component.extend({
 
   store: Ember.inject.service(),
-
+  modalservice: Ember.inject.service('modal-content'),
 
 
   didInsertElement() {
@@ -119,6 +119,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("programminglanguagesoccurrence");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

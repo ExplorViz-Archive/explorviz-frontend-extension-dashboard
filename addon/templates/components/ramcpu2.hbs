@@ -13,7 +13,7 @@
         <a class="dropdown-item" href="#">Widget Settings</a>
         -->
         <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="ramcpu" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
-
+        <a class="dropdown-item" href="#" onclick={{action "loadWidgetInfo"}}>Widget information</a>
         <a class="dropdown-item" href="#" onclick={{action "remove"}}>Remove</a>
 
 

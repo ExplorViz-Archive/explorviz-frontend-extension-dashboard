@@ -1,0 +1,43 @@
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Operation response time (table)
+
+      {{#if paused}}
+        <button onclick={{action "refresh"}} class="btn btn-primary">RESUME</button>
+      {{else}}
+        <button onclick={{action "refresh"}} class="btn btn-primary">PAUSE</button>
+      {{/if}}
+    </h6>
+
+
+    <div class="dropdown no-arrow">
+      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+        <div class="dropdown-header">Konfiguration:</div>
+        <a class="dropdown-item" href="#" onclick={{action "remove"}}>Remove</a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body" style="overflow: auto; height: 600px;">
+    <ul class="list-group" style="display: grid;">
+
+      {{#each this.operationresponsetimeinfo as |info index|}}
+
+        <li class="list-group-item" onclick={{action "pause"}} data-toggle="collapse" data-target="#operationresponsetime-tableindex_{{index}}_{{info.timestampLandscape}}" aria-expanded="false"
+          aria-controls="operationresponsetime-tableindex_{{index}}_{{info.timestampLandscape}}"><b>Landscape:</b>
+          {{date info.timestampLandscape}} <b>Entries:</b> {{info.amount}}</li>
+        {{operationresponsetime-table class="collapse multi-collapse" id=(concat (concat (concat 'operationresponsetime-tableindex_' index) '_') info.timestampLandscape)}}
+      {{/each}}
+
+
+    </ul>
+  </div>
+</div>

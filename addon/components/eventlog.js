@@ -10,6 +10,7 @@ export default Component.extend({
 
 
   store: Ember.inject.service(),
+  modalservice: Ember.inject.service('modal-content'),
 
   paused: false,
 
@@ -64,6 +65,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("eventlog");
+    },
     eventItemClick() {
       this.set('paused', true);
     },

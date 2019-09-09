@@ -20,6 +20,7 @@
       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
         <div class="dropdown-header">Konfiguration:</div>
         <a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="eventlog" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>
+        <a class="dropdown-item" href="#" onclick={{action "loadWidgetInfo"}}>Widget information</a>
         <a class="dropdown-item" href="#" onclick={{action "remove"}}>Remove</a>
 
 
