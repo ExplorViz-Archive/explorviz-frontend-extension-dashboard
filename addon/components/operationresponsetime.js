@@ -178,7 +178,7 @@ export default Component.extend({
 
   actions: {
     loadWidgetInfo(){
-      this.get('modalservice').setWidget("operationresponsetime-info");
+      this.get('modalservice').setWidget("operationresponsetime");
     },
     remove() {
       var ctx = document.getElementById(this.elementId);

@@ -161,6 +161,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("aggregatedresponsetime-pie");
+    },
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

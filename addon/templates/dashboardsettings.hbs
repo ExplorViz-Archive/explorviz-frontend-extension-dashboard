@@ -13,7 +13,7 @@ What is the meaning of life? Answer: {{result}}
 
 -->
 
-
+{{modal}}
 
 <div id="content-wrapper" class="d-flex flex-column" style="height:100%; overflow-y:scroll;">
 
@@ -43,7 +43,10 @@ What is the meaning of life? Answer: {{result}}
         <div id="availableWidgetList" style="width: 40%; float: left">
           <ul class="list-group">
             {{#each this.model as |widgetList|}}
-              <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}} data-container="body" data-toggle="popover" data-placement="right" data-content={{widgetList.description}}>{{widgetList.displayName}}</li>
+              <li id="{{widgetList.widget}}" class="list-group-item" onclick={{action "listClickLeft"}} data-container="body" data-toggle="popover" data-placement="right" data-content={{widgetList.description}}>{{widgetList.displayName}}
+                <i {{action "loadWidgetInfo" widgetList.widget}} class="fas fa-info-circle" style="float: right; cursor:pointer; outline:none;"></i>
+
+              </li>
             {{/each}}
           </ul>
         </div>

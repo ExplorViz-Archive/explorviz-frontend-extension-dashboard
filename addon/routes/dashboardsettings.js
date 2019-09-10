@@ -3,11 +3,13 @@ import Route from '@ember/routing/route';
 var widgetNameList = [{
     widget: 'activeclassinstances',
     displayName: 'Active class instances',
-    description: 'This Widget visualizes the instantiated classes inside a software landscape. It shows how often a class is instantiated. The visualisation is in form of a pie chart and it starts with the highest instantiated class. This widget only shows the newest landscape thats comming inside our system.'
+    description: "This Widget visualizes the instantiated classes inside a software landscape. It shows how often a class is instantiated. The visualisation is in form of a pie chart and it starts with the highest instantiated class. This widget only shows the newest landscape thats comming inside our system.",
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }, {
     widget: 'programminglanguagesoccurrence',
     displayName: 'Programming languages occurrence',
-    description: 'This widget visualizes which programming languages are used inside the software landscape. The visualisation is in form of a doughnut chart. This widget only shows the newest landscape thats comming inside our system.'
+    description: 'This widget visualizes which programming languages are used inside the software landscape. The visualisation is in form of a doughnut chart. This widget only shows the newest landscape thats comming inside our system.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   },
   /*{
   widget: 'ramcpu',
@@ -16,7 +18,8 @@ var widgetNameList = [{
   {
     widget: 'totaloverviewwidget',
     displayName: 'Total overview',
-    description: 'This widget visualizes the amount of the different components (systems, nodes and applications). The visualisation is in form of a doughnut chart. This widget is usefull to get an overview over huge software landscapes. This widget only shows the newest landscape thats comming inside our system.'
+    description: 'This widget visualizes the amount of the different components (systems, nodes and applications). The visualisation is in form of a doughnut chart. This widget is usefull to get an overview over huge software landscapes. This widget only shows the newest landscape thats comming inside our system.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   },
   /* {
     widget: 'totalrequests',
@@ -25,31 +28,38 @@ var widgetNameList = [{
   {
     widget: 'totalrequests2',
     displayName: 'Total requests',
-    description: 'This widget shows the total requests inside a software landscape. The visualisation is one with a linediagramm. It will load in automatically the newest landscape and shows the totale requests of older landscapes too. You can interact with the widget with scrolling and zooming.'
+    description: 'This widget shows the total requests inside a software landscape. The visualisation is one with a linediagramm. It will load in automatically the newest landscape and shows the totale requests of older landscapes too. You can interact with the widget with scrolling and zooming.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }, {
     widget: 'ramcpu2',
     displayName: 'CPU RAM',
-    description: 'This widget shows the CPU and RAM utilisation of a selected node. You can change the selected node inside the widget settings (top right corner).'
+    description: 'This widget shows the CPU and RAM utilisation of a selected node. You can change the selected node inside the widget settings (top right corner).',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }, {
     widget: 'eventlog',
     displayName: 'Eventlog',
-    description: 'This widgets shows u a list of all landscapes that triggered events. If u select a a landscape it will show u a table, which is filled with the different events. You can change the maximal amount of events that is getting loaded inside, if you click the widget settings in the top right corner.'
+    description: 'This widgets shows u a list of all landscapes that triggered events. If u select a a landscape it will show u a table, which is filled with the different events. You can change the maximal amount of events that is getting loaded inside, if you click the widget settings in the top right corner.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }, {
     widget: 'operationresponsetime-info',
     displayName: 'Operation response time (table)',
-    description: 'This widget shows u all response times of all operations for each landscape. The data will be shown inside a list/table.'
+    description: 'This widget shows u all response times of all operations for each landscape. The data will be shown inside a list/table.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   },{
     widget: 'operationresponsetime',
     displayName: 'Operation response time (pie chart)',
-    description: 'This widget shows u inside a pie chart the operations (functions) that needs the longest time to execute.'
+    description: 'This widget shows u inside a pie chart the operations (functions) that needs the longest time to execute.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }, {
     widget: 'aggregatedresponsetime',
     displayName: 'Aggregated response time (table)',
-    description: 'This widget shows u inside a list all landscapes and the entries about the aggregated response time between classes. If classes call each others operation, it will count them together and show the time that is needed to execute these functions all together.'
+    description: 'This widget shows u inside a list all landscapes and the entries about the aggregated response time between classes. If classes call each others operation, it will count them together and show the time that is needed to execute these functions all together.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }, {
     widget: 'aggregatedresponsetime-pie',
     displayName: 'Aggregated response time (pie chart)',
-    description: 'This widget shows the aggregated response time between classes. It shows the five highest aggregated communications inside a pie chart.'
+    description: 'This widget shows the aggregated response time between classes. It shows the five highest aggregated communications inside a pie chart.',
+    picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   }
 ];
 
@@ -143,7 +153,8 @@ export default Route.extend({
   actions: {
     resetRoute() {
       const routeName = this.get('dashboardsettings');
-    }
+    },
+    
 
   },
 });

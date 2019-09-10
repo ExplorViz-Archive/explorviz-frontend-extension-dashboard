@@ -111,7 +111,7 @@ export default Component.extend({
     });
 
     post.save().then(() => {
-
+      window.location.href = "dashboard";
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
@@ -129,12 +129,14 @@ export default Component.extend({
 
       //postRequestRamCpuSetting(this.get('store'), this, this.get('nodeName'));
       this.get('postRequestRamCpuSetting').perform(this.get('nodeName'));
-      this.get('router').transitionTo('dashboard');
+      //this.get('router').transitionTo('dashboard');
+
     },
 
     cancelBtn() {
 
-      this.get('router').transitionTo('dashboard');
+      //this.get('router').transitionTo('dashboard');
+      window.location.href = "dashboard";
     }
   },
 

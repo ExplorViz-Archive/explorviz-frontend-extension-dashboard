@@ -54,17 +54,28 @@ module.exports = {
     this.import('node_modules/chartjs-plugin-piechart-outlabels/dist/chartjs-plugin-piechart-outlabels.js');
 
 
-    //this.import('node_modules/randomcolor/randomColor.js');
+    //pictures for the different widget infos.
     this.import('vendor/assets/images/activeclassinstances_info.jpg');
     this.import('vendor/assets/images/aggregatedresponsetime_info.jpg');
     this.import('vendor/assets/images/eventlog_info.jpg');
     this.import('vendor/assets/images/operationresponsetime_info.jpg');
-
     this.import('vendor/assets/images/programminglanguagesoccurrence_info.jpg');
     this.import('vendor/assets/images/ramcpu_info.jpg');
     this.import('vendor/assets/images/totaloverview_info.jpg');
     this.import('vendor/assets/images/totalrequests_info.jpg');
+    this.import('vendor/assets/images/aggregatedresponsetime_piechart_info.jpg');
+    this.import('vendor/assets/images/operationresponsetime_table_info.jpg');
 
-    //Bei zukünfiten imports auf // und \\ achten ! verwirrend
+    //pictures for the dashboard settings popups.
+    this.import('vendor/assets/images/widgetpreview/activeclassinstances.png');
+    this.import('vendor/assets/images/widgetpreview/aggregatedresponsetime_piechart.png');
+    this.import('vendor/assets/images/widgetpreview/aggregatedresponsetime.png');
+    this.import('vendor/assets/images/widgetpreview/eventlog.png');
+    this.import('vendor/assets/images/widgetpreview/operationresponsetime_table.png');
+    this.import('vendor/assets/images/widgetpreview/operationresponsetime.png');
+    this.import('vendor/assets/images/widgetpreview/programminglanguagesoccurrence.png');
+    this.import('vendor/assets/images/widgetpreview/ramcpu.png');
+    this.import('vendor/assets/images/widgetpreview/totaloverview.png');
+    this.import('vendor/assets/images/widgetpreview/totalrequests.png');
   }
 };

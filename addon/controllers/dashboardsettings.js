@@ -17,8 +17,13 @@ var clickedWidgetsRightIDs = [];
 export default Controller.extend({
 
   store: Ember.inject.service(),
+  modalservice: Ember.inject.service('modal-content'),
+
 
   actions: {
+    loadWidgetInfo(widgetname){
+      this.get('modalservice').setWidget(widgetname);
+    },
     //action for the left list if its getting clicked.
     listClickLeft(event) {
 
@@ -174,7 +179,8 @@ export default Controller.extend({
 
 
 
-            this.transitionToRoute('dashboard');
+            //this.transitionToRoute('dashboard');
+            window.location.href = "dashboard";
           });
           /*
           post.save().then(function(post) {
@@ -198,7 +204,8 @@ export default Controller.extend({
     cancel(event) {
       //redirect to the dashboard
       event.target.disabled = true;
-      this.transitionToRoute('dashboard');
+      //this.transitionToRoute('dashboard');
+      window.location.href = "dashboard";
     }
 
   }

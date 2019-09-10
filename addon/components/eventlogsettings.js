@@ -62,13 +62,16 @@ export default Component.extend({
       entries: this.get('entries'),
     });
 
-    post.save();
+    post.save().then(() => {
+      window.location.href = "dashboard";
+    });
 
   }).on('activate').cancelOn('deactivate').drop(),
 
   saveData: task(function*() {
     yield this.get('postRequestEventLogSettings').perform();
-    this.get('router').transitionTo('dashboard');
+    //this.get('router').transitionTo('dashboard');
+    //window.location.href = "dashboard";
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
@@ -78,7 +81,8 @@ export default Component.extend({
 
     cancel() {
       //redirect to the dashboard
-      this.get('router').transitionTo('dashboard');
+      //this.get('router').transitionTo('dashboard');
+      window.location.href = "dashboard";
     }
   },
   layout

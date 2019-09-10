@@ -9,8 +9,12 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
     //this.set('content', "fo bar");
+    console.log("inserted modal");
+    console.log(this);
+    
     $(window).on('shown.bs.modal', () => {
         $('.exampleModal').modal('show');
+
         this.set('content', this.get('modalservice').getContent());
     });
   },

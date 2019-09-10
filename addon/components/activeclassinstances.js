@@ -159,6 +159,7 @@ export default Component.extend({
 
   actions: {
     loadWidgetInfo(){
+      console.log(this.get('modalservice'));
       this.get('modalservice').setWidget("activeclassinstances");
     },
     remove() {

@@ -47,7 +47,9 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-
+    loadWidgetInfo(){
+      this.get('modalservice').setWidget("operationresponsetime-info");
+    },
     pause() {
       this.set('paused', true);
     },

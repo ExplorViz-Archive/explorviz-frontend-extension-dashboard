@@ -15,7 +15,7 @@ export default Service.extend({
       var con = {
         widgetName: 'Active class instances',
         picturesrc: 'assets/images/activeclassinstances_info.jpg',
-        content: "This widget shows the number of instances of classes. It only shows the five highest numbers of the current landscape.",
+        content: "This Widget visualizes the instantiated classes inside a software landscape. It shows how often a class is instantiated. The visualisation is in form of a pie chart and it starts with the highest instantiated class. This widget only shows the newest landscape thats comming inside explor viz.",
         motivation: "You can detect inside your software, if your programm do unexpected things like instantiate a bunch of classes."
       };
       this.setContent(con);
@@ -72,7 +72,7 @@ export default Service.extend({
       this.setContent(con);
     }
 
-    if (name === "operationresponsetime-info") {
+    if (name === "operationresponsetime") {
       var con = {
         widgetName: 'Operation response time (pie chart)',
         picturesrc: 'assets/images/operationresponsetime_info.jpg',
@@ -96,12 +96,12 @@ export default Service.extend({
 
     //no nicht fertig !
 
-    if (name === "operationresponsetime") {
+    if (name === "operationresponsetime-info") {
       var con = {
         widgetName: 'Operation response time (table)',
-        picturesrc: 'assets/images/aggregatedresponsetime_info.jpg',
-        content: "Beschreibung: Bla bli blub",
-        motivation: ""
+        picturesrc: 'assets/images/operationresponsetime_table_info.jpg',
+        content: "This widget shows the operation response time of all landscapes. First you see a list of the different landscapes. After clicking on a landscape a table with addtional information will pop out. It shows the operationname, the average response time of that operation, and the source/target clazz. The table is sorted with the average response time.",
+        motivation: "This wigdet is good, if you want to find out which methods in your software need to be optimized. After clicking throw the different landscapes you can see very fast which methods slows your software down."
       };
       this.setContent(con);
 
@@ -110,9 +110,9 @@ export default Service.extend({
     if (name === "aggregatedresponsetime-pie") {
       var con = {
         widgetName: 'Aggregated response time (pie chart)',
-        picturesrc: 'assets/images/aggregatedresponsetime_info.jpg',
-        content: "Beschreibung: Bla bli blub",
-        motivation: ""
+        picturesrc: 'assets/images/aggregatedresponsetime_piechart_info.jpg',
+        content: "This widget shows the five highest aggregated response times in the current landscape. You get addtional information if you hover over a section in the chart. then you see the source/target clazz and how much requests are between that two classes.",
+        motivation: "This widget gives you a higher abstraction, than the operation response time widget. It shows you the communication between classes. This is nice, if your software is very large and you want to know which classes need to be optimized in your system."
       };
       this.setContent(con);
     }
