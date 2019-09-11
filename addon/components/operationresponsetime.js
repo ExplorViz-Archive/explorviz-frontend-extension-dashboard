@@ -160,7 +160,7 @@ export default Component.extend({
               return label + " " + displayNumber(value);
             },
             color: 'black',
-            stretch: 30,
+            stretch: 15,
             font: {
               resizable: true,
               minSize: 12,
