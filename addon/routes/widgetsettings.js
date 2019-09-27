@@ -1,9 +1,4 @@
 import Route from '@ember/routing/route';
-import {
-  set
-} from '@ember/object';
-
-//var widgetName = "";
 
 export default Route.extend({
 
@@ -29,13 +24,6 @@ export default Route.extend({
     controller.set('instanceID', this.get('instanceID'));
 
     controller.set('model', model);
-  },
+  }
 
-
-  actions: {
-    resetRoute() {
-      const routeName = this.get('widgetsettings');
-
-    }
-  },
 });

@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { inject as injectService } from '@ember/service'
 //a list of all available widgets that are currently in the dashboard expension
 var widgetNameList = [{
     widget: 'activeclassinstances',
@@ -65,7 +66,8 @@ var widgetNameList = [{
 
 export default Route.extend({
 
-  store: Ember.inject.service(),
+  //store: Ember.inject.service(),
+  store: injectService('store'),
 
 
   //return the widgetNameList in the model. in dashboardsettings.hbs we can create then the left list with it
@@ -154,7 +156,7 @@ export default Route.extend({
     resetRoute() {
       const routeName = this.get('dashboardsettings');
     },
-    
+
 
   },
 });

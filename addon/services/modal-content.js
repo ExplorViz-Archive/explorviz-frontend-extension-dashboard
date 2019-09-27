@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 
 export default Service.extend({
-  //content ist gleich modell wtf !? xD
+
   content: {
     widgetName: '',
     picturesrc: '',
@@ -10,9 +10,10 @@ export default Service.extend({
   },
 
   setWidget(name) {
+    var con = "";
 
     if (name === "activeclassinstances") {
-      var con = {
+       con = {
         widgetName: 'Active class instances',
         picturesrc: 'assets/images/activeclassinstances_info.jpg',
         content: "This Widget visualizes the instantiated classes inside a software landscape. It shows how often a class is instantiated. The visualisation is in form of a pie chart and it starts with the highest instantiated class. This widget only shows the newest landscape thats comming inside explor viz.",
@@ -23,7 +24,7 @@ export default Service.extend({
 
     if (name === "programminglanguagesoccurrence") {
 
-      var con = {
+       con = {
         widgetName: 'Programming languages occurrence',
         picturesrc: 'assets/images/programminglanguagesoccurrence_info.jpg',
         content: "This widget shows which programming languages are used inside your software. The widget only shows the data of the newest landscape.",
@@ -33,7 +34,7 @@ export default Service.extend({
     }
 
     if (name === "totaloverviewwidget") {
-      var con = {
+       con = {
         widgetName: 'Total overview',
         picturesrc: 'assets/images/totaloverview_info.jpg',
         content: "This widget gives u an overview over the landscape. It shows you how many systems, nodes and applikations are currently in the newest landscape available.",
@@ -43,7 +44,7 @@ export default Service.extend({
     }
 
     if (name === "totalrequests2") {
-      var con = {
+       con = {
         widgetName: 'Total requests',
         picturesrc: 'assets/images/totalrequests_info.jpg',
         content: "This widget shows the total requests inside a landscape. It shows the data inside a line chart with previous landscapes.",
@@ -53,7 +54,7 @@ export default Service.extend({
     }
 
     if (name === "ramcpu2") {
-      var con = {
+       con = {
         widgetName: 'RAM and CPU',
         picturesrc: 'assets/images/ramcpu_info.jpg',
         content: "This widget shows the CPU utilization and the RAM of a selected node. You can select a node inside the widget settings.",
@@ -63,7 +64,7 @@ export default Service.extend({
     }
 
     if (name === "eventlog") {
-      var con = {
+       con = {
         widgetName: 'Eventlog',
         picturesrc: 'assets/images/eventlog_info.jpg',
         content: "This widget gives u a list with all the landscape, where an event occurs. By clicking on a listitem a table with more information will pop out.",
@@ -73,7 +74,7 @@ export default Service.extend({
     }
 
     if (name === "operationresponsetime") {
-      var con = {
+       con = {
         widgetName: 'Operation response time (pie chart)',
         picturesrc: 'assets/images/operationresponsetime_info.jpg',
         content: "This widget shows u the execution time of the longest taken operations inside the newest landscape. It shows u the five longest taken operations. If you want to see previous landscapes, then you can use a different widget that shows the data inside a table.",
@@ -85,7 +86,7 @@ export default Service.extend({
 
 
     if (name === "aggregatedresponsetime") {
-      var con = {
+       con = {
         widgetName: 'Aggregated response time (table)',
         picturesrc: 'assets/images/aggregatedresponsetime_info.jpg',
         content: "This widget shows the aggregated communication between two classes. It iterate through all the operations between two classes and adds the request response time together. Now you can see the communication between two classes and the overall execution time. This widget shows the different landscapes inside a list. If you click on a listitem, then a table with additional information will get loaded.",
@@ -97,7 +98,7 @@ export default Service.extend({
     //no nicht fertig !
 
     if (name === "operationresponsetime-info") {
-      var con = {
+       con = {
         widgetName: 'Operation response time (table)',
         picturesrc: 'assets/images/operationresponsetime_table_info.jpg',
         content: "This widget shows the operation response time of all landscapes. First you see a list of the different landscapes. After clicking on a landscape a table with addtional information will pop out. It shows the operationname, the average response time of that operation, and the source/target clazz. The table is sorted with the average response time.",
@@ -108,7 +109,7 @@ export default Service.extend({
     }
 
     if (name === "aggregatedresponsetime-pie") {
-      var con = {
+       con = {
         widgetName: 'Aggregated response time (pie chart)',
         picturesrc: 'assets/images/aggregatedresponsetime_piechart_info.jpg',
         content: "This widget shows the five highest aggregated response times in the current landscape. You get addtional information if you hover over a section in the chart. then you see the source/target clazz and how much requests are between that two classes.",
@@ -118,8 +119,8 @@ export default Service.extend({
     }
   },
 
-  setContent(con) {
-    this.set('content', con);
+  setContent(content) {
+    this.set('content', content);
     $('#exampleModal').modal('show');
   },
 
