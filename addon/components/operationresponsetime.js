@@ -6,24 +6,28 @@ import {
 } from 'ember-concurrency';
 import color from '../utils/color';
 
+/*
+This is the component for the operation response time widget (pie chart)
+*/
 export default Component.extend({
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
 
+  //start the init widget task
   didInsertElement() {
     this._super(...arguments);
     this.get('initWidget').perform();
   },
 
+  //init the widget -> create the chart and start query loop task
   initWidget: task(function*() {
-
-
     yield this.get('createChart').perform();
     yield this.get('queryData').perform();
     this.get('queryDataLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query every 10 seconds for new data.
   queryDataLoop: task(function*() {
     while (true) {
       yield timeout(10000); // wait 10 seconds
@@ -31,13 +35,13 @@ export default Component.extend({
     }
   }).on('activate').cancelOn('deactivate').restartable(),
 
+  //request the newest data from the backend and update the chart
   queryData: task(function*() {
     const myStore = this.get('store');
 
     myStore.query('operationresponsetime', {
       limit: 5
     }).then(backendData => {
-
 
       var labels = [];
       var data = [];
@@ -60,26 +64,20 @@ export default Component.extend({
 
           labels = ['no operation in the latest landscape'];
           data = [1];
-
-          //disable the number on the chart
-          //chart.options.plugins.labels = plugins_labels_label;
-        } else {
-          //chart.options.plugins.labels = [plugins_labels_label, plugins_labels_value];
         }
 
         chart.data.labels = labels;
         chart.data.datasets[0].data = data;
         chart.data.datasets[0].backgroundColor = color(data.length);
-        //chart.data.datasets[0].backgroundColor = randomColor(data.length);
         chart.update();
       }
 
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for creating a new chart.
   createChart: task(function*() {
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-    //Chart.defaults.global.defaultFontColor = '#858796';
 
     var myPieChart = document.getElementById('operationresponsetimeCanvas_' + this.elementId);
     var chart = new Chart(myPieChart, {
@@ -88,10 +86,7 @@ export default Component.extend({
         labels: ['no landscape available'],
         datasets: [{
           data: [1],
-          //backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
           backgroundColor: color(1),
-          //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
       },
       plugins: [ChartDataLabels],
@@ -128,29 +123,7 @@ export default Component.extend({
 
         plugins: {
           labels: false,
-          //labels: [ /*plugins_labels_label, */ plugins_labels_value],
-          /*
-          colorschemes: {
-            scheme: 'tableau.ClassicCyclic13'
-          },
-          */
           datalabels: false,
-          /*
-          datalabels: {
-            color: "#000000",
-            anchor: 'end',
-            align: 'end',
-            offset: 10,
-            display: 'auto',
-            font: {
-              family: 'Arial',
-            },
-            formatter: function(value, context) {
-              return context.chart.data.labels[context.dataIndex];
-            },
-
-          },*/
-
           outlabels: {
             text: function(context) {
               var index = context.dataIndex;
@@ -177,9 +150,11 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("operationresponsetime");
     },
+
+    //remove the widget from the dashboard.
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
@@ -210,46 +185,7 @@ export default Component.extend({
   layout
 });
 
-/*
-const plugins_labels_label = {
-  // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
-  render: 'label',
-
-  // identifies whether or not labels of value 0 are displayed, default is false
-  showZero: true,
-  fontSize: 12,
-  fontColor: '#000000',
-  fontStyle: 'normal',
-  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-  shadowBlur: 10,
-  shadowOffsetX: -5,
-  shadowOffsetY: 5,
-  shadowColor: 'rgba(255,0,0,0.75)',
-
-
-
-  // position to draw label, available value is 'default', 'border' and 'outside'
-  // bar chart ignores this
-  // default is 'default'
-  position: 'outside',
-
-  // draw label even it's overlap, default is true
-  // bar chart ignores this
-  overlap: true,
-
-  // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
-  showActualPercentages: true,
-
-  // add padding when position is `outside`
-  // default is 2
-  outsidePadding: 4,
-
-  // add margin of text when position is `outside` or `border`
-  // default is 2
-  //textMargin: 4
-  textMargin: 4
-};
-*/
+//transfer a number in naoseconds to a readable format (seconds, milliseconds, microseconds or nanoseconds)
 function displayNumber(num) {
   var len = num.toString().length;
 
@@ -274,69 +210,6 @@ function displayNumber(num) {
   return num + ' ns';
 }
 
-function randomColor(count) {
-  var colors = //['#8DA0E3', '#4B2CB6', '#4682DA', '#FBB2C6', '#FE5BBA', '#D43BC9', '#E23839', '#4ADCB8', '#DA6500', '#E3F400', '	#F02F6F', '#E67B30', '#718BFF', '#F4B3D5', '#E27074', '#EF7BA7', '#DABB25',
-    //'#F0D195', '#A9FEE3', '#39C176', '#103BEC', '#F9CBF9', '#62DA39', '#0D428F', '#AA342A', '#FFC4EF', '	#62DA3C', '#FCDFB5', '#A60F0C', '#A3093C', '#A3B507', '#3034E5', '#93F688', '#99DF76',
-    ['#EBA1BA', '	#065488', '#CEAB35', '#69B2CB', '#AACE00', '#03E35F', '#D75CE1', '#98C3DE', '#0187BA', '#FFCDC2', '#6BFBD1', '#ACD7E8', '#E96EE3', '#F187AD', '#FAE28A', '#E9B084', '#0067D8'
-  ];
-  var result = [];
-
-  /*
-  for (var i = 0; i <= count; i++) {
-    var random = getRandomInt(colors.length);
-    result.push(colors[random]);
-  }
-  */
-
-  for (var i = 0; i <= count; i++) {
-    result.push(colors[(i + 10) % colors.length]);
-  }
-
-
-  return result;
-
-}
-
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-/*
-const plugins_labels_value = {
-  render: 'value',
-  // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
-  overlap: false,
-  fontColor: '#000000',
-  position: 'border',
-  // font style, default is defaultFontStyle
-  fontStyle: 'normal',
-
-  // font family, default is defaultFontFamily
-  fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-
-  render: function(args) {
-    console.log(args.value);
-    var num = args.value;
-    var len = num.toString().length;
-
-    //seconds
-    if (len >= 10) {
-      num = num / 1000000000;
-      return num.toFixed(2) + "s";
-    }
-
-    //milliseconds
-    if (len >= 7) {
-      num = num / 1000000;
-      return num.toFixed(2) + ' ms';
-    }
-
-    //microseconds
-    if (len >= 4) {
-      num = num / 1000;
-      return num.toFixed(2) + ' μs';
-    }
-
-    return args.value + ' ns';
-  }
-};
-*/

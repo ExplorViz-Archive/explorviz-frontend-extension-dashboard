@@ -8,6 +8,9 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+this is the component for the ram cpu settings
+*/
 export default Component.extend({
 
   store: Ember.inject.service(),
@@ -22,19 +25,21 @@ export default Component.extend({
     this._super(...arguments);
   },
 
+  //start the init task
   didInsertElement() {
     this._super(...arguments);
     this.get('initTasks').perform();
 
   },
 
+  //init this component -> query for avaiable nodes and the already set settings
   initTasks: task(function*() {
     yield this.get('queryRamCpu').perform();
     yield this.get('queryRamCpuSetting').perform();
   }).on('activate').cancelOn('deactivate').drop(),
-  /**
-  this task sets the active class for the current active node inside the list.
-  **/
+
+
+  //this task sets the active class for the current active node inside the list.
   updateActiveDivInList: task(function*() {
     var divs = document.getElementsByClassName('list-group-item');
 
@@ -59,6 +64,7 @@ export default Component.extend({
     }
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for the avaiable nodes
   queryRamCpu: task(function*() {
     var store = this.get('store');
     store.query('ramcpu', {}).then(backendData => {
@@ -85,6 +91,7 @@ export default Component.extend({
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for already set settings
   queryRamCpuSetting: task(function*() {
     var store = this.get('store');
     yield store.queryRecord('ramcpusetting', {
@@ -103,6 +110,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //send a post request to the backend to set new settings
   postRequestRamCpuSetting: task(function*(nodeName) {
     var store = this.get('store');
     let post = store.createRecord('ramcpusetting', {
@@ -116,7 +124,7 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-
+    //a item on the left list is clicked
     listClick(event) {
       var widgetName = event.target.id;
       this.set('nodeName', widgetName);
@@ -125,17 +133,12 @@ export default Component.extend({
 
     },
 
+    //save button is clicked
     saveBtn() {
-
-      //postRequestRamCpuSetting(this.get('store'), this, this.get('nodeName'));
       this.get('postRequestRamCpuSetting').perform(this.get('nodeName'));
-      //this.get('router').transitionTo('dashboard');
-
     },
-
+    //cancel button is clicked
     cancelBtn() {
-
-      //this.get('router').transitionTo('dashboard');
       window.location.href = "dashboard";
     }
   },

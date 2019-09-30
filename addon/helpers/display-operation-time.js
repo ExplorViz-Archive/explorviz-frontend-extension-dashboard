@@ -1,6 +1,12 @@
-import { helper } from '@ember/component/helper';
+import {
+  helper
+} from '@ember/component/helper';
 
-export function displayOperationTime(params/*, hash*/) {
+/*
+This is a helper for templates. It can display a operation time given in nanoseconds
+into a readable time (seconds, milliseconds, microseconds or nanoseconds)
+*/
+export function displayOperationTime(params /*, hash*/ ) {
 
   return displayNumber(params[0]);
 }

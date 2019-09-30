@@ -5,14 +5,18 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+The component for the eventlog tabel
+*/
 export default Component.extend({
 
   store: Ember.inject.service(),
 
-
+  //init the widet.
   didInsertElement() {
     this._super(...arguments);
 
+    //getting the widget instance id
     var ctxID = this.elementId;
     var timestampLandscape = ctxID.split('_')[2];
     this.set('timestampLandscape', timestampLandscape);
@@ -38,6 +42,7 @@ export default Component.extend({
     });
   },
 
+  //query for the data of a clicked landscape.
   queryCurrent: task(function*() {
     if (this.get('timestampLandscape')) {
       const myStore = this.get('store');

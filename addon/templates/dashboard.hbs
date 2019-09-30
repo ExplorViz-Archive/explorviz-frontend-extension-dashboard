@@ -1,27 +1,6 @@
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
-<!--
-#Anfang#
 
-<strong>Name: {{totaloverviewwidget.name}}</strong>
-<strong>numberOfSystems: {{totaloverviewwidget.numberOfSystems}}</strong>
-<strong>numberOfNodes: {{totaloverviewwidget.numberOfNodes}}</strong>
-<strong>numberOfApplications: {{totaloverviewwidget.numberOfApplications}}</strong>
-
-
-#Ende
-
-
-{{#if this.isExpanded}}
- <button {{action "toggleBody"}}>Hide Body</button>
- <div class="body">
-   Aufgeklappt :)
- </div>
-{{else}}
- <button {{action "toggleBody"}}>Show Body</button>
-{{/if}}
-
--->
 {{modal}}
 
 <div id="content-wrapper" class="d-flex flex-column" style="height:100%; overflow-y:scroll;">
@@ -43,18 +22,15 @@
       <div class="row">
 
 
-        <!-- Dropdown Card Example -->
+        <!-- Dropdown Card  -->
 
-        <!--	.col-xl-# means # columns (total is 12) -->
 
 
         {{#each this.widgets as |widgetList|}}
-          <!--
-          {{component widgetList.widgetName id=widgetList.instanceID class="col-xl-4 col-lg-5 row-eq-height"}}
-        -->
+
           {{#if (isnotequal widgetList.widgetName "empty")}}
             {{component widgetList.widgetName id=widgetList.instanceID class="col-xl-4 col-lg-5"}}
-            {{else}}
+          {{else}}
             {{alert}}
           {{/if}}
 
@@ -62,26 +38,11 @@
 
         {{/each}}
 
-        <!--
-        {{totaloverviewwidget class="col-xl-4 col-lg-5"}}
-        {{activeclassinstances class="col-xl-4 col-lg-5"}}
-
-        {{totalrequests class="col-xl-4 col-lg-5"}}
-
-
-        {{programminglanguagesoccurrence class="col-xl-4 col-lg-5"}}
-        -->
-
-
       </div>
-      <!--
-      <div class="row">
-        {{ramcpu class="col-xl-4 col-lg-5"}}
-      </div>
-    -->
+
 
     </div>
-    <!-- /.container-fluid -->
+
 
   </div>
   <!-- End of Main Content -->

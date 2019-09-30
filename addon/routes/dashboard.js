@@ -10,43 +10,30 @@ import {
 
 var userID = 0;
 
+/*
+This is the route for the dashboard main page
+*/
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   store: Ember.inject.service(),
 
-
-
   setupController(controller, model) {
     // Call _super for default behavior
 
-
-
     const myStore = this.get('store');
 
-
-
-
+    //get the current users id
     let users = myStore.peekAll('user');
-
     users.forEach((item) => {
-
-      if(item)
-      {
+      if (item) {
         userID = item.get('id');
       }
     });
-
-
-
-
-
-
 
     //Doing a get request to the backend here to get a list of all instantiatedwidgets.
     myStore.query('instantiatedwidget', {
       userID: userID
     }).then(function(backendData) {
-
 
       var tempData = new Array(backendData.length);
       backendData.forEach(function(element) {
@@ -66,23 +53,14 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
 
 
-
+      //setting the widgets on load of the dashboard.
       controller.set('widgets', tempData);
-
-
-
-
     });
-
   },
-
-
 
 
   actions: {
     resetRoute() {
-      //quick fix - some addons dont load cuz ember framework
-      //location.reload();
       window.location.href = "dashboard";
       const routeName = this.get('dashboard');
     },

@@ -5,12 +5,16 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+the component for the aggregated response time widget. (list)
+*/
 export default Component.extend({
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
 
   paused: false,
 
+  //start the init task and reset a html class for the widget size
   didInsertElement() {
     this._super(...arguments);
 
@@ -24,12 +28,13 @@ export default Component.extend({
   },
 
 
-
+  //init the widget
   initWidget: task(function*() {
     this.get('queryLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for data every 10 seconds
   queryLoop: task(function*() {
     while (!this.get('paused')) {
       yield this.get('queryCurrent').perform();
@@ -38,6 +43,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //requests new data from the backend
   queryCurrent: task(function*() {
     const myStore = this.get('store');
 
@@ -48,10 +54,11 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("aggregatedresponsetime");
     },
 
+    //pause the request for new data
     pause() {
       this.set('paused', true);
     },
@@ -65,6 +72,8 @@ export default Component.extend({
         this.set('paused', true);
       }
     },
+
+    //removes this widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

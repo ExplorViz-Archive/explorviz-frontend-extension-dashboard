@@ -1,4 +1,4 @@
-<!-- Dropdown Card Example -->
+<!-- Dropdown Card  -->
 <div class="card shadow mb-4">
   <!-- Card Header - Dropdown -->
   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -12,18 +12,6 @@
 
 
     </h6>
-    <!--
-    {{paused}}
-    {{#if paused}}
-      <div onclick={{action "refresh"}} style="float:left; position: relative;">
-        <i class="fas fa-play-circle"></i>
-      </div>
-    {{else}}
-      <div onclick={{action "refresh"}} style="float:left; position: relative;">
-        <i class="fas fa-pause-circle"></i>
-      </div>
-    {{/if}}
-    -->
 
     <div class="dropdown no-arrow">
       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -31,7 +19,6 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
         <div class="dropdown-header">Konfiguration:</div>
-        <!--<a class="dropdown-item">{{#link-to "widgetsettings" (query-params widget="aggregatedresponsetime" instanceID=this.elementId)}}Widget Settings{{/link-to}}</a>-->
         <a class="dropdown-item" href="#" onclick={{action "loadWidgetInfo"}}>Widget information</a>
         <a class="dropdown-item" href="#" onclick={{action "remove"}}>Remove</a>
 

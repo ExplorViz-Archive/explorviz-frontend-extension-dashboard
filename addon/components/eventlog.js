@@ -5,7 +5,9 @@ import {
   timeout
 } from 'ember-concurrency';
 
-
+/*
+This is the component for the eventlog widget.
+*/
 export default Component.extend({
 
 
@@ -14,6 +16,7 @@ export default Component.extend({
 
   paused: false,
 
+  //start the initWidget task and resize the widget via html class
   didInsertElement() {
     this._super(...arguments);
 
@@ -27,13 +30,14 @@ export default Component.extend({
   },
 
 
-
+  //query for already set settins and start the loop
   initWidget: task(function*() {
     yield this.get('queryEventLogSettings').perform();
     yield this.get('loop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //start a loop that query ever 10 seconds for data
   loop: task(function*() {
     while (!this.get('paused')) {
       yield this.get('queryCurrent').perform();
@@ -42,6 +46,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for the newest data inside the backend
   queryCurrent: task(function*() {
     const myStore = this.get('store');
 
@@ -53,6 +58,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for already set eventlogsettings
   queryEventLogSettings: task(function*() {
     var store = this.get('store');
 
@@ -65,25 +71,28 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("eventlog");
     },
     eventItemClick() {
       this.set('paused', true);
     },
 
+    //pause the query loop 
     pause() {
-        this.set('paused', true);
+      this.set('paused', true);
     },
 
+    //stop the pause and start the query loop again
     resume() {
-        this.set('paused', false);
-        this.get('loop').perform();
+      this.set('paused', false);
+      this.get('loop').perform();
     },
 
     refresh() {
       this.get('queryCurrent').perform();
     },
+    //remove the widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

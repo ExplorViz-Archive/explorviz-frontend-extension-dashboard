@@ -2,9 +2,12 @@ import {
   helper
 } from '@ember/component/helper';
 
-export function date(params /*, hash*/ ) {
-  //falls kein gültiger timestamp angegeben ist, nämlich -1 gebe - zurück als Darstellung
-  if(params == -1){
+/*
+This is a helper for the templates. it can translate a timestamp to a valid readable date.
+*/
+export function date(params) {
+  //if the timestamp is invalid, like -1, then return the string "-"
+  if (params == -1) {
     return "-";
   }
 

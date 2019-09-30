@@ -6,9 +6,7 @@ import {
 } from 'ember-concurrency';
 import color from '../utils/color';
 
-//import 'chartjs-plugin-labels';
-
-
+//the max amount of classes displayed inside the chart
 var numberDisplayed = 5;
 
 export default Component.extend({
@@ -16,7 +14,7 @@ export default Component.extend({
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
 
-
+  //query for data every 10 seconds
   queryDataLoop: task(function*() {
     while (true) {
       yield timeout(10000); // wait 10 seconds
@@ -24,12 +22,13 @@ export default Component.extend({
     }
   }).on('activate').cancelOn('deactivate').restartable(),
 
-
+  //start the init Widget task
   didInsertElement() {
     this._super(...arguments);
     this.get('initWidget').perform();
   },
 
+  //create the chart and the data query loop
   initWidget: task(function*() {
     yield this.get('createChart').perform();
     yield this.get('queryData').perform();
@@ -37,15 +36,12 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for new data from backend
   queryData: task(function*() {
     const myStore = this.get('store');
-
-
-
     myStore.query('activeclassinstances', {
       amount: numberDisplayed
     }).then(activeclassinstances => {
-
 
       var labels = [];
       var data = [];
@@ -62,10 +58,7 @@ export default Component.extend({
 
       });
 
-
       var chart = this.get('chart');
-
-
 
       if (chart != null) {
         if (labels != [] && data != []) {
@@ -76,14 +69,13 @@ export default Component.extend({
 
             //disable the number on the chart
             chart.options.plugins.labels = plugins_labels_label;
-          }else {
+          } else {
             chart.options.plugins.labels = [plugins_labels_label, plugins_labels_value];
           }
 
           chart.data.labels = labels;
           chart.data.datasets[0].data = data;
           chart.data.datasets[0].backgroundColor = color(data.length);
-          //chart.data.datasets[0].backgroundColor = randomColorArray(data.get('length'));
 
           var displayLegend = true;
           if (data.length >= 5) {
@@ -94,7 +86,6 @@ export default Component.extend({
         } else {
           chart.data.labels = ['no landscape available'];
           chart.data.datasets[0].data = [1];
-          //chart.data.datasets[0].backgroundColor = randomColorArray(1);
           chart.options.legend.display = true;
         }
 
@@ -104,13 +95,11 @@ export default Component.extend({
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for creating a new chart
   createChart: task(function*() {
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-    //Chart.defaults.global.defaultFontColor = '#858796';
 
     var myPieChart = document.getElementById('activeclassinstancesCanvas' + this.elementId);
-
-
 
     var chart = new Chart(myPieChart, {
       type: 'pie',
@@ -118,10 +107,6 @@ export default Component.extend({
         labels: ['no landscape available'],
         datasets: [{
           data: [1],
-          //backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-          //backgroundColor: randomColorArray(1),
-          //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
       },
       options: {
@@ -130,7 +115,6 @@ export default Component.extend({
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
           bodyFontColor: "#000000",
-          //bodyFontColor: "#858796",
           borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
@@ -158,10 +142,12 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    //loads the widgetinfo, if clicked inside the widget menue
+    loadWidgetInfo() {
       console.log(this.get('modalservice'));
       this.get('modalservice').setWidget("activeclassinstances");
     },
+    //removes this widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
@@ -192,7 +178,7 @@ export default Component.extend({
   layout
 });
 
-
+//plugin configurations
 const plugins_labels_label = {
   // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
   render: 'label',
@@ -254,6 +240,8 @@ const plugins_labels_label = {
   // default is 2
   textMargin: 4
 };
+
+//plugin label configurations
 const plugins_labels_value = {
   render: 'value',
   // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
@@ -265,21 +253,3 @@ const plugins_labels_value = {
   // font family, default is defaultFontFamily
   fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 };
-
-var colorPalette = ['#8883FD', '#7AE6CC', '#DBFA8E', '#EBC791', '#FD83A7'];
-
-function randomColor() {
-  var r = Math.floor(Math.random() * 255);
-  var g = Math.floor(Math.random() * 255);
-  var b = Math.floor(Math.random() * 255);
-  return "rgb(" + r + "," + g + "," + b + ")";
-}
-
-function randomColorArray(length) {
-  var array = [];
-  for (var i = 0; i <= length; i++) {
-    //array.push(randomColor());
-    array.push(colorPalette[i % 5]);
-  }
-  return array;
-}

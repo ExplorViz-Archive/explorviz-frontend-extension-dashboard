@@ -6,24 +6,28 @@ import {
 } from 'ember-concurrency';
 import color from '../utils/color';
 
+/*
+The component for the aggregated response time (pie)
+*/
 export default Component.extend({
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
 
+  //starts the init task
   didInsertElement() {
     this._super(...arguments);
     this.get('initWidget').perform();
   },
 
+  //create the task and start the queryloop
   initWidget: task(function*() {
-
-
     yield this.get('createChart').perform();
     yield this.get('queryData').perform();
     this.get('queryDataLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for data every 10 seconds
   queryDataLoop: task(function*() {
     while (true) {
       yield timeout(10000); // wait 10 seconds
@@ -31,6 +35,7 @@ export default Component.extend({
     }
   }).on('activate').cancelOn('deactivate').restartable(),
 
+  //query for the recent data from the backend and update the chart
   queryData: task(function*() {
     const myStore = this.get('store');
 
@@ -51,14 +56,14 @@ export default Component.extend({
 
         var source = element.get('sourceClazzFullName');
         var temp = source.split(".");
-        var sourceClazz = temp[temp.length-1];
+        var sourceClazz = temp[temp.length - 1];
 
 
         var target = element.get('targetClazzFullName');
         temp = target.split(".");
-        var targetClazz = temp[temp.length-1];
+        var targetClazz = temp[temp.length - 1];
 
-        var displayName = "Source Clazz: " +sourceClazz + "#Target Clazz: " + targetClazz + "#Total Requests: " + element.get('totalRequests');
+        var displayName = "Source Clazz: " + sourceClazz + "#Target Clazz: " + targetClazz + "#Total Requests: " + element.get('totalRequests');
 
         labels.push(displayName);
 
@@ -85,6 +90,7 @@ export default Component.extend({
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //create a new chart
   createChart: task(function*() {
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
@@ -118,9 +124,7 @@ export default Component.extend({
               var result = [];
               var label = data.labels[indice];
               var temp = label.split("#");
-              //result.push('Source/Target Clazz: ' + data.labels[indice]);
               temp.push('Average response time: ' + displayNumber(data.datasets[0].data[indice]));
-
               return temp;
             }
           }
@@ -161,9 +165,12 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    //load the widget info (modal)
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("aggregatedresponsetime-pie");
     },
+
+    //remove this widget from the dashboard (backend requests)
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
@@ -194,6 +201,7 @@ export default Component.extend({
   layout
 });
 
+//convert the nanoseconds into a readable format
 function displayNumber(num) {
   var len = num.toString().length;
 

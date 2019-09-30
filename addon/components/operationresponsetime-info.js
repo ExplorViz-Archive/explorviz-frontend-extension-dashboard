@@ -5,11 +5,15 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+This is the component for the operation response time widget. (list)
+*/
 export default Component.extend({
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
   paused: false,
 
+  //init the wigdet and resizing the widget size on the dashboard
   didInsertElement() {
     this._super(...arguments);
 
@@ -23,12 +27,13 @@ export default Component.extend({
   },
 
 
-
+  //init the widget -> start queryloop task
   initWidget: task(function*() {
     this.get('queryLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query every 10 seconds for new data
   queryLoop: task(function*() {
     while (!this.get('paused')) {
       yield this.get('queryCurrent').perform();
@@ -37,6 +42,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for the newest data from the backend.
   queryCurrent: task(function*() {
     const myStore = this.get('store');
 
@@ -47,7 +53,7 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("operationresponsetime-info");
     },
     pause() {
@@ -63,6 +69,7 @@ export default Component.extend({
         this.set('paused', true);
       }
     },
+    //remove this widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

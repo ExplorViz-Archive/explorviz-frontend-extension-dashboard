@@ -5,17 +5,22 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+This is the component for the total overview widget.
+*/
 export default Component.extend({
 
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
-  
+
+  //start the init task
   didInsertElement() {
     this._super(...arguments);
     this.get('initWidget').perform();
 
   },
 
+  //init the widget -> create the chart and start the query loop
   initWidget: task(function*() {
     yield this.get('createChart').perform();
     yield this.get('queryData').perform();
@@ -23,6 +28,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for data every 10 seconds
   queryDataLoop: task(function*() {
     while (true) {
       yield timeout(10000); // wait 10 seconds
@@ -32,6 +38,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //requests the newest data from the backend and update the chart
   queryData: task(function*() {
     const myStore = this.get('store');
 
@@ -61,9 +68,9 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for creating a new chart
   createChart: task(function*() {
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-    //Chart.defaults.global.defaultFontColor = '#000000';
 
     var myPieChart = document.getElementById('totaloverviewChart' + this.elementId);
 
@@ -74,8 +81,6 @@ export default Component.extend({
         datasets: [{
           data: [1],
           backgroundColor: ['#FFC107', '#1E88E5', '#D81B60'],
-          //hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-          //hoverBorderColor: "rgba(234, 236, 244, 1)",
         }],
       },
       options: {
@@ -83,7 +88,6 @@ export default Component.extend({
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
           bodyFontColor: "#000000",
-          //bodyFontColor: "#858796",
           borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
@@ -121,9 +125,11 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("totaloverviewwidget");
     },
+
+    //remove this widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";

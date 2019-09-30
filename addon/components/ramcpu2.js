@@ -8,13 +8,8 @@ import {
   set
 } from '@ember/object';
 
-/*
-const chartColors = {
-  GREEN: 'rgba(66, 245, 123, 1)',
-  YELLOW: 'rgba(239, 245, 66, 1)',
-  RED: 'rgba(245, 66, 93, 1)',
-}*/
 
+//declare the colors used from the chart.
 const chartColors = {
   GREEN: 'rgba(30, 136, 229, 1)',
   YELLOW: 'rgba(255, 193, 7, 1)',
@@ -22,7 +17,9 @@ const chartColors = {
 
 }
 
-
+/*
+this is the component for the ram and cpu widget
+*/
 export default Component.extend({
   store: Ember.inject.service(),
   router: Ember.inject.service(),
@@ -30,15 +27,16 @@ export default Component.extend({
 
   displayName: 'no landscape found',
 
+  //start the init wigdet task
   didInsertElement() {
     this._super(...arguments);
 
     this.get('initWidget').perform();
   },
 
+  //init the widget -> lookup if already settings are set -> create charts -> start query loop
   initWidget: task(function*() {
     //setting the nodeName of this widget
-
     yield this.get('queryRamCpuSetting').perform();
     yield this.get('createPieChartCPU').perform();
     yield this.get('createPieChartRAM').perform();
@@ -47,6 +45,7 @@ export default Component.extend({
     this.get('pollServerForChanges').perform();
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for data every 10 seconds
   pollServerForChanges: task(function*() {
     while (true) {
       yield timeout(10000);
@@ -54,14 +53,14 @@ export default Component.extend({
     }
   }).on('activate').cancelOn('deactivate').drop(),
 
-
+  //requests the newest data from the backend and update the charts
   queryData: task(function*() {
     var myStore = this.get('store');
 
     myStore.query('ramcpu', {}).then(backendData => {
 
       if (backendData.length != 0) {
-        //data = [];
+
         var cpuUtilization;
         var usedRam;
         var totalRam;
@@ -113,22 +112,17 @@ export default Component.extend({
         this.get('pieChartCPU').chart.data.datasets[0].backgroundColor[0] = chartColors.GREEN;
         this.get('pieChartCPU').chart.data.datasets[0].borderColor[0] = chartColors.GREEN;
 
-        if (cpuUtilization  > 0.75 && cpuUtilization  <= 0.85) {
+        if (cpuUtilization > 0.75 && cpuUtilization <= 0.85) {
           this.get('pieChartCPU').chart.data.datasets[0].backgroundColor[0] = chartColors.YELLOW;
           this.get('pieChartCPU').chart.data.datasets[0].borderColor[0] = chartColors.YELLOW;
         }
 
-        if (cpuUtilization  > 0.85 && cpuUtilization  <= 1) {
+        if (cpuUtilization > 0.85 && cpuUtilization <= 1) {
           this.get('pieChartCPU').chart.data.datasets[0].backgroundColor[0] = chartColors.RED;
           this.get('pieChartCPU').chart.data.datasets[0].borderColor[0] = chartColors.RED;
         }
 
         this.get('pieChartCPU').update();
-
-        //this.get('pieChartCPU').updateSeries([cpuUtilization * 100]);
-        //this.get('pieChartRAM').updateSeries([usedRam / totalRam * 100]);
-
-
 
         var displayTotalRam = totalRam / 1000000000;
         var displayUsedRam = usedRam / 1000000000;
@@ -152,12 +146,8 @@ export default Component.extend({
 
         this.get('pieChartRAM').update();
 
-        /*
-        this.get('pieChartRAM').updateOptions({
-          labels: ['Ram: ' + displayUsedRam.toFixed(1) + 'GB /' + displayTotalRam.toFixed(1) + 'GB'],
-        });
-        */
-      }else{
+
+      } else {
         this.set('timestampLandscape', -1);
       }
 
@@ -165,7 +155,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
-
+  //create the pie chart for the cpu utilisation
   createPieChartCPU: task(function*() {
 
     var ctx = document.getElementById("cpuChart" + this.elementId);
@@ -194,7 +184,7 @@ export default Component.extend({
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
 
-        //legende oben über chart
+        //legend over the chart
         legend: {
           display: false,
         },
@@ -202,7 +192,6 @@ export default Component.extend({
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
           bodyFontColor: "#000000",
-          //bodyFontColor: "#858796",
           borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
@@ -220,7 +209,6 @@ export default Component.extend({
         elements: {
           center: {
             text: 'CPU',
-            //color: '#FF6384', // Default is #000000
             color: '#190707',
             fontStyle: 'Arial', // Default is Arial
             sidePadding: 20 // Defualt is 20 (as a percentage)
@@ -243,7 +231,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
-
+  //create the pie chart for the ram
   createPieChartRAM: task(function*() {
 
     var ctx = document.getElementById("ramChart" + this.elementId);
@@ -272,7 +260,7 @@ export default Component.extend({
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
 
-        //legende oben über chart
+        //legend over the chart disabled
         legend: {
           display: false,
         },
@@ -280,7 +268,6 @@ export default Component.extend({
         tooltips: {
           backgroundColor: "rgb(255,255,255)",
           bodyFontColor: "#000000",
-          //bodyFontColor: "#858796",
           borderColor: '#dddfeb',
           borderWidth: 1,
           xPadding: 15,
@@ -290,8 +277,8 @@ export default Component.extend({
           callbacks: {
             label: function(tooltipItem, data) {
               var indice = tooltipItem.index;
-              var used = data.datasets[0].data[0] / (1024*1024*1024);  // 4* 1024
-              var total = data.datasets[0].data[1] /  (1024*1024*1024) + used;
+              var used = data.datasets[0].data[0] / (1024 * 1024 * 1024); // 4* 1024
+              var total = data.datasets[0].data[1] / (1024 * 1024 * 1024) + used;
 
               return data.labels[indice] + ': ' + used.toFixed(1) + ' GB / ' + total.toFixed(1) + ' GB';
             }
@@ -301,7 +288,6 @@ export default Component.extend({
         elements: {
           center: {
             text: 'RAM',
-            //color: '#FF6384', // Default is #000000
             color: '#190707',
             fontStyle: 'Arial', // Default is Arial
             sidePadding: 20 // Defualt is 20 (as a percentage)
@@ -324,11 +310,10 @@ export default Component.extend({
     this.set('pieChartRAM', pieChartRAM)
   }).on('activate').cancelOn('deactivate').drop(),
 
-
+  //query for already set settings for this widget
   queryRamCpuSetting: task(function*() {
 
     var store = this.get('store');
-
 
     yield store.queryRecord('ramcpusetting', {
       instanceID: this.elementId
@@ -343,9 +328,11 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("ramcpu2");
     },
+
+    //remove this widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
@@ -376,6 +363,7 @@ export default Component.extend({
   layout
 });
 
+//configurations for the plugin labels (cpu)
 const plugins_labels_value_cpu = {
   render: 'percentage',
   // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
@@ -389,6 +377,7 @@ const plugins_labels_value_cpu = {
 
 };
 
+//configurations for the plugin labels (ram)
 const plugins_labels_value_ram = {
   render: 'value',
   // font color, can be color array for each data or function for dynamic color, default is defaultFontColor
@@ -400,11 +389,12 @@ const plugins_labels_value_ram = {
   // font family, default is defaultFontFamily
   fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
-  render: function (args) {
-    var result = args.value / (1024*1024*1024)
+  render: function(args) {
+    var result = args.value / (1024 * 1024 * 1024)
     return result.toFixed(1) + ' GB';
   }
 };
+
 
 Chart.pluginService.register({
   beforeDraw: function(chart) {

@@ -5,13 +5,17 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+this is the component for the operation response time widget (table)
+*/
 export default Component.extend({
   store: Ember.inject.service(),
 
-
+  //init the widget
   didInsertElement() {
     this._super(...arguments);
 
+    //getting the instance id of the current widget
     var ctxID = this.elementId;
     var timestampLandscape = ctxID.split('_')[2];
     this.set('timestampLandscape', timestampLandscape);
@@ -37,6 +41,7 @@ export default Component.extend({
     });
   },
 
+  //query for the newest data for a clicked landscape.
   queryCurrent: task(function*() {
     if (this.get('timestampLandscape')) {
       const myStore = this.get('store');

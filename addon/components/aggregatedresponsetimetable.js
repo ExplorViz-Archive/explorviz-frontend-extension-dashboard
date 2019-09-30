@@ -5,13 +5,17 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*
+this is the component for the aggregated response time (table)
+*/
 export default Component.extend({
   store: Ember.inject.service(),
 
-
+  //do init stuff
   didInsertElement() {
     this._super(...arguments);
 
+    //get instance id of the widget
     var ctxID = this.elementId;
     var timestampLandscape = ctxID.split('_')[2];
     this.set('timestampLandscape', timestampLandscape);
@@ -37,6 +41,7 @@ export default Component.extend({
     });
   },
 
+  //query for new data from the backend
   queryCurrent: task(function*() {
     if (this.get('timestampLandscape')) {
       const myStore = this.get('store');

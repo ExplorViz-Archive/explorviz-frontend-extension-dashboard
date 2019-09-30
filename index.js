@@ -3,10 +3,12 @@
 module.exports = {
   name: require('./package').name,
 
+  //this is for live reload ember on change
   isDevelopingAddon() {
     return true;
   },
 
+  //addin dependecys into the project
   included() {
     this._super.included.apply(this, arguments);
 
@@ -26,17 +28,10 @@ module.exports = {
 
     this.import('node_modules/chartjs-plugin-labels/build/chartjs-plugin-labels.min.js');
 
-    //new plugins_labels_label
+
     this.import('node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js');
 
-    //this.import('vendor/chartjs-plugin-piechart-outlabels.js');
-
-
-
-
     this.import('node_modules/bootstrap/dist/css/bootstrap.css');
-
-    //for chart js line charts: zoom on x axis and realtime data reload
 
     this.import('node_modules/chartjs-plugin-streaming/dist/chartjs-plugin-streaming.js');
 
@@ -46,8 +41,6 @@ module.exports = {
 
 
     this.import('node_modules/chartjs-plugin-colorschemes/dist/chartjs-plugin-colorschemes.js');
-
-
 
 
     //new new labels piechart

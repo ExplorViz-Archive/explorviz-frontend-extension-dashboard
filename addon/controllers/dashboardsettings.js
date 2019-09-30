@@ -7,13 +7,14 @@ import {
   timeout
 } from 'ember-concurrency';
 
-
+//the arrays for the left and right widgetslists
 var clickedWidgetsLeft = [];
-
 var clickedWidgetsRight = [];
 var clickedWidgetsRightIDs = [];
 
-
+/*
+This is the controller for the dashboardsettings.js route
+*/
 export default Controller.extend({
 
   store: Ember.inject.service(),
@@ -21,32 +22,32 @@ export default Controller.extend({
 
 
   actions: {
-    loadWidgetInfo(widgetname){
+
+    //this will be triggered if a widgetinfo is clicked
+    loadWidgetInfo(widgetname) {
       this.get('modalservice').setWidget(widgetname);
     },
+
     //action for the left list if its getting clicked.
+    //put the clicked widget inside a list and activate it via css
     listClickLeft(event) {
-
       var widgetName = event.target.id;
-
       if ($(event.target).hasClass('active')) {
 
         $(event.target).removeClass("active");
 
         var index = clickedWidgetsLeft.indexOf(widgetName);
-
         if (index > -1) {
           clickedWidgetsLeft.splice(index, 1);
         }
-
       } else {
         $(event.target).addClass("active");
         clickedWidgetsLeft.push(widgetName);
       }
-
     },
 
     //action for the right list if its getting clicked.
+    //active and deactivate a widget which is clicked on the right widget list
     listClickRight(event) {
       if ($(event.target).hasClass('active')) {
         $(event.target).removeClass("active");
@@ -74,6 +75,7 @@ export default Controller.extend({
     },
 
     //action for the remove button
+    //removes a widget from the right widget list
     removeWidget() {
       var list = this.get('instantiatedWidgets');
       var length = list.length;
@@ -102,22 +104,20 @@ export default Controller.extend({
       clickedWidgetsRight = [];
       clickedWidgetsRightIDs = [];
 
-
       this.set('instantiatedWidgets', newList);
-
     },
 
-    //metricgraphics.js
+
 
     //action for the add button (activate a widget).
+    //activate widgets and put them on the rightlist of widgets
     activateWidget() {
       var list = this.get('instantiatedWidgets');
       var first = list.get('firstObject').widget;
 
       if (first === "empty" && clickedWidgetsLeft.length != 0) {
         list.popObject({
-          widget: 'empty',
-          //displayName: "Empty"
+          widget: 'empty'
         });
       }
 
@@ -144,9 +144,6 @@ export default Controller.extend({
       //removing the active class from the left list, so its not selected anymore
       $(".active").removeClass("active");
       clickedWidgetsLeft = [];
-
-
-
     },
 
     //action for the save Button. save the active widget list in the backend
@@ -171,34 +168,15 @@ export default Controller.extend({
         });
 
 
-
-
-        if (index == list.length - 1) {
-
-          post.save().then(() => {
-
-
-
-            //this.transitionToRoute('dashboard');
+        if (index == list.length - 1) {          post.save().then(() => {
             window.location.href = "dashboard";
           });
-          /*
-          post.save().then(function(post) {
-
-              this.transitionToRoute('dashboard');
-          }, this);
-          */
-
 
         } else {
           post.save();
         }
 
       }, this);
-
-      //redirect to the dashboard
-      //this.transitionToRoute('dashboard');
-
     },
 
     cancel(event) {
@@ -211,6 +189,7 @@ export default Controller.extend({
   }
 });
 
+//this activate the hoverover on the widgets inside the left list.
 $(document).ready(function() {
   $('[data-toggle="popover"]').popover({
     placement: 'right',

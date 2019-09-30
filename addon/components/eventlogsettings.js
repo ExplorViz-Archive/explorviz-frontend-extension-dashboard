@@ -8,16 +8,19 @@ import {
   timeout
 } from 'ember-concurrency';
 
+/*this is the component for the eventlog settings*/
 export default Component.extend({
 
   store: Ember.inject.service(),
   router: service(),
 
+  //start the init task
   didInsertElement() {
     this._super(...arguments);
     this.get('initTasks').perform();
   },
 
+  //start the task for query for already set settings
   initTasks: task(function*() {
     yield this.get('queryEventLogSettings').perform();
 
@@ -35,6 +38,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for already set settings for that widget
   queryEventLogSettings: task(function*() {
     var store = this.get('store');
 
@@ -47,6 +51,7 @@ export default Component.extend({
     });
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for sending a post request for creating new settings for this widget
   postRequestEventLogSettings: task(function*() {
     var store = this.get('store');
     var text = document.getElementById('inputLimit').value;
@@ -68,10 +73,9 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for saving the new data
   saveData: task(function*() {
     yield this.get('postRequestEventLogSettings').perform();
-    //this.get('router').transitionTo('dashboard');
-    //window.location.href = "dashboard";
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
@@ -80,8 +84,6 @@ export default Component.extend({
     },
 
     cancel() {
-      //redirect to the dashboard
-      //this.get('router').transitionTo('dashboard');
       window.location.href = "dashboard";
     }
   },

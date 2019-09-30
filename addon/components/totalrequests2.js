@@ -5,17 +5,21 @@ import {
   timeout
 } from 'ember-concurrency';
 
-
+/*
+this is the component for the total requests widget
+*/
 export default Component.extend({
 
   store: Ember.inject.service(),
   modalservice: Ember.inject.service('modal-content'),
+
 
   init() {
     this._super(...arguments);
     this.set('debug', false);
   },
 
+  //init the widget. resizing the widget via html class and start the init widget task.
   didInsertElement() {
     this._super(...arguments);
 
@@ -83,37 +87,29 @@ export default Component.extend({
 
   },
 
+  //task for init the widget. create the chart and start the query for data loop
   initWidget: task(function*() {
     this.set('lastTimestamp', -99);
     yield this.get('createChart').perform();
     yield this.get('queryAll').perform();
-    //  yield this.get('queryData').perform();
     this.get('queryDataLoop').perform();
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for creating the chart
   createChart: task(function*() {
     var config = {
       type: 'line',
       data: {
         datasets: [{
-            label: 'Total Requests',
-            backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
-            borderColor: chartColors.red,
-            fill: false,
-            lineTension: 0,
-            borderDash: [8, 4],
-            data: []
-          }
-          /*, {
-                    label: 'Dataset 2 (cubic interpolation)',
-                    backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
-                    borderColor: chartColors.blue,
-                    fill: false,
-                    cubicInterpolationMode: 'monotone',
-                    data: []
-                  }*/
-        ]
+          label: 'Total Requests',
+          backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
+          borderColor: chartColors.red,
+          fill: false,
+          lineTension: 0,
+          borderDash: [8, 4],
+          data: []
+        }]
       },
 
       options: {
@@ -189,9 +185,8 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for query for ALL total requests in the backend. and update the chart
   queryAll: task(function*() {
-
-
     var chart = this.get('chart');
 
     if (chart == null) {
@@ -201,7 +196,6 @@ export default Component.extend({
     if (chart != null) {
 
       const myStore = this.get('store');
-      //geht ALLE datasets durch und setzt sie random
 
       var tempArray = [];
 
@@ -223,36 +217,27 @@ export default Component.extend({
             });
 
             this.set('lastTimestamp', x);
-            //item.deleteRecord();
-
           }
 
 
         });
       });
 
-
-
-
-
       chart.data.datasets[0].data = tempArray;
       chart.update();
       this.get('deleteAll').perform("totalrequests");
-
-    } else {
 
     }
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //query for the newest data. only the newest landscape
   queryData: task(function*() {
-
-
     var chart = this.get('chart');
     if (chart != null) {
 
       const myStore = this.get('store');
-      //geht ALLE datasets durch und setzt sie random
+
       chart.config.data.datasets.forEach(dataset => {
 
         myStore.query('totalrequests', {
@@ -277,20 +262,12 @@ export default Component.extend({
           });
         });
 
-
       });
-
-
-
-
-
-
-    } else {
-
     }
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for query for the newest data every 10 second
   queryDataLoop: task(function*() {
     while (true) {
       yield timeout(10000);
@@ -299,6 +276,7 @@ export default Component.extend({
 
   }).on('activate').cancelOn('deactivate').drop(),
 
+  //task for deleting records inside the frontend
   deleteAll: task(function*(deleteName) {
     this.get('store').findAll(deleteName).then(function(record) {
       record.content.forEach(function(rec) {
@@ -311,9 +289,11 @@ export default Component.extend({
   }).on('activate').cancelOn('deactivate').drop(),
 
   actions: {
-    loadWidgetInfo(){
+    loadWidgetInfo() {
       this.get('modalservice').setWidget("totalrequests2");
     },
+
+    //remove the widget from the dashboard
     remove() {
       var ctx = document.getElementById(this.elementId);
       ctx.style.display = "none";
@@ -358,8 +338,6 @@ var chartColors = {
 function randomScalingFactor() {
   return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
 }
-
-
 
 
 var color = Chart.helpers.color;

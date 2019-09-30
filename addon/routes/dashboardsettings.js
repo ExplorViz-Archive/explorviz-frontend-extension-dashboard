@@ -1,6 +1,11 @@
 import Route from '@ember/routing/route';
-import { inject as injectService } from '@ember/service'
+import {
+  inject as injectService
+} from '@ember/service'
+
 //a list of all available widgets that are currently in the dashboard expension
+//ever widget has a name, displayname, description, motivation and a picSrc. this information is used on diffrent part of the code
+//and always need to be added for new widgets.
 var widgetNameList = [{
     widget: 'activeclassinstances',
     displayName: 'Active class instances',
@@ -12,20 +17,12 @@ var widgetNameList = [{
     description: 'This widget visualizes which programming languages are used inside the software landscape. The visualisation is in form of a doughnut chart. This widget only shows the newest landscape thats comming inside our system.',
     picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   },
-  /*{
-  widget: 'ramcpu',
-  displayName: 'RAM CPU'
-},*/
   {
     widget: 'totaloverviewwidget',
     displayName: 'Total overview',
     description: 'This widget visualizes the amount of the different components (systems, nodes and applications). The visualisation is in form of a doughnut chart. This widget is usefull to get an overview over huge software landscapes. This widget only shows the newest landscape thats comming inside our system.',
     picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
   },
-  /* {
-    widget: 'totalrequests',
-    displayName: 'Total requests'
-  }, */
   {
     widget: 'totalrequests2',
     displayName: 'Total requests',
@@ -46,7 +43,7 @@ var widgetNameList = [{
     displayName: 'Operation response time (table)',
     description: 'This widget shows u all response times of all operations for each landscape. The data will be shown inside a list/table.',
     picsrc: 'assets/images/widgetpreview/activeclassinstances.png'
-  },{
+  }, {
     widget: 'operationresponsetime',
     displayName: 'Operation response time (pie chart)',
     description: 'This widget shows u inside a pie chart the operations (functions) that needs the longest time to execute.',
@@ -64,37 +61,36 @@ var widgetNameList = [{
   }
 ];
 
+/*
+This is the route for the dashboardsettings
+*/
 export default Route.extend({
 
-  //store: Ember.inject.service(),
   store: injectService('store'),
-
 
   //return the widgetNameList in the model. in dashboardsettings.hbs we can create then the left list with it
   model() {
     return widgetNameList;
   },
 
-
   //in the setupController we need to load the instantiatedWidget list for the right list in the dashboardsettings.hbs file.
   setupController(controller, model) {
     this._super(controller, model);
 
-    //temporär !!!
     var userID = 0;
 
     const myStore = this.get('store');
 
+    //getting the current userid from the dashboard.
     let users = myStore.peekAll('user');
-
     users.forEach((item) => {
-
       if (item) {
         userID = item.get('id');
       }
     });
-
     controller.set('userID', userID);
+
+
     //Doing a get request to the backend here to get a list of all instantiatedwidgets.
     myStore.query('instantiatedwidget', {
       userID: userID
@@ -154,9 +150,7 @@ export default Route.extend({
 
   actions: {
     resetRoute() {
-      const routeName = this.get('dashboardsettings');
-    },
-
-
+      //stuff if the route is getting resetet can be done here
+    }
   },
 });
