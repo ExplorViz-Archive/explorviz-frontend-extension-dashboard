@@ -27,7 +27,8 @@ Installation
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+You can click on "Dashboard" inside the Navbar to open the dashboard website. You can add widgets to your dashboards via
+the dashboard settings. widget information can be accessed over the i icon inside the dashboard settings.
 
 
 Contributing
