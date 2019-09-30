@@ -4,13 +4,16 @@ import {
   task,
   timeout
 } from 'ember-concurrency';
+import {
+  inject as injectService
+} from '@ember/service';
 
 /*
 the component for the aggregated response time widget. (list)
 */
 export default Component.extend({
-  store: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
+  store: injectService('store'),
+  modalservice: injectService('modal-content'),
 
   paused: false,
 

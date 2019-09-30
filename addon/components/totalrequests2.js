@@ -4,15 +4,17 @@ import {
   task,
   timeout
 } from 'ember-concurrency';
+import {
+  inject as injectService
+} from '@ember/service';
 
 /*
 this is the component for the total requests widget
 */
 export default Component.extend({
 
-  store: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
-
+  store: injectService('store'),
+  modalservice: injectService('modal-content'),
 
   init() {
     this._super(...arguments);
@@ -335,12 +337,8 @@ var chartColors = {
   grey: 'rgb(201, 203, 207)'
 };
 
-function randomScalingFactor() {
-  return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-}
-
 
 var color = Chart.helpers.color;
-var colorNames = Object.keys(chartColors);
+
 
 var isIE = navigator.userAgent.indexOf('MSIE') !== -1 || navigator.userAgent.indexOf('Trident') !== -1;

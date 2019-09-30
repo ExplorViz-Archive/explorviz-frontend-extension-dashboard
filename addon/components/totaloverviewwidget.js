@@ -4,14 +4,18 @@ import {
   task,
   timeout
 } from 'ember-concurrency';
+import {
+  inject as injectService
+} from '@ember/service';
 
 /*
 This is the component for the total overview widget.
 */
 export default Component.extend({
 
-  store: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
+  store: injectService('store'),
+  modalservice: injectService('modal-content'),
+
 
   //start the init task
   didInsertElement() {
@@ -46,7 +50,6 @@ export default Component.extend({
 
       if (data.length != 0) {
 
-        let name = data.get('name');
         var chart = this.get('chart');
 
         if (data.get('numberOfSystems') == 0 && data.get('numberOfNodes') == 0 && data.get('numberOfApplications') == 0) {

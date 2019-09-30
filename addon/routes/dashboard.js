@@ -1,11 +1,8 @@
 import BaseRoute from 'explorviz-frontend/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import {
-  getOwner
-} from '@ember/application';
-import {
-  inject as service
-} from "@ember/service";
+  inject as injectService
+} from '@ember/service';
 
 
 var userID = 0;
@@ -15,9 +12,9 @@ This is the route for the dashboard main page
 */
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
-  store: Ember.inject.service(),
+  store: injectService('store'),
 
-  setupController(controller, model) {
+  setupController(controller) {
     // Call _super for default behavior
 
     const myStore = this.get('store');
@@ -62,7 +59,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   actions: {
     resetRoute() {
       window.location.href = "dashboard";
-      const routeName = this.get('dashboard');
     },
   }
 

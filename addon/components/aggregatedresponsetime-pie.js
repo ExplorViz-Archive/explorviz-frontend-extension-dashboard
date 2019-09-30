@@ -5,13 +5,16 @@ import {
   timeout
 } from 'ember-concurrency';
 import color from '../utils/color';
+import {
+  inject as injectService
+} from '@ember/service';
 
 /*
 The component for the aggregated response time (pie)
 */
 export default Component.extend({
-  store: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
+  store: injectService('store'),
+  modalservice: injectService('modal-content'),
 
   //starts the init task
   didInsertElement() {
@@ -121,7 +124,6 @@ export default Component.extend({
           callbacks: {
             label: function(tooltipItem, data) {
               var indice = tooltipItem.index;
-              var result = [];
               var label = data.labels[indice];
               var temp = label.split("#");
               temp.push('Average response time: ' + displayNumber(data.datasets[0].data[indice]));
@@ -143,7 +145,6 @@ export default Component.extend({
             text: function(context) {
               var index = context.dataIndex;
               var value = context.dataset.data[index];
-              var label = context.labels[index];
 
               return displayNumber(value);
             },

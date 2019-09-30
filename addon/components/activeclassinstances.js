@@ -5,14 +5,18 @@ import {
   timeout
 } from 'ember-concurrency';
 import color from '../utils/color';
+import {
+  inject as injectService
+} from '@ember/service';
 
 //the max amount of classes displayed inside the chart
 var numberDisplayed = 5;
 
 export default Component.extend({
 
-  store: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
+  store: injectService('store'),
+  modalservice: injectService('modal-content'),
+  //modalservice: Ember.inject.service('modal-content'),
 
   //query for data every 10 seconds
   queryDataLoop: task(function*() {
@@ -144,7 +148,6 @@ export default Component.extend({
   actions: {
     //loads the widgetinfo, if clicked inside the widget menue
     loadWidgetInfo() {
-      console.log(this.get('modalservice'));
       this.get('modalservice').setWidget("activeclassinstances");
     },
     //removes this widget from the dashboard

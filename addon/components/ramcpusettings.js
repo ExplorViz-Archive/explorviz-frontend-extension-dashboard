@@ -1,20 +1,20 @@
 import Component from '@ember/component';
 import layout from '../templates/components/ramcpusettings';
 import {
-  inject as service
-} from '@ember/service';
-import {
   task,
   timeout
 } from 'ember-concurrency';
+import {
+  inject as injectService
+} from '@ember/service';
 
 /*
 this is the component for the ram cpu settings
 */
 export default Component.extend({
 
-  store: Ember.inject.service(),
-  router: service(),
+  store: injectService('store'),
+  router: injectService(),
 
   init() {
     this._super(...arguments);

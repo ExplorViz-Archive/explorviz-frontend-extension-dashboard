@@ -7,6 +7,9 @@ import {
 import {
   set
 } from '@ember/object';
+import {
+  inject as injectService
+} from '@ember/service';
 
 
 //declare the colors used from the chart.
@@ -21,9 +24,9 @@ const chartColors = {
 this is the component for the ram and cpu widget
 */
 export default Component.extend({
-  store: Ember.inject.service(),
-  router: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
+  store: injectService('store'),
+  router: injectService(),
+  modalservice: injectService('modal-content'),
 
   displayName: 'no landscape found',
 
@@ -91,7 +94,6 @@ export default Component.extend({
             freeRam = element.get('freeRam');
 
             totalRam = freeRam + usedRam;
-            console.log(cpuUtilization);
           }
 
         });
@@ -124,8 +126,6 @@ export default Component.extend({
 
         this.get('pieChartCPU').update();
 
-        var displayTotalRam = totalRam / 1000000000;
-        var displayUsedRam = usedRam / 1000000000;
 
         this.get('pieChartRAM').chart.data.datasets[0].data = [usedRam, totalRam - usedRam];
 
@@ -414,7 +414,7 @@ Chart.pluginService.register({
 
       //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
       var stringWidth = ctx.measureText(txt).width;
-      var txtHeight = parseInt(ctx.font);
+
       var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
 
       // Find out how much the font can grow in width.

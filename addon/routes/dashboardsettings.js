@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import {
   inject as injectService
-} from '@ember/service'
+} from '@ember/service';
 
 //a list of all available widgets that are currently in the dashboard expension
 //ever widget has a name, displayname, description, motivation and a picSrc. this information is used on diffrent part of the code

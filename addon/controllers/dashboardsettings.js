@@ -1,11 +1,7 @@
 import Controller from '@ember/controller';
 import {
-  set
-} from '@ember/object';
-import {
-  task,
-  timeout
-} from 'ember-concurrency';
+  inject as injectService
+} from '@ember/service';
 
 //the arrays for the left and right widgetslists
 var clickedWidgetsLeft = [];
@@ -17,9 +13,8 @@ This is the controller for the dashboardsettings.js route
 */
 export default Controller.extend({
 
-  store: Ember.inject.service(),
-  modalservice: Ember.inject.service('modal-content'),
-
+  store: injectService('store'),
+  modalservice: injectService('modal-content'),
 
   actions: {
 
@@ -65,8 +60,8 @@ export default Controller.extend({
       } else {
         $(event.target).addClass("active");
 
-        var nameAndID = event.target.id;
-        var array = nameAndID.split(" ");
+        var nameAndID2 = event.target.id;
+        var array = nameAndID2.split(" ");
 
         clickedWidgetsRightIDs.push(array[1]);
         clickedWidgetsRight.push(array[0]);
@@ -78,8 +73,6 @@ export default Controller.extend({
     //removes a widget from the right widget list
     removeWidget() {
       var list = this.get('instantiatedWidgets');
-      var length = list.length;
-
 
       var newList = [];
 
