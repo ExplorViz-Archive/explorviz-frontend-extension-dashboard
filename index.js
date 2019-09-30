@@ -4,9 +4,12 @@ module.exports = {
   name: require('./package').name,
 
   //this is for live reload ember on change
+
+  /*
   isDevelopingAddon() {
     return true;
   },
+  */
 
   //addin dependecys into the project
   included() {
